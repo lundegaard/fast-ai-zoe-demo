@@ -1,0 +1,68 @@
+{
+	"name": "@fast-ai/zoe",
+	"private": true,
+	"version": "0.0.5",
+	"main": "index.js",
+	"contributors": [
+		"Tomas Konrady <tomaskonrady@gmail.com>"
+	],
+	"author": "Lundegaard a.s.",
+	"license": "MIT",
+	"scripts": {
+		"start": "gatsby develop",
+		"build": "gatsby build",
+		"lint": "yarn lint:pkg && yarn lint:js",
+		"lint:pkg": "npmPkgJsonLint .",
+		"lint:js": "eslint --cache --ignore-path .gitignore --ext .js ./",
+		"test": "jest",
+		"format": "prettier --ignore-path .gitignore --write '**/*.{js,json}' && yarn lint:js --fix"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged",
+			"pre-push": "yarn lint && yarn test"
+		}
+	},
+	"dependencies": {
+		"@emotion/core": "^10.0.0",
+		"@emotion/styled": "^10.0.0",
+		"@fast-ai/ui-components": "^0.0.5",
+		"crypto-random-string": "^3.2.0",
+		"gatsby": "^2.18.11",
+		"gatsby-theme-fast-ai": "^0.0.5",
+		"prop-types": "^15.6.2",
+		"ramda": "^0.26.1",
+		"ramda-extension": "^0.10.1",
+		"react": "^16.12.0",
+		"react-dom": "^16.12.0",
+		"react-form": "^4.0.1"
+	},
+	"devDependencies": {
+		"dotenv": "^8.2.0",
+		"@babel/cli": "^7.7.5",
+		"@babel/core": "^7.7.5",
+		"@babel/plugin-transform-react-constant-elements": "^7.8.3",
+		"@rollup/plugin-replace": "^2.3.1",
+		"babel-eslint": "^10.0.3",
+		"babel-jest": "^24.9.0",
+		"babel-plugin-transform-react-remove-prop-types": "^0.4.24",
+		"babel-preset-react-union": "^0.15.1",
+		"core-js": "^3.6.0",
+		"enzyme": "^3.11.0",
+		"enzyme-adapter-react-16": "^1.15.2",
+		"enzyme-to-json": "^3.4.3",
+		"eslint": "^6.7.2",
+		"eslint-config-react-union": "^0.15.0",
+		"eslint-plugin-babel": "^5.2.0",
+		"eslint-plugin-import": "^2.19.1",
+		"eslint-plugin-react": "^7.17.0",
+		"eslint-plugin-react-hooks": "^2.3.0",
+		"husky": "^4.2.1",
+		"jest": "^24.9.0",
+		"lint-staged": "^10.0.3",
+		"npm-package-json-lint": "^4.5.0",
+		"npm-package-json-lint-config-default": "^2.0.0",
+		"plop": "^2.5.3",
+		"prettier": "^1.18.2"
+	}
+}
