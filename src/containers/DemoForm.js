@@ -10,7 +10,6 @@ import {
 	Row,
 	Text,
 	useDebounce,
-	useDevConsole,
 	useModal,
 } from '@fast-ai/ui-components';
 import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
@@ -26,6 +25,7 @@ import {
 	SelectField,
 	SliderField,
 	TextField,
+	useDevConsole,
 	useForm,
 } from '../components';
 import { CoborrowerChoice, MaritalStatus, getEducationByLanguage } from '../lookups';
@@ -226,7 +226,7 @@ const defaultValues = {
 	},
 };
 
-const applicationId = `demo-${createRandomString(10)}`;
+const applicationId = `demo-${createRandomString({ length: 10, type: 'distinguishable' })}`;
 
 const DemoForm = () => {
 	const { openModal } = useModal({ component: PredictionsModal });

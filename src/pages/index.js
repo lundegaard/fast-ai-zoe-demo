@@ -1,7 +1,8 @@
 import React from 'react';
 import { Page, Seo } from 'gatsby-theme-fast-ai';
-import { DevConsole, DevConsoleProvider, ModalProvider, ModalRoot } from '@fast-ai/ui-components';
+import { ModalProvider, ModalRoot } from '@fast-ai/ui-components';
 
+import { DevConsole, DevConsoleProvider } from '../components';
 import DemoForm from '../containers/DemoForm';
 
 const Index = () => (

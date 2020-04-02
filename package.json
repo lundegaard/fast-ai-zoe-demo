@@ -24,12 +24,13 @@
 		}
 	},
 	"dependencies": {
+		"core-js": "^2.0.0",
 		"@emotion/core": "^10.0.0",
 		"@emotion/styled": "^10.0.0",
-		"@fast-ai/ui-components": "^0.0.5",
+		"@fast-ai/ui-components": "^0.1.1",
 		"crypto-random-string": "^3.2.0",
 		"gatsby": "^2.18.11",
-		"gatsby-theme-fast-ai": "^0.0.5",
+		"gatsby-theme-fast-ai": "^0.1.1",
 		"prop-types": "^15.6.2",
 		"ramda": "^0.26.1",
 		"ramda-extension": "^0.10.1",
@@ -47,7 +48,6 @@
 		"babel-jest": "^24.9.0",
 		"babel-plugin-transform-react-remove-prop-types": "^0.4.24",
 		"babel-preset-react-union": "^0.15.1",
-		"core-js": "^3.6.0",
 		"enzyme": "^3.11.0",
 		"enzyme-adapter-react-16": "^1.15.2",
 		"enzyme-to-json": "^3.4.3",
