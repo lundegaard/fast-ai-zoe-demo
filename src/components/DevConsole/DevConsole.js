@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { keyframes } from '@emotion/core';
 import { Box, Flex, Text } from '@fast-ai/ui-components';
+import { map, o, toPairs } from 'ramda';
+import { isNotEmpty } from 'ramda-extension';
 
 import DevConsoleItem from './DevConsoleItem';
 import { useDevConsoleLog } from './hooks';
@@ -91,9 +93,11 @@ const DevConsole = ({ title, initiallyOpened, ...rest }) => {
 						borderTopWidth: '1px',
 					}}
 				>
-					{log.map(([label, value], i) => (
-						<DevConsoleItem key={i} label={label} value={value} />
-					))}
+					{isNotEmpty(log) &&
+						o(
+							map(([label, value]) => <DevConsoleItem key={label} label={label} value={value} />),
+							toPairs
+						)(log)}
 				</Box>
 			)}
 		</Box>
