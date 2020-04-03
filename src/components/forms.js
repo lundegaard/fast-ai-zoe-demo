@@ -60,7 +60,7 @@ export const useForm = ({ onSubmit = noop, name, ...rest }) => {
 
 			sa('send', 'register', applicationId);
 		},
-		[sa]
+		[sa, setApplicationId]
 	);
 
 	const send = useCallback(

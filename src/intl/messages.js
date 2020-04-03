@@ -198,4 +198,8 @@ export default defineMessages({
 		id: 'example.tryAgainLabel',
 		defaultMessage: 'Try again',
 	},
+	loadingPredictions: {
+		id: 'example.loadingPredictions',
+		defaultMessage: 'Loading predictions...',
+	},
 });
