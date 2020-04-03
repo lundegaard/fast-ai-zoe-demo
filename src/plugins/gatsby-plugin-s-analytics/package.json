@@ -1,0 +1,14 @@
+{
+	"name": "gatsby-plugin-s-analytics",
+	"version": "0.0.5",
+	"private": true,
+	"main": "index.js",
+	"contributors": [
+		"Tomas Konrady <tomaskonrady@gmail.com>"
+	],
+	"author": "Lundegaard a.s.",
+	"license": "MIT",
+	"peerDependencies": {
+		"react": "^16.12.0"
+	}
+}

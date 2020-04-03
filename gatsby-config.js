@@ -3,7 +3,7 @@ const path = require('path');
 const { author } = require('./package.json');
 
 require('dotenv').config({
-	path: path.join('.env'),
+	path: path.join(__dirname, `.env.${process.env.NODE_ENV}`),
 });
 
 const siteMetadata = {
@@ -24,6 +24,13 @@ module.exports = {
 					defaultLanguage: 'cs',
 				},
 				siteMetadata,
+			},
+		},
+		{
+			resolve: require.resolve('./src/plugins/gatsby-plugin-s-analytics'),
+			options: {
+				tenantId: process.env.TENANT_ID,
+				usePlugins: ['s-apm', 's-form', 's-biometrics'],
 			},
 		},
 	],
