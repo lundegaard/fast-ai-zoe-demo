@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 import { DevConsoleApiContext, DevConsoleLogContext } from './contexts';
 
 const DevConsoleProvider = ({ children }) => {
-	const [log, setLog] = useState([]);
+	const [log, setLog] = useState({});
 
 	const api = useMemo(
 		() => ({
-			log: line => setLog(prevLog => [...prevLog, line]),
-			logBatch: lines => setLog(prevLog => [...prevLog, ...lines]),
-			clear: () => setLog(() => []),
+			log: lines => setLog(previousLog => ({ ...previousLog, ...lines })),
+			clear: () => setLog({}),
 		}),
 		[]
 	);

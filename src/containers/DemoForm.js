@@ -15,7 +15,7 @@ import {
 import { useInterval } from '@restart/hooks';
 import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
 import createRandomString from 'crypto-random-string';
-import { compose, pick, prop, toPairs } from 'ramda';
+import { compose, pick, prop } from 'ramda';
 
 import { fetchFeatures } from '../sa';
 import m from '../intl/messages';
@@ -60,7 +60,7 @@ const featuresToLog = [
 	'anomaly_typing',
 ];
 
-const logFeatures = compose(toPairs, pick(featuresToLog), prop('features'));
+const logFeatures = compose(pick(featuresToLog), prop('features'));
 
 const FormHeading = props => <Heading as="h2" mt={0} mb={4} {...props} />;
 const HalfCol = props => <Col span={[12, 12, 6]} mb={4} {...props} />;
@@ -303,30 +303,28 @@ const DemoForm = ({ loggingInterval = 8000 }) => {
 		},
 	});
 
-	const { log, logBatch, clear } = useDevConsole();
+	const { log } = useDevConsole();
 
 	useEffect(() => {
 		register(applicationId);
 	}, [register, applicationId]);
 
-	useInterval(() => {
-		clear();
+	useInterval(
+		() => {
+			log({ 'Application ID': applicationId, 'Tenant ID': process.env.TENANT_ID });
 
-		if (isTouched) {
-			send(values, true);
+			if (isTouched && !document.hidden) {
+				send(values, true);
 
-			fetchFeatures(applicationId).then(features => {
-				clear();
-				log(['Application ID', applicationId]);
-				log(['Tenant ID', process.env.TENANT_ID]);
-
-				logBatch(logFeatures(features));
-			});
-		} else {
-			log(['Application ID', applicationId]);
-			log(['Tenant ID', process.env.TENANT_ID]);
-		}
-	}, loggingInterval);
+				fetchFeatures(applicationId).then(features => {
+					log(logFeatures(features));
+				});
+			}
+		},
+		loggingInterval,
+		false, // is paused
+		true // run immediately
+	);
 
 	const monthlyFee =
 		getFieldValue('loanInfo.amount') / getFieldValue('loanInfo.numberOfInstalments');
