@@ -15,9 +15,8 @@ import {
 import { useInterval } from '@restart/hooks';
 import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
 import createRandomString from 'crypto-random-string';
-import { compose, pick, prop } from 'ramda';
 
-import { fetchFeatures } from '../sa';
+import { fetchFeatures, logFeatures } from '../predictions';
 import m from '../intl/messages';
 import { AmountFormatter, DurationFormatter } from '../formatters';
 import {
@@ -35,32 +34,6 @@ import { CoborrowerChoice, MaritalStatus, getEducationByLanguage } from '../look
 import PredictionsModal, {
 	ClosingReasons as PredictionsModalClosingReasons,
 } from './PredictionsModal';
-
-const featuresToLog = [
-	'device_mobile_type',
-	'device_mobile_price',
-	'device_mobile_release_date',
-	'device_category',
-	'device_browser',
-	'device_operating_system',
-	'device_screen_resolution',
-	'device_net_name',
-	'device_vpn',
-	'location_geoip_city',
-	'behavior_typing_speed',
-	'behavior_typing_flight_time_mean',
-	'behavior_typing_interval_time_mean',
-	'behavior_typing_latency_time_mean',
-	'behavior_typing_up_to_up_time_mean',
-	'behavior_typing_correcting_mistakes_count',
-	'behavior_typing_paste_count',
-	'behavior_application_changes_count_bn_2d',
-	'fingerprint_zoe',
-	'person_email_credible',
-	'anomaly_typing',
-];
-
-const logFeatures = compose(pick(featuresToLog), prop('features'));
 
 const FormHeading = props => <Heading as="h2" mt={0} mb={4} {...props} />;
 const HalfCol = props => <Col span={[12, 12, 6]} mb={4} {...props} />;
@@ -272,7 +245,7 @@ const defaultValues = {
 const getApplicationId = () =>
 	`demo-${createRandomString({ length: 10, type: 'distinguishable' })}`;
 
-const DemoForm = ({ loggingInterval = 8000 }) => {
+const DemoForm = ({ loggingInterval = 2000 }) => {
 	const { openModal } = useModal({ component: PredictionsModal });
 	const [applicationId, setApplicationId] = useState(getApplicationId());
 
