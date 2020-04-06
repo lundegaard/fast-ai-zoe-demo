@@ -1,9 +1,11 @@
 import React from 'react';
 
-export const onRenderBody = ({ setHeadComponents }, { tenantId, usePlugins: plugins }) => {
+export const onRenderBody = (
+	{ setHeadComponents },
+	{ saUrl = 'https://sa-sdp.lnd.bz/versions/stable', tenantId, usePlugins: plugins }
+) => {
 	const getScriptUrl = isPlugin => scriptName =>
-		`https://sdp-sa-develop.lnd.bz/versions/stable/${scriptName}${isPlugin ? '.plugin' : ''}.js`;
-	// `https://sa-sdp.lnd.bz/versions/stable/${scriptName}${isPlugin ? '.plugin' : ''}.js`;
+		`${saUrl}/${scriptName}${isPlugin ? '.plugin' : ''}.js`;
 
 	const script = `
 (function(i, s, o, g, r, a, m) {
