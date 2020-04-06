@@ -10,7 +10,7 @@
 	"license": "MIT",
 	"scripts": {
 		"start": "gatsby develop",
-		"build": "gatsby build",
+		"build": "gatsby build --prefix-paths",
 		"lint": "yarn lint:pkg && yarn lint:js",
 		"lint:pkg": "npmPkgJsonLint .",
 		"lint:js": "eslint --cache --ignore-path .gitignore --ext .js ./",
