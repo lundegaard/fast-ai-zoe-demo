@@ -14,6 +14,7 @@ const siteMetadata = {
 
 module.exports = {
 	siteMetadata,
+	pathPrefix: `/demo`,
 	plugins: [
 		{
 			resolve: require.resolve('gatsby-theme-fast-ai'),
