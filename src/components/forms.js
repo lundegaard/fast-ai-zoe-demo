@@ -9,11 +9,9 @@ import {
 } from '@fast-ai/ui-components';
 import { splitFormProps, useField, useForm as useReactForm } from 'react-form';
 import { isEmpty, map, o, reject, when } from 'ramda';
-import { isObject } from 'ramda-extension';
+import { isObject, noop } from 'ramda-extension';
 
 import { useSA, useSAFieldTracker } from '../sa';
-
-const noop = () => {};
 
 const rejectEmpty = reject(isEmpty);
 
@@ -48,6 +46,10 @@ export const useForm = ({ onSubmit = noop, name, ...rest }) => {
 	useEffect(() => {
 		sa('s-form:set', { name });
 		sa('s-form:start');
+
+		return () => {
+			sa('s-form:end');
+		};
 	}, [name, sa]);
 
 	const start = useCallback(() => {

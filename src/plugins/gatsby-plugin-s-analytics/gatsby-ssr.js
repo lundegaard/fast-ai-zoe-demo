@@ -2,7 +2,8 @@ import React from 'react';
 
 export const onRenderBody = ({ setHeadComponents }, { tenantId, usePlugins: plugins }) => {
 	const getScriptUrl = isPlugin => scriptName =>
-		`https://sa-sdp.lnd.bz/versions/stable/${scriptName}${isPlugin ? '.plugin' : ''}.js`;
+		`https://sdp-sa-develop.lnd.bz/versions/stable/${scriptName}${isPlugin ? '.plugin' : ''}.js`;
+	// `https://sa-sdp.lnd.bz/versions/stable/${scriptName}${isPlugin ? '.plugin' : ''}.js`;
 
 	const script = `
 (function(i, s, o, g, r, a, m) {

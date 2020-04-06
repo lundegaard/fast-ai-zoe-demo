@@ -32,6 +32,7 @@ module.exports = {
 			options: {
 				tenantId: process.env.TENANT_ID,
 				usePlugins: ['s-apm', 's-form', 's-biometrics'],
+				saUrl: process.env.SA_DISTRIBUTION_URL,
 			},
 		},
 	],

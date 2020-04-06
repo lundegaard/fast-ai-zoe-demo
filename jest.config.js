@@ -4,11 +4,12 @@ module.exports = {
 	setupFilesAfterEnv: ['<rootDir>/testsSetup.js'],
 	transform: {
 		'^.+\\.js$': 'babel-jest',
+		'^.+\\.svg$': 'jest-svg-transformer',
 	},
 	modulePathIgnorePatterns: ['.cache'],
 	testPathIgnorePatterns: ignorePatterns,
 	coveragePathIgnorePatterns: ignorePatterns,
 	transformIgnorePatterns: [
-		'/node_modules/(?!intl-messageformat|intl-messageformat-parser).+\\.js$',
+		'/node_modules/(?!intl-messageformat|intl-messageformat-parser|gatsby-theme-fast-ai).+\\.js$',
 	],
 };

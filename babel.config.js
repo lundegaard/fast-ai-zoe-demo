@@ -27,6 +27,9 @@ module.exports = {
 		cjs: {
 			plugins: productionPlugins,
 		},
+		test: {
+			plugins: productionPlugins,
+		},
 		esm: config,
 		es: config,
 		production: config,
