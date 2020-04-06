@@ -245,7 +245,7 @@ const defaultValues = {
 const getApplicationId = () =>
 	`demo-${createRandomString({ length: 10, type: 'distinguishable' })}`;
 
-const DemoForm = ({ loggingInterval = 2000 }) => {
+const DemoForm = ({ loggingInterval = 4000 }) => {
 	const { openModal } = useModal({ component: PredictionsModal });
 	const [applicationId, setApplicationId] = useState(getApplicationId());
 
