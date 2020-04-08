@@ -2,10 +2,11 @@ import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, Flex, Gauge, Heading, Modal, Text } from '@fast-ai/ui-components';
 import { FormattedMessage } from 'gatsby-theme-fast-ai';
-import { compose, map, path, prop, toPairs } from 'ramda';
+import { compose, map, prop, toPairs } from 'ramda';
 import { isArray, noop } from 'ramda-extension';
 
 import { Features, Models, fetchPredictionsAndFeatures } from '../predictions';
+import { OptionalFormattedMessage } from '../components';
 import m from '../intl/messages';
 
 export const ClosingReasons = {
@@ -23,14 +24,6 @@ const selectResults = ({ models, features }) => ({
 		toPairs
 	)(features),
 });
-
-const OptionalFormattedMessage = ({ id, messages }) =>
-	path([id, 'id'], messages) ? <FormattedMessage {...messages[id]} /> : id;
-
-OptionalFormattedMessage.propTypes = {
-	id: PropTypes.node,
-	messages: PropTypes.object,
-};
 
 const ResultGauge = ({ value, title, ...rest }) => (
 	<Flex flexDirection="column" justifyContent="center" {...rest}>

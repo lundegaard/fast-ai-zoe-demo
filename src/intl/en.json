@@ -11,7 +11,7 @@
 	"example.givenName": "Name",
 	"example.familyName": "Surname",
 	"example.birthNumber": "Birth number",
-	"example.streetAddess": "Street",
+	"example.streetAddress": "Street",
 	"example.streetLocality": "City",
 	"example.postalCode": "Postal code",
 	"example.phoneNumber": "Phone number",
@@ -52,6 +52,7 @@
 	"example.errorPageTitle": "Page not found",
 	"example.errorPageContent": "Sorry, we can't find that page! It might be an old link or maybe it moved.",
 	"example.predictionsModalHeading": "Examples of AI predictions",
+	"example.predictionsModalDescription": "Three particular examples of AI driven interpretations.",
 	"example.featureTitle__behavior_lying_index": "A lying score",
 	"example.featureTitle__behavior_suspicious": "A suspicious score",
 	"example.modelTitle__DEFAULT": "A loan approval score"
