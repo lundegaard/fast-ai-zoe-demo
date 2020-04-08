@@ -11,6 +11,7 @@ import m from '../intl/messages';
 
 export const ClosingReasons = {
 	CLICK_ON_TRY_AGAIN: 'CLICK_ON_TRY_AGAIN',
+	ERROR: 'ERROR',
 };
 
 const selectResults = ({ models, features }) => ({
@@ -28,9 +29,9 @@ const selectResults = ({ models, features }) => ({
 const ResultGauge = ({ value, title, ...rest }) => (
 	<Flex flexDirection="column" justifyContent="center" {...rest}>
 		<Gauge value={value == null ? 0 : value} mb={-4} />
-		<Heading as="h4" sx={{ whiteSpace: 'nowrap' }}>
+		<Text fontSize={4} m={0} sx={{ whiteSpace: 'nowrap' }}>
 			{title}
-		</Heading>
+		</Text>
 	</Flex>
 );
 
@@ -41,21 +42,23 @@ ResultGauge.propTypes = {
 
 const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }) => {
 	const [results, setResults] = useState(null);
+	const [error, setError] = useState(null);
 	const [isLoading, setIsLoading] = useState(true);
 
 	const { features = [], models = [] } = results || {};
 
 	const refetchData = useCallback(async () => {
 		try {
-			const currentPredictions = await fetchPredictionsAndFeatures(
+			const currentPredictions = await fetchPredictionsAndFeatures({
 				applicationId,
-				[Models.DEFAULT],
-				[Features.BEHAVIOUR_LYING_INDEX, Features.BEHAVIOUR_SUSPICIOUS]
-			);
+				models: [Models.DEFAULT],
+				features: [Features.BEHAVIOUR_LYING_INDEX, Features.BEHAVIOUR_SUSPICIOUS],
+			});
 
 			setResults(selectResults(currentPredictions));
 		} catch (error) {
 			setResults(null);
+			setError(error);
 		} finally {
 			setIsLoading(false);
 		}
@@ -65,58 +68,88 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 		refetchData();
 	}, [refetchData]);
 
+	const description = (
+		<Text fontSize={4}>
+			<FormattedMessage {...m.predictionsModalDescription} />
+		</Text>
+	);
+
+	const getContent = () => {
+		if (isLoading) {
+			return <FormattedMessage {...m.loadingPredictions} />;
+		}
+
+		if (error) {
+			return (
+				<Text fontWeight="bold" fontSize={4}>
+					<FormattedMessage {...m.unexpectedError} />
+				</Text>
+			);
+		}
+
+		return (
+			<Flex justifyContent="center" flexWrap="wrap">
+				{isArray(models) &&
+					models.map(({ modelId, value }) => (
+						<ResultGauge
+							key={modelId}
+							id={modelId}
+							value={value}
+							title={<OptionalFormattedMessage messages={m} id={`modelTitle__${modelId}`} />}
+							m={3}
+						/>
+					))}
+				{isArray(features) &&
+					features.map(({ featureId, value }) => (
+						<ResultGauge
+							key={featureId}
+							id={featureId}
+							value={value}
+							title={<OptionalFormattedMessage messages={m} id={`featureTitle__${featureId}`} />}
+							m={3}
+						/>
+					))}
+			</Flex>
+		);
+	};
+
 	return (
 		<Modal sx={{ textAlign: 'center', p: 4 }} {...rest}>
 			<Heading as="h2" mt={1}>
 				<FormattedMessage {...m.predictionsModalHeading} />
 			</Heading>
 
-			<Text fontSize={4}>
-				<FormattedMessage {...m.predictionsModalDescription} />
-			</Text>
+			{!error && description}
 
-			<Box m={4}>
-				{isLoading ? (
-					<FormattedMessage {...m.loadingPredictions} />
-				) : (
-					<Fragment>
-						<Flex justifyContent="center" flexWrap="wrap">
-							{isArray(models) &&
-								models.map(({ modelId, value }) => (
-									<ResultGauge
-										id={modelId}
-										value={value}
-										key={modelId}
-										title={<OptionalFormattedMessage messages={m} id={`modelTitle__${modelId}`} />}
-										m={3}
-									/>
-								))}
-							{isArray(features) &&
-								features.map(({ featureId, value }) => (
-									<ResultGauge
-										key={featureId}
-										id={featureId}
-										value={value}
-										title={
-											<OptionalFormattedMessage messages={m} id={`featureTitle__${featureId}`} />
-										}
-										m={3}
-									/>
-								))}
-						</Flex>
-					</Fragment>
-				)}
-			</Box>
+			<Box m={4}>{getContent()}</Box>
 
-			<Button
-				variant="secondary"
-				onClick={() => {
-					onClose({ reason: ClosingReasons.CLICK_ON_TRY_AGAIN });
-					closeModal();
-				}}
-			>
-				<FormattedMessage {...m.tryAgainLabel} />
-			</Button>
+			{!error ? (
+				<Button
+					variant="secondary"
+					onClick={() => {
+						onClose({ reason: ClosingReasons.CLICK_ON_TRY_AGAIN });
+						closeModal();
+					}}
+				>
+					<FormattedMessage {...m.tryAgainLabel} />
+				</Button>
+			) : (
+				<Fragment>
+					<Button variant="primary" onClick={() => refetchData()}>
+						<FormattedMessage {...m.retry} />
+					</Button>
+					<Text as="span" mx={1} />
+					<Button
+						variant="primary"
+						onClick={() => {
+							onClose({ reason: ClosingReasons.ERROR });
+							closeModal();
+						}}
+					>
+						<FormattedMessage {...m.close} />
+					</Button>
+				</Fragment>
+			)}
 		</Modal>
 	);
 };

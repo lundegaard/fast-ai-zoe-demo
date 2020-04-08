@@ -218,6 +218,14 @@ export default defineMessages({
 		id: 'example.loadingPredictions',
 		defaultMessage: 'Loading predictions...',
 	},
+	retry: {
+		id: 'example.retry',
+		defaultMessage: 'Retry',
+	},
+	unexpectedError: {
+		id: 'example.unexpectedError',
+		defaultMessage: 'Unfortunately, there was an unexpeted error.',
+	},
 	errorPageTitle: {
 		id: 'example.errorPageTitle',
 		defaultMessage: 'Page not found',
@@ -225,5 +233,9 @@ export default defineMessages({
 	errorPageContent: {
 		id: 'example.errorPageContent',
 		defaultMessage: "Sorry, we can't find that page! It might be an old link or maybe it moved.",
+	},
+	close: {
+		id: 'example.close',
+		defaultMessage: 'Close',
 	},
 });

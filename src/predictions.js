@@ -65,7 +65,11 @@ const fetchModels = (applicationId, models) =>
 		)
 	);
 
-export const fetchPredictionsAndFeatures = (applicationId, models = ['default'], features = null) =>
+export const fetchPredictionsAndFeatures = ({
+	applicationId,
+	models = ['default'],
+	features = null,
+}) =>
 	Promise.all([
 		fetchModels(applicationId, models),
 		createRequest(`${process.env.API_URL}/applications/${applicationId}/smart-features`),
