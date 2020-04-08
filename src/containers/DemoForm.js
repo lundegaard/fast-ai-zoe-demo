@@ -35,12 +35,12 @@ import PredictionsModal, {
 	ClosingReasons as PredictionsModalClosingReasons,
 } from './PredictionsModal';
 
-const FormHeading = props => <Heading as="h2" mt={0} mb={4} {...props} />;
-const HalfCol = props => <Col span={[12, 12, 6]} mb={4} {...props} />;
-const FullCol = props => <Col span={12} mb={4} {...props} />;
+const FormHeading = (props) => <Heading as="h2" mt={0} mb={4} {...props} />;
+const HalfCol = (props) => <Col span={[12, 12, 6]} mb={4} {...props} />;
+const FullCol = (props) => <Col span={12} mb={4} {...props} />;
 
 // TODO: validations
-const isRequired = x => (!x ? 'Required' : null);
+const isRequired = (x) => (!x ? 'Required' : null);
 
 const PersonalInfo = ({ fieldPrefix }) => {
 	const intl = useIntl();
@@ -106,7 +106,7 @@ const PersonalInfo = ({ fieldPrefix }) => {
 				<SelectField
 					label={<FormattedMessage {...m.maritalStatus} />}
 					field={`${fieldPrefix}.maritalStatus`}
-					items={['', ...MaritalStatus.values].map(status => ({
+					items={['', ...MaritalStatus.values].map((status) => ({
 						value: status,
 						label: status ? intl.formatMessage(m[`maritalStatus_${status}`]) : status,
 					}))}
@@ -117,7 +117,7 @@ const PersonalInfo = ({ fieldPrefix }) => {
 				<SelectField
 					label={<FormattedMessage {...m.education} />}
 					field={`${fieldPrefix}.education`}
-					items={['', ...Education.values].map(level => ({
+					items={['', ...Education.values].map((level) => ({
 						value: level,
 						label: level ? intl.formatMessage(m[`${Education.name}_${level}`]) : level,
 					}))}
@@ -170,7 +170,7 @@ const LoanInfo = ({ monthlyFee }) => (
 				legend={<FormattedMessage {...m.coborrowerChoice} />}
 				field="webdata.coborrowerChoice"
 			>
-				{CoborrowerChoice.values.map(value => (
+				{CoborrowerChoice.values.map((value) => (
 					<Radio
 						key={value}
 						value={value}
@@ -245,7 +245,7 @@ const defaultValues = {
 const getApplicationId = () =>
 	`demo-${createRandomString({ length: 10, type: 'distinguishable' })}`;
 
-const DemoForm = ({ loggingInterval = 4000 }) => {
+const DemoForm = ({ loggingInterval = 60000 }) => {
 	const { openModal } = useModal({ component: PredictionsModal });
 	const [applicationId, setApplicationId] = useState(getApplicationId());
 
@@ -261,7 +261,7 @@ const DemoForm = ({ loggingInterval = 4000 }) => {
 	} = useForm({
 		defaultValues,
 		name: 'zoeDemo',
-		onSubmit: async values => {
+		onSubmit: async (values) => {
 			send(values);
 
 			openModal({
@@ -289,7 +289,7 @@ const DemoForm = ({ loggingInterval = 4000 }) => {
 			if (isTouched && !document.hidden) {
 				send(values, true);
 
-				fetchFeatures(applicationId).then(features => {
+				fetchFeatures(applicationId).then((features) => {
 					log(logFeatures(features));
 				});
 			}

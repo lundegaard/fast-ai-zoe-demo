@@ -5,18 +5,31 @@ import {
 	compose,
 	cond,
 	evolve,
+	fromPairs,
 	identity,
 	map,
-	mergeAll,
 	o,
+	path,
 	pathEq,
 	pick,
 	prop,
 } from 'ramda';
-import { defaultToEmptyObject, isFunction, notEqual } from 'ramda-extension';
+import { defaultToEmptyObject, isFunction, keyMirror, notEqual } from 'ramda-extension';
 import fetch from 'unfetch';
 
 import { getTruthyKeys, round } from './utils';
+
+const getFeatures = path(['features']);
+const getPrediction = path(['prediction']);
+
+export const Models = keyMirror({
+	DEFAULT: null,
+});
+
+export const Features = {
+	BEHAVIOUR_LYING_INDEX: 'behavior_lying_index',
+	BEHAVIOUR_SUSPICIOUS: 'behavior_suspicious',
+};
 
 const createRequest = (url, options) =>
 	fetch(url, {
@@ -24,21 +37,44 @@ const createRequest = (url, options) =>
 			Authorization: `Basic ${process.env.AUTH_DEMO_APP_TOKEN}`,
 		},
 		...options,
-	}).then(response => {
-		if (!response.ok) {
-			return Promise.reject(response.status);
-		}
+	})
+		.then((response) => {
+			if (!response.ok) {
+				return Promise.reject(response.status);
+			}
 
-		return response.json();
-	});
+			return response.json();
+		})
+		.then((data) => {
+			if (data.status === 'error') {
+				return Promise.reject(data.status);
+			}
+			return data;
+		});
 
-export const fetchPredictionsAndFeatures = applicationId =>
+const fetchModels = (applicationId, models) =>
+	Promise.all(
+		map(
+			(modelId) =>
+				createRequest(
+					modelId === Models.DEFAULT
+						? `${process.env.API_URL}/applications/${applicationId}/prediction`
+						: `${process.env.API_URL}/applications/${applicationId}/prediction/${modelId}`
+				).then(o((prediction) => [modelId, prediction], getPrediction)),
+			models
+		)
+	);
+
+export const fetchPredictionsAndFeatures = (applicationId, models = ['default'], features = null) =>
 	Promise.all([
-		createRequest(`${process.env.API_URL}/applications/${applicationId}/prediction`),
+		fetchModels(applicationId, models),
 		createRequest(`${process.env.API_URL}/applications/${applicationId}/smart-features`),
-	]).then(mergeAll);
+	]).then(([models, featuresResponse]) => ({
+		models: fromPairs(models),
+		features: compose(features ? pick(features) : identity, getFeatures)(featuresResponse),
+	}));
 
-export const fetchFeatures = applicationId =>
+export const fetchFeatures = (applicationId) =>
 	createRequest(`${process.env.API_URL}/applications/${applicationId}/smart-features`);
 
 const isMobile = o(notEqual('Desktop'), prop('device_category'));
@@ -67,7 +103,7 @@ const featuresDescriptor = {
 	anomaly_typing: null,
 };
 
-const featuresDescriptorFiltering = map(x =>
+const featuresDescriptorFiltering = map((x) =>
 	x && isFunction(x.filterPredicate) ? x.filterPredicate : T
 )(featuresDescriptor);
 
@@ -85,7 +121,7 @@ const featuresDescriptorFormatting = map(
 const formatFeatures = evolve(featuresDescriptorFormatting);
 
 // Features -> FilteredFeatures
-const filterFeatures = features =>
+const filterFeatures = (features) =>
 	compose(pick(__, features), getTruthyKeys, applySpec(featuresDescriptorFiltering))(features);
 
 export const logFeatures = compose(formatFeatures, filterFeatures, prop('features'));
