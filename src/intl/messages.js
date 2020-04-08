@@ -192,7 +192,23 @@ export default defineMessages({
 	},
 	predictionsModalHeading: {
 		id: 'example.predictionsModalHeading',
-		defaultMessage: 'Predictions',
+		defaultMessage: 'Examples of AI predictions',
+	},
+	predictionsModalDescription: {
+		id: 'example.predictionsModalDescription',
+		defaultMessage: 'Three particular examples of AI driven interpretations.',
+	},
+	featureTitle__behavior_lying_index: {
+		id: 'example.featureTitle__behavior_lying_index',
+		defaultMessage: 'A lying score',
+	},
+	featureTitle__behavior_suspicious: {
+		id: 'example.featureTitle__behavior_suspicious',
+		defaultMessage: 'A suspicious score',
+	},
+	modelTitle__DEFAULT: {
+		id: 'example.modelTitle__DEFAULT',
+		defaultMessage: 'A loan approval score',
 	},
 	tryAgainLabel: {
 		id: 'example.tryAgainLabel',
@@ -201,5 +217,13 @@ export default defineMessages({
 	loadingPredictions: {
 		id: 'example.loadingPredictions',
 		defaultMessage: 'Loading predictions...',
+	},
+	errorPageTitle: {
+		id: 'example.errorPageTitle',
+		defaultMessage: 'Page not found',
+	},
+	errorPageContent: {
+		id: 'example.errorPageContent',
+		defaultMessage: "Sorry, we can't find that page! It might be an old link or maybe it moved.",
 	},
 });
