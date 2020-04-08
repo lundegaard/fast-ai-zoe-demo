@@ -1,7 +1,7 @@
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Box, Button, Flex, Gauge, Heading, Modal, Text } from '@fast-ai/ui-components';
-import { FormattedMessage } from 'gatsby-theme-fast-ai';
+import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
 import { compose, map, prop, toPairs } from 'ramda';
 import { isArray, noop } from 'ramda-extension';
 
@@ -26,14 +26,25 @@ const selectResults = ({ models, features }) => ({
 	)(features),
 });
 
-const ResultGauge = ({ value, title, ...rest }) => (
-	<Flex flexDirection="column" justifyContent="center" {...rest}>
-		<Gauge value={value == null ? 0 : value} mb={-4} />
-		<Text fontSize={4} m={0} sx={{ whiteSpace: 'nowrap' }}>
-			{title}
-		</Text>
-	</Flex>
-);
+const ResultGauge = ({ value, title, ...rest }) => {
+	const { formatNumber } = useIntl();
+
+	const formatGaugeNumber = (x) => formatNumber(x, { maximumFractionDigits: 1 });
+	return (
+		<Flex flexDirection="column" justifyContent="center" {...rest}>
+			{' '}
+			<Gauge
+				format={(x) => `${formatGaugeNumber(x * 100)}%`}
+				formatLegend={(x) => formatGaugeNumber(x * 100)}
+				value={value == null ? 0 : value}
+				mb={-4}
+			/>
+			<Text fontSize={4} m={0} sx={{ whiteSpace: 'nowrap' }}>
+				{title}
+			</Text>
+		</Flex>
+	);
+};
 
 ResultGauge.propTypes = {
 	title: PropTypes.node,
