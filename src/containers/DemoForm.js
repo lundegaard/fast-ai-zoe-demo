@@ -10,6 +10,7 @@ import {
 	Row,
 	Text,
 	useDebounce,
+	useIdleTime,
 	useModal,
 } from '@fast-ai/ui-components';
 import { useInterval } from '@restart/hooks';
@@ -245,7 +246,7 @@ const defaultValues = {
 const getApplicationId = () =>
 	`demo-${createRandomString({ length: 10, type: 'distinguishable' })}`;
 
-const DemoForm = ({ loggingInterval = 60000 }) => {
+const DemoForm = ({ loggingInterval = 5000 }) => {
 	const { openModal } = useModal({ component: PredictionsModal });
 	const [applicationId, setApplicationId] = useState(getApplicationId());
 
@@ -282,16 +283,16 @@ const DemoForm = ({ loggingInterval = 60000 }) => {
 		register(applicationId);
 	}, [register, applicationId]);
 
+	const { isIdle } = useIdleTime();
+
 	useInterval(
 		() => {
 			log({ 'Application ID': applicationId, 'Tenant ID': process.env.TENANT_ID });
 
-			if (isTouched && !document.hidden) {
+			if (isTouched && !document.hidden && !isIdle) {
 				send(values, true);
 
-				fetchFeatures(applicationId).then((features) => {
-					log(logFeatures(features));
-				});
+				fetchFeatures(applicationId).then((features) => void log(logFeatures(features)));
 			}
 		},
 		loggingInterval,
