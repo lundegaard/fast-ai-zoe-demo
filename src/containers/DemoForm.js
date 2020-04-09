@@ -16,6 +16,7 @@ import {
 import { useInterval } from '@restart/hooks';
 import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
 import createRandomString from 'crypto-random-string';
+import { hasLengthInInterval, hasOnlyDigits, isRequired } from 'validarium';
 
 import { fetchFeatures, logFeatures } from '../predictions';
 import m from '../intl/messages';
@@ -40,8 +41,7 @@ const FormHeading = (props) => <Heading as="h2" mt={0} mb={4} {...props} />;
 const HalfCol = (props) => <Col span={[12, 12, 6]} mb={4} {...props} />;
 const FullCol = (props) => <Col span={12} mb={4} {...props} />;
 
-// TODO: validations
-const isRequired = (x) => (!x ? 'Required' : null);
+const isBirthNumber = hasLengthInInterval(9, 10);
 
 const PersonalInfo = ({ fieldPrefix }) => {
 	const intl = useIntl();
@@ -59,6 +59,7 @@ const PersonalInfo = ({ fieldPrefix }) => {
 
 			<HalfCol>
 				<TextField
+					validate={isRequired}
 					label={<FormattedMessage {...m.familyName} />}
 					field={`${fieldPrefix}.familyName`}
 				/>
@@ -68,6 +69,7 @@ const PersonalInfo = ({ fieldPrefix }) => {
 				<TextField
 					label={<FormattedMessage {...m.birthNumber} />}
 					field={`${fieldPrefix}.birthNumber`}
+					validate={isBirthNumber}
 				/>
 			</HalfCol>
 
@@ -129,6 +131,7 @@ const PersonalInfo = ({ fieldPrefix }) => {
 				<NumberTextField
 					label={<FormattedMessage {...m.netIncomeMain} />}
 					field={`${fieldPrefix}.balance.netIncomeMain`}
+					validate={hasOnlyDigits}
 				/>
 			</HalfCol>
 
@@ -136,6 +139,7 @@ const PersonalInfo = ({ fieldPrefix }) => {
 				<NumberTextField
 					label={<FormattedMessage {...m.expenditureAnotherInstallment} />}
 					field={`${fieldPrefix}.balance.expenditureAnotherInstallment`}
+					validate={hasOnlyDigits}
 				/>
 			</HalfCol>
 		</Fragment>
