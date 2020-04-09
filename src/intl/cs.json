@@ -60,5 +60,9 @@
 	"example.modelTitle__DEFAULT": "Skóre schválení půjčky",
 	"example.retry": "Zkusit znovu",
 	"example.unexpectedError": "Nastala neočekávaná chyba.",
-	"example.close": "Zavřít"
+	"example.close": "Zavřít",
+	"validarium.isRequired": "Povinné pole",
+	"validarium.isEmail": "Nesprávný formát emailu",
+	"validarium.hasOnlyDigits": "Musí obsahovat pouze číslice",
+	"validarium.hasLengthInInterval": "Použijte {min} až {max} znaků"
 }

@@ -16,7 +16,7 @@ import {
 import { useInterval } from '@restart/hooks';
 import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
 import createRandomString from 'crypto-random-string';
-import { hasLengthInInterval, hasOnlyDigits, isRequired } from 'validarium';
+import { hasLengthInInterval, hasOnlyDigits, isEmail, isRequired } from 'validarium';
 
 import { fetchFeatures, logFeatures } from '../predictions';
 import m from '../intl/messages';
@@ -102,7 +102,11 @@ const PersonalInfo = ({ fieldPrefix }) => {
 			</HalfCol>
 
 			<HalfCol>
-				<TextField label={<FormattedMessage {...m.email} />} field={`${fieldPrefix}.email`} />
+				<TextField
+					validate={isEmail}
+					label={<FormattedMessage {...m.email} />}
+					field={`${fieldPrefix}.email`}
+				/>
 			</HalfCol>
 
 			<HalfCol>
