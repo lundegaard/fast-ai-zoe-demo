@@ -260,7 +260,7 @@ const DemoForm = ({ loggingInterval = 5000 }) => {
 
 	const {
 		Form,
-		meta: { isTouched, isSubmitting, canSubmit },
+		meta: { isTouched, isSubmitting, canSubmit, isValid },
 		getFieldValue,
 		attemptSubmit: handleClickSubmit,
 		send,
@@ -297,11 +297,15 @@ const DemoForm = ({ loggingInterval = 5000 }) => {
 		() => {
 			log({ 'Application ID': applicationId, 'Tenant ID': process.env.TENANT_ID });
 
-			if (isTouched && !document.hidden && !isIdle) {
-				send(values, true);
-
-				fetchFeatures(applicationId).then((features) => void log(logFeatures(features)));
+			if (!isTouched || (document.hidden && isIdle)) {
+				return;
 			}
+
+			if (isValid) {
+				send(values, true);
+			}
+
+			fetchFeatures(applicationId).then((features) => void log(logFeatures(features)));
 		},
 		loggingInterval,
 		false, // is paused
