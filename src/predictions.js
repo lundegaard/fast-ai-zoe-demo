@@ -95,7 +95,6 @@ const featuresDescriptor = {
 	device_vpn: null,
 	location_geoip_city: null,
 	behavior_typing_speed: null,
-	behavior_typing_flight_time_mean: { type: 'float' },
 	behavior_typing_correcting_mistakes_count: { type: 'float' },
 	behavior_typing_paste_count: { type: 'float' },
 	behavior_application_changes_count_bn_2d: null,
