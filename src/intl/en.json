@@ -58,5 +58,9 @@
 	"example.modelTitle__DEFAULT": "A loan approval score",
 	"example.retry": "Retry",
 	"example.unexpectedError": "Unfortunately, there was an unexpeted error.",
-	"example.close": "Close"
+	"example.close": "Close",
+	"validarium.isRequired": "This field is required",
+	"validarium.isEmail": "Invalid e-mail address",
+	"validarium.hasOnlyDigits": "Must contain only digits",
+	"validarium.hasLengthInInterval": "Invalid number of characters ({min} to {max})"
 }
