@@ -2483,6 +2483,34 @@
     semver "^6.3.0"
     tsutils "^3.17.1"
 
+"@validarium/core@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@validarium/core/-/core-0.7.2.tgz#2be7fae333aa2962a3267c21562d8dd088313c56"
+  integrity sha512-y9z2guUdn75fJLaXmWXf9DkdY2zXpn73F0bpO93PCTTtNi6hH6+58p3XvZMSrgYCp8gJO8cGG1zKDY9KT6MM+g==
+  dependencies:
+    invariant "^2.2.4"
+    ramda "^0.27.0"
+    ramda-extension "^0.10.2"
+
+"@validarium/predicates@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@validarium/predicates/-/predicates-0.7.2.tgz#c8ef3842094efe403076605a2017bd72ce1bf9af"
+  integrity sha512-NKQhw+xANz+fPpxeDLXQ9sjfdGPnV87R1BUdKaliqpOXlyhGBIOXzcHuNryQuwCRzc3jgZUR0bZT3l7/SxLCHA==
+  dependencies:
+    invariant "^2.2.4"
+    ramda "^0.27.0"
+    ramda-extension "^0.10.2"
+
+"@validarium/validations@^0.7.2":
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/@validarium/validations/-/validations-0.7.2.tgz#dff1038cb97029ad5be4749db09070cfdcaa843d"
+  integrity sha512-QICr1F0RrZ4ZrC7CS0SCRX+48Hz+pChtCyL48BycITtCOhVAJoWN0jdlZa5HPgXyBmiSZqKvOlgriniIgFDVGw==
+  dependencies:
+    "@validarium/core" "^0.7.2"
+    "@validarium/predicates" "^0.7.2"
+    ramda "^0.27.0"
+    ramda-extension "^0.10.2"
+
 "@webassemblyjs/ast@1.9.0":
   version "1.9.0"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.9.0.tgz#bd850604b4042459a5a41cd7d338cbed695ed964"
@@ -13143,7 +13171,7 @@ railroad-diagrams@^1.0.0:
   resolved "https://registry.yarnpkg.com/railroad-diagrams/-/railroad-diagrams-1.0.0.tgz#eb7e6267548ddedfb899c1b90e57374559cddb7e"
   integrity sha1-635iZ1SN3t+4mcG5Dlc3RVnN234=
 
-ramda-extension@^0.10.1, ramda-extension@^0.10.3:
+ramda-extension@^0.10.1, ramda-extension@^0.10.2, ramda-extension@^0.10.3:
   version "0.10.3"
   resolved "https://registry.yarnpkg.com/ramda-extension/-/ramda-extension-0.10.3.tgz#27026970889730c2c3d214e4d3138002d9553eb2"
   integrity sha512-6B7tlSL6C7TR/hspLLibmowPEJRkX5pgAN3Mb2DhwFqQIT+KSOtx3fGNdJh3MyViLRil67hFlkeZHOMwBKd+yw==
@@ -16278,6 +16306,17 @@ valid-url@^1.0.9:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/valid-url/-/valid-url-1.0.9.tgz#1c14479b40f1397a75782f115e4086447433a200"
   integrity sha1-HBRHm0DxOXp1eC8RXkCGRHQzogA=
+
+validarium@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/validarium/-/validarium-0.7.2.tgz#90d30fc1e62334a1e544d7179a540dfbae6dd7fc"
+  integrity sha512-FFGN8wtOnEGt7tu/1wuiVcjh3rq7K1hsRHarIPTzT8DCedA32gqNenaREtbA8IWYvbhJ12FXv/+NX9QQNDg/5w==
+  dependencies:
+    "@validarium/core" "^0.7.2"
+    "@validarium/validations" "^0.7.2"
+    invariant "^2.2.4"
+    ramda "^0.27.0"
+    ramda-extension "^0.10.2"
 
 validate-npm-package-license@^3.0.1:
   version "3.0.4"

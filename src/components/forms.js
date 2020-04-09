@@ -8,24 +8,37 @@ import {
 	getDisplayName,
 } from '@fast-ai/ui-components';
 import { splitFormProps, useField, useForm as useReactForm } from 'react-form';
-import { isEmpty, map, o, reject, when } from 'ramda';
-import { isObject, noop } from 'ramda-extension';
+import { evolve, isEmpty, map, o, reject, when } from 'ramda';
+import { isFunction, isObject, noop } from 'ramda-extension';
+import { useIntl } from 'gatsby-theme-fast-ai';
 
 import { useSA, useSAFieldTracker } from '../sa';
 
 const rejectEmpty = reject(isEmpty);
 
 // NOTE: use `data` explictly due to recursion
-const removeEmptyFields = data => o(rejectEmpty, map(when(isObject, removeEmptyFields)))(data);
+const removeEmptyFields = (data) => o(rejectEmpty, map(when(isObject, removeEmptyFields)))(data);
 
-const wrapWithStateAndSA = Comp => {
+const wrapWithStateAndSA = (Comp) => {
 	const Field = forwardRef((props, ref) => {
 		const [field, fieldOptions, rest] = splitFormProps(props);
+		const intl = useIntl();
+
+		const fieldOptionsWithTranslatedValidationResult = evolve({
+			validate: (fn) =>
+				isFunction(fn)
+					? (x) => {
+							const result = isFunction(fn) ? fn(x) : null;
+
+							return result ? intl.formatMessage(result.message, result.messageValues) : null;
+					  }
+					: void 0,
+		})(fieldOptions);
 
 		const {
 			meta: { error, isTouched },
 			getInputProps,
-		} = useField(field, fieldOptions);
+		} = useField(field, fieldOptionsWithTranslatedValidationResult);
 
 		const { getInputProps: saGetInputProps } = useSAFieldTracker();
 
@@ -57,7 +70,7 @@ export const useForm = ({ onSubmit = noop, name, ...rest }) => {
 	}, [sa]);
 
 	const register = useCallback(
-		applicationId => {
+		(applicationId) => {
 			setApplicationId(applicationId);
 
 			sa('send', 'register', applicationId);
@@ -113,7 +126,7 @@ export const NumberTextField = forwardRef((props, ref) => (
 	<TextField
 		ref={ref}
 		inputProps={{
-			pattern: 'd*',
+			pattern: '[0-9]*',
 		}}
 		{...props}
 	/>
