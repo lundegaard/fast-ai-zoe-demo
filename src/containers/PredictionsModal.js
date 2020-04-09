@@ -32,7 +32,6 @@ const ResultGauge = ({ value, title, ...rest }) => {
 	const formatGaugeNumber = (x) => formatNumber(x, { maximumFractionDigits: 1 });
 	return (
 		<Flex flexDirection="column" justifyContent="center" {...rest}>
-			{' '}
 			<Gauge
 				format={(x) => `${formatGaugeNumber(x * 100)}%`}
 				formatLegend={(x) => formatGaugeNumber(x * 100)}
