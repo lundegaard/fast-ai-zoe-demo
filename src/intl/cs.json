@@ -54,7 +54,7 @@
 	"example.errorPageTitle": "Stránka nenalezena",
 	"example.errorPageContent": "Omlouvám se, ale tato stránka neexistuje. Je možné, že se jedná o starou adresu.",
 	"example.predictionsModalHeading": "Příklady AI predikce",
-	"example.predictionsModalDescription": "Tří konkrétní příklady interpretací řízených umělou inteligencí.",
+	"example.predictionsModalDescription": "Konkrétní příklady interpretací řízených umělou inteligencí.",
 	"example.featureTitle__behavior_lying_index": "Skóre lhaní",
 	"example.featureTitle__behavior_suspicious": "Skóre podezření",
 	"example.modelTitle__DEFAULT": "Skóre schválení půjčky",

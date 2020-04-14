@@ -196,7 +196,7 @@ export default defineMessages({
 	},
 	predictionsModalDescription: {
 		id: 'example.predictionsModalDescription',
-		defaultMessage: 'Three particular examples of AI driven interpretations.',
+		defaultMessage: 'Particular examples of AI driven interpretations.',
 	},
 	featureTitle__behavior_lying_index: {
 		id: 'example.featureTitle__behavior_lying_index',
