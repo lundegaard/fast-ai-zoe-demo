@@ -98,9 +98,10 @@ const featuresDescriptor = {
 	behavior_typing_correcting_mistakes_count: { type: 'float' },
 	behavior_typing_paste_count: { type: 'float' },
 	behavior_application_changes_count_bn_2d: null,
+	behavior_typing_flight_time_mean: { type: 'float' },
 	fingerprint_zoe: null,
 	person_email_credible: null,
-	anomaly_typing: null,
+	behavior_anomaly_typing: null,
 };
 
 const featuresDescriptorFiltering = map((x) =>
