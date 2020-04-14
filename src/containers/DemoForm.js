@@ -254,13 +254,13 @@ const defaultValues = {
 const getApplicationId = () =>
 	`demo-${createRandomString({ length: 10, type: 'distinguishable' })}`;
 
-const DemoForm = ({ loggingInterval = 5000 }) => {
+const DemoForm = ({ loggingInterval = 4000 }) => {
 	const { openModal } = useModal({ component: PredictionsModal });
 	const [applicationId, setApplicationId] = useState(getApplicationId());
 
 	const {
 		Form,
-		meta: { isTouched, isSubmitting, canSubmit, isValid },
+		meta: { isSubmitting, canSubmit, isValid },
 		getFieldValue,
 		attemptSubmit: handleClickSubmit,
 		send,
@@ -297,12 +297,8 @@ const DemoForm = ({ loggingInterval = 5000 }) => {
 		() => {
 			log({ 'Application ID': applicationId, 'Tenant ID': process.env.TENANT_ID });
 
-			if (!isTouched || (document.hidden && isIdle)) {
+			if (document.hidden || isIdle) {
 				return;
-			}
-
-			if (isValid) {
-				send(values, true);
 			}
 
 			fetchFeatures(applicationId).then((features) => void log(logFeatures(features)));
@@ -311,6 +307,12 @@ const DemoForm = ({ loggingInterval = 5000 }) => {
 		false, // is paused
 		true // run immediately
 	);
+
+	useEffect(() => {
+		if (isValid) {
+			send(values, true);
+		}
+	}, [values, isValid, send]);
 
 	const monthlyFee =
 		getFieldValue('loanInfo.amount') / getFieldValue('loanInfo.numberOfInstalments');
