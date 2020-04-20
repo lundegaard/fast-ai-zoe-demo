@@ -7302,10 +7302,10 @@ gatsby-telemetry@^1.2.3:
     stack-utils "1.0.2"
     uuid "3.4.0"
 
-gatsby-theme-fast-ai@^0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/gatsby-theme-fast-ai/-/gatsby-theme-fast-ai-0.6.2.tgz#b2c95ce5cae1907134e4b7afabba6080ced06903"
-  integrity sha512-vM8RJsv1mVtbzsgo5wTDgwvFbkEY/8d3M7aHTNnbuneKQLdiNJLJzMBvg+gVgWQWXaB9JaXKez0QOSbh5ucE7Q==
+gatsby-theme-fast-ai@^0.6.3:
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/gatsby-theme-fast-ai/-/gatsby-theme-fast-ai-0.6.3.tgz#e16f2f15a1ff6f6d24af344bbeaff44f189bb504"
+  integrity sha512-qE2EajpvIrD9QPF33SoA/nSk8fpzySsZKkcryNG7XkY16LaRgPS4VqPQSyOicfzoM3GXS3QouOzvigW+CL2FXQ==
   dependencies:
     "@emotion/core" "^10.0.0"
     "@fast-ai/gatsby-plugin-setup" "^0.6.2"
