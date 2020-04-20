@@ -1,27 +1,24 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-	Button,
-	Col,
-	Heading,
-	Row,
-	useDebounce,
-	useIdleTime,
-	useModal,
-} from '@fast-ai/ui-components';
+import { Button, Col, Row, useDebounce, useIdleTime, useModal } from '@fast-ai/ui-components';
 import { useInterval } from '@restart/hooks';
 import { FormattedMessage } from 'gatsby-theme-fast-ai';
 import createRandomString from 'crypto-random-string';
 
 import { fetchFeatures, logFeatures } from '../predictions';
 import m from '../intl/messages';
-import { FullCol, LoanInfo, PersonalInfo, useDevConsole, useForm } from '../components';
+import {
+	BorrowersFormSection,
+	FormHeading,
+	FullCol,
+	LoanFormSection,
+	useDevConsole,
+	useForm,
+} from '../components';
 
 import PredictionsModal, {
 	ClosingReasons as PredictionsModalClosingReasons,
 } from './PredictionsModal';
-
-const FormHeading = (props) => <Heading as="h2" mt={0} mb={4} {...props} />;
 
 const borrower = {
 	givenName: '',
@@ -128,13 +125,13 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 		if (isValid && statsReady) {
 			send({ data: values, inProgress: true, applicationId });
 		}
-	}, [values, applicationId, isValid, statsReady, send]);
+	}, [values, applicationId, statsReady]);
 
 	const monthlyFee =
 		getFieldValue('loanInfo.amount') / getFieldValue('loanInfo.numberOfInstalments');
 
 	const [monthlyFeeDebounced] = useDebounce(monthlyFee, 200);
-
+	const coborrowerChoice = getFieldValue('webdata.coborrowerChoice');
 	return (
 		<Form>
 			<Row flexWrap="wrap">
@@ -146,7 +143,7 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 							</FormHeading>
 						</FullCol>
 
-						<PersonalInfo fieldPrefix="borrower" />
+						<BorrowersFormSection coborrowerChoice={coborrowerChoice} />
 					</Row>
 				</Col>
 				<Col span={[12, 12, 6]}>
@@ -157,7 +154,7 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 							</FormHeading>
 						</FullCol>
 
-						<LoanInfo monthlyFee={monthlyFeeDebounced} />
+						<LoanFormSection monthlyFee={monthlyFeeDebounced} />
 
 						<FullCol>
 							<Button

@@ -6,19 +6,28 @@ import {
 	SelectField as FASelectField,
 	SliderField as FASliderField,
 	TextField as FATextField,
+	Heading,
 	getDisplayName,
 } from '@fast-ai/ui-components';
 import { splitFormProps, useField, useForm as useReactForm } from 'react-form';
-import { evolve, isEmpty, map, o, reject, when } from 'ramda';
+import { compose, evolve, isEmpty, map, o, omit, pathEq, reject, when } from 'ramda';
 import { isFunction, isObject, noop } from 'ramda-extension';
 import { useIntl } from 'gatsby-theme-fast-ai';
 
+import { CoborrowerChoice } from '../lookups';
 import { useSA, useSAFieldTracker } from '../sa';
 
 const rejectEmpty = reject(isEmpty);
 
 // NOTE: use `data` explictly due to recursion
 const removeEmptyFields = (data) => o(rejectEmpty, map(when(isObject, removeEmptyFields)))(data);
+
+const removeCoborrower = when(
+	pathEq(['webdata', 'coborrowerChoice'], CoborrowerChoice.values.SINGLE),
+	omit(['coborrower'])
+);
+
+const formDataToWebdata = (data) => compose(removeEmptyFields, removeCoborrower)(data);
 
 const wrapWithStateAndSA = (Comp) => {
 	const Field = forwardRef((props, ref) => {
@@ -78,7 +87,8 @@ export const useForm = ({ onSubmit = noop, name, ...rest }) => {
 
 	const send = useCallback(
 		({ applicationId, data, inProgress }) => {
-			const model = removeEmptyFields(data);
+			const model = formDataToWebdata(data);
+
 			sa('send', 'webdata', {
 				applicationId,
 				status: inProgress ? 'PROCESSING' : 'SUCCESS',
@@ -115,6 +125,8 @@ export const useForm = ({ onSubmit = noop, name, ...rest }) => {
 	};
 };
 
+export const FormHeading = (props) => <Heading as="h2" mt={0} mb={4} {...props} />;
+export const FormSubheading = (props) => <Heading as="h3" mt={0} mb={0} {...props} />;
 export const HalfCol = (props) => <Col span={[12, 12, 6]} mb={4} {...props} />;
 export const FullCol = (props) => <Col span={12} mb={4} {...props} />;
 

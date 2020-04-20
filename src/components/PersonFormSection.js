@@ -4,13 +4,15 @@ import { hasLengthInInterval, hasOnlyDigits, isEmail, isRequired } from 'validar
 import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
 
 import m from '../intl/messages';
-import { MaritalStatus, getEducationByLanguage } from '../lookups';
+import { MaritalStatus, getEducationByLanguage, mapLookup } from '../lookups';
 
 import { HalfCol, NumberTextField, SelectField, TextField } from './forms';
 
 const isBirthNumber = hasLengthInInterval(9, 10);
 
-const PersonalInfo = ({ fieldPrefix }) => {
+const emptyOption = { value: '' };
+
+const PersonFormSection = ({ fieldPrefix }) => {
 	const intl = useIntl();
 	const Education = useMemo(() => getEducationByLanguage(intl.locale), [intl.locale]);
 
@@ -80,10 +82,13 @@ const PersonalInfo = ({ fieldPrefix }) => {
 				<SelectField
 					label={<FormattedMessage {...m.maritalStatus} />}
 					field={`${fieldPrefix}.maritalStatus`}
-					items={['', ...MaritalStatus.values].map((status) => ({
-						value: status,
-						label: status ? intl.formatMessage(m[`maritalStatus_${status}`]) : status,
-					}))}
+					items={[
+						emptyOption,
+						...mapLookup((status) => ({
+							value: status,
+							label: status ? intl.formatMessage(m[`maritalStatus_${status}`]) : status,
+						}))(MaritalStatus),
+					]}
 				/>
 			</HalfCol>
 
@@ -91,10 +96,13 @@ const PersonalInfo = ({ fieldPrefix }) => {
 				<SelectField
 					label={<FormattedMessage {...m.education} />}
 					field={`${fieldPrefix}.education`}
-					items={['', ...Education.values].map((level) => ({
-						value: level,
-						label: level ? intl.formatMessage(m[`${Education.name}_${level}`]) : level,
-					}))}
+					items={[
+						emptyOption,
+						...mapLookup((level) => ({
+							value: level,
+							label: level ? intl.formatMessage(m[`${Education.name}_${level}`]) : level,
+						}))(Education),
+					]}
 				/>
 			</HalfCol>
 
@@ -117,6 +125,6 @@ const PersonalInfo = ({ fieldPrefix }) => {
 	);
 };
 
-PersonalInfo.propTypes = { fieldPrefix: PropTypes.string };
+PersonFormSection.propTypes = { fieldPrefix: PropTypes.string };
 
-export default PersonalInfo;
+export default PersonFormSection;

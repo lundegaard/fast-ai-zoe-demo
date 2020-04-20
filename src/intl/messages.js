@@ -17,6 +17,10 @@ export default defineMessages({
 		id: 'example.personalInfoTitle',
 		defaultMessage: 'Personal information',
 	},
+	coborrowerTitle: {
+		id: 'example.coborrowerTitle',
+		defaultMessage: 'Coborrower information',
+	},
 	setupLoanTitle: {
 		id: 'example.setupLoanTitle',
 		defaultMessage: 'Setup your loan',
