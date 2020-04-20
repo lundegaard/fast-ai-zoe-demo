@@ -62,6 +62,8 @@
 	"example.retry": "Zkusit znovu",
 	"example.unexpectedError": "Nastala neočekávaná chyba.",
 	"example.close": "Zavřít",
+	"example.termsModalHeading": "Terms & Conditions",
+	"example.termsModalDescription": "There are neither terms nor conditions.",
 	"validarium.isRequired": "Povinné pole",
 	"validarium.isEmail": "Nesprávný formát emailu",
 	"validarium.hasOnlyDigits": "Musí obsahovat pouze číslice",

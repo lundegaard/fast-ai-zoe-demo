@@ -242,4 +242,12 @@ export default defineMessages({
 		id: 'example.pageFaqPerex',
 		defaultMessage: 'This is a sample page.',
 	},
+	termsModalHeading: {
+		id: 'example.termsModalHeading',
+		defaultMessage: 'Terms & Conditions',
+	},
+	termsModalDescription: {
+		id: 'example.termsModalDescription',
+		defaultMessage: 'There are neither terms nor conditions.',
+	},
 });

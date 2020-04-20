@@ -53,7 +53,7 @@ const getApplicationId = () =>
 	`demo-${createRandomString({ length: 10, type: 'distinguishable' })}`;
 
 const DemoForm = ({ loggingInterval = 2000 }) => {
-	const { openModal } = useModal({ component: PredictionsModal });
+	const { openModal: openPredictionsModal } = useModal({ component: PredictionsModal });
 	const [applicationId, setApplicationId] = useState(getApplicationId());
 	const initTimeoutRef = useRef();
 	const [statsReady, setStatsReady] = useState(false);
@@ -73,7 +73,7 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 		onSubmit: async (values) => {
 			send({ data: values, applicationId });
 
-			openModal({
+			openPredictionsModal({
 				applicationId,
 				onClose: ({ reason }) => {
 					if (reason === PredictionsModalClosingReasons.CLICK_ON_TRY_AGAIN) {
