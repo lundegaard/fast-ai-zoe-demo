@@ -5,13 +5,9 @@ export default defineMessages({
 		id: 'example.pageHome',
 		defaultMessage: 'Home',
 	},
-	pageTerms: {
-		id: 'example.pageTerms',
-		defaultMessage: 'T&C',
-	},
-	pageTryIt: {
-		id: 'example.pageTryIt',
-		defaultMessage: 'Try it',
+	pageFaq: {
+		id: 'example.pageFaq',
+		defaultMessage: 'FAQ',
 	},
 	personalInfoTitle: {
 		id: 'example.personalInfoTitle',
@@ -241,5 +237,9 @@ export default defineMessages({
 	close: {
 		id: 'example.close',
 		defaultMessage: 'Close',
+	},
+	pageFaqPerex: {
+		id: 'example.pageFaqPerex',
+		defaultMessage: 'This is a sample page.',
 	},
 });
