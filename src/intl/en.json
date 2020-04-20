@@ -60,6 +60,8 @@
 	"example.retry": "Retry",
 	"example.unexpectedError": "Unfortunately, there was an unexpeted error.",
 	"example.close": "Close",
+	"example.termsModalHeading": "Terms & Conditions",
+	"example.termsModalDescription": "There are neither terms nor conditions.",
 	"validarium.isRequired": "This field is required",
 	"validarium.isEmail": "Invalid e-mail address",
 	"validarium.hasOnlyDigits": "Must contain only digits",

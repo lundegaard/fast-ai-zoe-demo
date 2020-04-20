@@ -1,13 +1,12 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 
 export const useSA = () => ({ sa: typeof window === 'undefined' ? {} : window.sa });
 
 // just for a virtual components - only a changeEvent
-const getEventCallbackName = eventName =>
+const getEventCallbackName = (eventName) =>
 	`on${eventName.charAt(0).toUpperCase() + eventName.slice(1)}`;
 
 const defaultGetEvent = (eventName, firstArg) => firstArg && firstArg.nativeEvent;
-
 const mapper = {
 	sForm: {
 		copy: 'clipboard',
@@ -30,7 +29,7 @@ export const useSAFieldTracker = ({
 	const { sa } = useSA();
 
 	const getInputProps = useCallback(
-		props => {
+		(props) => {
 			const eventHandlersWithProps = trackedEvents.reduce((currentCallbacks, eventName) => {
 				const eventCallbackName = getEventCallbackName(eventName);
 
@@ -56,4 +55,19 @@ export const useSAFieldTracker = ({
 	);
 
 	return { getInputProps };
+};
+
+export const useSAComponentTimer = ({ name, dimensions: dimensionsProp = [] }) => {
+	const { sa } = useSA();
+
+	const dimensionsRef = useRef(dimensionsProp);
+
+	useEffect(() => {
+		const dimensions = dimensionsRef.current;
+		sa('setTimer', { label: name, dimensions });
+
+		return () => {
+			sa('endTimer', { label: name, dimensions });
+		};
+	}, []);
 };
