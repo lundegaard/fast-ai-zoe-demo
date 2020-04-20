@@ -4,6 +4,7 @@
 	"siteMetadata.description": "Real-time online loan approval prediction based on digital online data",
 	"example.title": "Zoe.ai",
 	"example.personalInfoTitle": "Personal information",
+	"example.coborrowerTitle": "Coborrower information",
 	"example.setupLoanTitle": "Setup your loan",
 	"example.pageHome": "Home",
 	"example.pageTerms": "T&C",

@@ -1,15 +1,14 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Flex, Heading, Link, Radio, Text } from '@fast-ai/ui-components';
+import { Flex, Heading, Link, Text } from '@fast-ai/ui-components';
 import { FormattedMessage } from 'gatsby-theme-fast-ai';
 
 import m from '../intl/messages';
-import { CoborrowerChoice } from '../lookups';
 import { AmountFormatter, DurationFormatter } from '../formatters';
 
-import { CheckboxField, FullCol, RadioGroupField, SliderField } from './forms';
+import { CheckboxField, FullCol, SliderField } from './forms';
 
-const LoanInfo = ({ monthlyFee }) => (
+const LoanFormSection = ({ monthlyFee }) => (
 	<Fragment>
 		<FullCol>
 			<SliderField
@@ -30,21 +29,6 @@ const LoanInfo = ({ monthlyFee }) => (
 				max={360}
 				step={1}
 			/>
-		</FullCol>
-
-		<FullCol>
-			<RadioGroupField
-				legend={<FormattedMessage {...m.coborrowerChoice} />}
-				field="webdata.coborrowerChoice"
-			>
-				{CoborrowerChoice.values.map((value) => (
-					<Radio
-						key={value}
-						value={value}
-						label={<FormattedMessage {...m[`${CoborrowerChoice.name}_${value}`]} />}
-					/>
-				))}
-			</RadioGroupField>
 		</FullCol>
 
 		<FullCol>
@@ -77,7 +61,8 @@ const LoanInfo = ({ monthlyFee }) => (
 	</Fragment>
 );
 
-LoanInfo.propTypes = {
+LoanFormSection.propTypes = {
+	coborrowerChoice: PropTypes.string,
 	monthlyFee: PropTypes.node,
 };
-export default LoanInfo;
+export default LoanFormSection;
