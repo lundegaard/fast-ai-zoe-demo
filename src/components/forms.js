@@ -1,5 +1,6 @@
-import React, { forwardRef, useCallback, useEffect, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect } from 'react';
 import {
+	Col,
 	CheckboxField as FACheckboxField,
 	RadioGroupField as FARadioGroupField,
 	SelectField as FASelectField,
@@ -54,7 +55,6 @@ const wrapWithStateAndSA = (Comp) => {
 
 export const useForm = ({ onSubmit = noop, name, ...rest }) => {
 	const { sa } = useSA();
-	const [applicationId, setApplicationId] = useState();
 
 	useEffect(() => {
 		sa('s-form:set', { name });
@@ -71,15 +71,13 @@ export const useForm = ({ onSubmit = noop, name, ...rest }) => {
 
 	const register = useCallback(
 		(applicationId) => {
-			setApplicationId(applicationId);
-
 			sa('send', 'register', applicationId);
 		},
-		[sa, setApplicationId]
+		[sa]
 	);
 
 	const send = useCallback(
-		(data, inProgress) => {
+		({ applicationId, data, inProgress }) => {
 			const model = removeEmptyFields(data);
 			sa('send', 'webdata', {
 				applicationId,
@@ -87,7 +85,7 @@ export const useForm = ({ onSubmit = noop, name, ...rest }) => {
 				...model,
 			});
 		},
-		[applicationId, sa]
+		[sa]
 	);
 
 	const end = useCallback(() => {
@@ -116,6 +114,9 @@ export const useForm = ({ onSubmit = noop, name, ...rest }) => {
 		attemptSubmit,
 	};
 };
+
+export const HalfCol = (props) => <Col span={[12, 12, 6]} mb={4} {...props} />;
+export const FullCol = (props) => <Col span={12} mb={4} {...props} />;
 
 export const TextField = wrapWithStateAndSA(FATextField);
 export const SelectField = wrapWithStateAndSA(FASelectField);

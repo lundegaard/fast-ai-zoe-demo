@@ -8,7 +8,8 @@ const DevConsoleProvider = ({ children }) => {
 
 	const api = useMemo(
 		() => ({
-			log: lines => setLog(previousLog => ({ ...previousLog, ...lines })),
+			log: (lines) => setLog((previousLog) => ({ ...previousLog, ...lines })),
+			replace: (lines) => setLog(lines),
 			clear: () => setLog({}),
 		}),
 		[]

@@ -164,7 +164,7 @@ export default defineMessages({
 	},
 	terms: {
 		id: 'example.terms',
-		defaultMessage: 'I agreee with <a>terms and conditions</a>',
+		defaultMessage: 'I agree with <a>terms and conditions</a>',
 	},
 	apply: {
 		id: 'example.apply',
