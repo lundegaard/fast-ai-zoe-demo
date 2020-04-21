@@ -17,6 +17,7 @@ import {
 import { defaultToEmptyObject, isFunction, keyMirror, notEqual } from 'ramda-extension';
 import fetch from 'unfetch';
 
+import Modals from './constants/Modals';
 import { getTruthyKeys, round } from './utils';
 
 const getFeatures = path(['features']);
@@ -101,6 +102,7 @@ const featuresDescriptor = {
 	behavior_typing_flight_time_mean: { type: 'float' },
 	behavior_slider_move_count: { type: 'float' },
 	behavior_slider_move_time: { type: 'float' },
+	behavior_timer_detail: { type: 'float', getData: prop(Modals.TERMS) },
 	fingerprint_zoe: null,
 	person_email_credible: null,
 	behavior_anomaly_typing: null,
@@ -112,7 +114,7 @@ const featuresDescriptorFiltering = map((x) =>
 
 // Features -> FormattedFeatures
 const featuresDescriptorFormatting = map(
-	o(
+	compose(
 		cond([
 			[pathEq(['type'], 'float'), () => round],
 			[T, () => identity],
@@ -121,10 +123,20 @@ const featuresDescriptorFormatting = map(
 	)
 )(featuresDescriptor);
 
+const featuresDescriptorDataSelector = map((x) =>
+	x && isFunction(x.getData) ? x.getData : identity
+)(featuresDescriptor);
+
 const formatFeatures = evolve(featuresDescriptorFormatting);
+const selectFeatures = evolve(featuresDescriptorDataSelector);
 
 // Features -> FilteredFeatures
 const filterFeatures = (features) =>
 	compose(pick(__, features), getTruthyKeys, applySpec(featuresDescriptorFiltering))(features);
 
-export const logFeatures = compose(formatFeatures, filterFeatures, prop('features'));
+export const logFeatures = compose(
+	formatFeatures,
+	selectFeatures,
+	filterFeatures,
+	prop('features')
+);
