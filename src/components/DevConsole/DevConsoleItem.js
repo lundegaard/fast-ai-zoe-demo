@@ -5,6 +5,7 @@ import Text from '@fast-ai/ui-components/Text';
 import { FormattedNumber } from 'gatsby-theme-fast-ai';
 import { keyframes } from '@emotion/core';
 import { isBoolean, isNumeric, isString } from 'ramda-extension';
+import Dotdotdot from 'react-dotdotdot';
 
 const backgroundFadeout = keyframes`
 	0% {
@@ -48,8 +49,8 @@ const DevConsoleItem = ({ value, label, ...rest }) => (
 		<Text as="span" fontSize={1} mb={0}>
 			{label}
 		</Text>
-		<HighlightChangesText key={value} as="span" ml="auto" mb={0} fontSize={1}>
-			{format(value)}
+		<HighlightChangesText title={format(value)} key={value} as="span" ml="auto" mb={0} fontSize={1}>
+			<Dotdotdot clamp={1}>{format(value)}</Dotdotdot>
 		</HighlightChangesText>
 	</Flex>
 );
