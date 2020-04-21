@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Col, Row, useDebounce, useIdleTime, useModal } from '@fast-ai/ui-components';
 import { useInterval } from '@restart/hooks';
@@ -122,11 +122,15 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 		true // run immediately
 	);
 
-	useEffect(() => {
+	const handleFormBlur = useCallback(() => {
 		if (isValid && statsReady) {
 			send({ data: values, inProgress: true, applicationId });
 		}
-	}, [values, applicationId, statsReady]);
+	}, [applicationId, values, send, isValid, statsReady]);
+
+	useEffect(() => {
+		handleFormBlur();
+	}, [statsReady]);
 
 	const monthlyFee =
 		getFieldValue('loanInfo.amount') / getFieldValue('loanInfo.numberOfInstalments');
@@ -134,7 +138,7 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 	const [monthlyFeeDebounced] = useDebounce(monthlyFee, 200);
 	const coborrowerChoice = getFieldValue('webdata.coborrowerChoice');
 	return (
-		<Form>
+		<Form onBlur={handleFormBlur}>
 			<Row flexWrap="wrap">
 				<Col span={[12, 12, 6]}>
 					<Row flexWrap="wrap">
