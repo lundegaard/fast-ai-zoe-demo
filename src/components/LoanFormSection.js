@@ -19,9 +19,9 @@ const LoanFormSection = ({ monthlyFee }) => {
 					label={<FormattedMessage {...m.loanInfoAmount} />}
 					field="loanInfo.amount"
 					renderValue={AmountFormatter}
-					min={0}
-					max={10000000}
-					step={1}
+					min={20000}
+					max={1000000}
+					step={1000}
 				/>
 			</FullCol>
 			<FullCol>
@@ -29,8 +29,8 @@ const LoanFormSection = ({ monthlyFee }) => {
 					label={<FormattedMessage {...m.numberOfInstalments} />}
 					field="loanInfo.numberOfInstalments"
 					renderValue={DurationFormatter}
-					min={1}
-					max={360}
+					min={6}
+					max={120}
 					step={1}
 				/>
 			</FullCol>
