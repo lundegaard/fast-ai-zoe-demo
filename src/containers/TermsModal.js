@@ -4,10 +4,14 @@ import { Button, Heading, Modal, Text } from '@fast-ai/ui-components';
 import { FormattedMessage } from 'gatsby-theme-fast-ai';
 
 import { useSAComponentTimer } from '../sa';
+import Forms from '../constants/Forms';
+import Modals from '../constants/Modals';
 import m from '../intl/messages';
 
 const TermsModal = ({ closeModal, ...rest }) => {
-	useSAComponentTimer({ label: 'TermsModal', dimensions: ['terms-and-conditions'] });
+	useSAComponentTimer({
+		dimensions: [Forms.ZOE_DEMO, Modals.TERMS],
+	});
 
 	return (
 		<Modal sx={{ textAlign: 'center', p: 4 }} {...rest}>
