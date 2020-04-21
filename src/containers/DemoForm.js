@@ -5,6 +5,7 @@ import { useInterval } from '@restart/hooks';
 import { FormattedMessage } from 'gatsby-theme-fast-ai';
 import createRandomString from 'crypto-random-string';
 
+import Forms from '../constants/Forms';
 import { fetchFeatures, logFeatures } from '../predictions';
 import m from '../intl/messages';
 import {
@@ -69,7 +70,7 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 		values,
 	} = useForm({
 		defaultValues,
-		name: 'zoeDemo',
+		name: Forms.ZOE_DEMO,
 		onSubmit: async (values) => {
 			send({ data: values, applicationId });
 
