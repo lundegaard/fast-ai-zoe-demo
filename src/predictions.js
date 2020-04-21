@@ -99,6 +99,8 @@ const featuresDescriptor = {
 	behavior_typing_paste_count: { type: 'float' },
 	behavior_application_changes_count_bn_2d: null,
 	behavior_typing_flight_time_mean: { type: 'float' },
+	behavior_slider_move_count: { type: 'float' },
+	behavior_slider_move_time: { type: 'float' },
 	fingerprint_zoe: null,
 	person_email_credible: null,
 	behavior_anomaly_typing: null,
