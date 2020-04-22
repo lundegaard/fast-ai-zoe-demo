@@ -26,7 +26,7 @@ This repository shows how to integrate S-Analytics to the React application.
 
 
 <p align="center">
-<a href="https://zoe.lundegaard.ai/">Click to access the full documentation and guides for S-Analytics.</a>
+  <a href="https://zoe.lundegaard.ai/">Click to access the full documentation and guides for S-Analytics.</a>
 </p>
 
 
@@ -38,6 +38,9 @@ This repository shows how to integrate S-Analytics to the React application.
   <img src="https://flat.badgen.net/badge/license/MIT/blue" alt="MIT License" />
 </p>
 
+<p align="center">
+  <img src="./video.gif" alt="Demonstration video" />
+</p>
 
 # Installation
 
