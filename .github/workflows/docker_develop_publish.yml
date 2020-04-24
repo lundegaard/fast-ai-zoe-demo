@@ -32,8 +32,9 @@ jobs:
           # Strip git ref prefix from version
           VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
 
+          # Priting calculated VERSION even though we tag image differently (can be used later)
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker tag $IMAGE_ID:develop $IMAGE_ID:$VERSION
+          docker tag image $IMAGE_ID:develop
           docker push $IMAGE_ID:develop
