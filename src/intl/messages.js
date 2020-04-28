@@ -130,7 +130,7 @@ export default defineMessages({
 		defaultMessage: 'Post-secondary, non-tertiary education',
 	},
 	educationNonStandard_UNIVERSITY: {
-		id: 'example.educationNonStandard_ELEMENTARY',
+		id: 'example.educationNonStandard_UNIVERSITY',
 		defaultMessage: 'First of second stage of tertiary education',
 	},
 	coborrowerChoice: {
