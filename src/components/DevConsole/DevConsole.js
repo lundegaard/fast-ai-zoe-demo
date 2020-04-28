@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { keyframes } from '@emotion/core';
 import { Box, Flex, Text } from '@fast-ai/ui-components';
 import { map, o, toPairs } from 'ramda';
-import { isNotEmpty } from 'ramda-extension';
 
 import DevConsoleItem from './DevConsoleItem';
 import { useDevConsoleLog } from './hooks';
@@ -27,7 +26,7 @@ const jumpInFromBottom = keyframes`
 const easing = 'cubic-bezier(.455, .030, .515, .955)';
 
 /* eslint-disable max-len */
-const DropdownArrow = props => (
+const DropdownArrow = (props) => (
 	<Box
 		as="svg"
 		width="13px"
@@ -93,7 +92,7 @@ const DevConsole = ({ title, initiallyOpened, ...rest }) => {
 						borderTopWidth: '1px',
 					}}
 				>
-					{isNotEmpty(log) &&
+					{log &&
 						o(
 							map(([label, value]) => <DevConsoleItem key={label} label={label} value={value} />),
 							toPairs

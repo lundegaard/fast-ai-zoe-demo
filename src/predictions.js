@@ -5,18 +5,32 @@ import {
 	compose,
 	cond,
 	evolve,
+	fromPairs,
 	identity,
 	map,
-	mergeAll,
 	o,
+	path,
 	pathEq,
 	pick,
 	prop,
 } from 'ramda';
-import { defaultToEmptyObject, isFunction, notEqual } from 'ramda-extension';
+import { defaultToEmptyObject, isFunction, keyMirror } from 'ramda-extension';
 import fetch from 'unfetch';
 
 import { getTruthyKeys, round } from './utils';
+import { featuresDescriptor } from './featuresDescriptor';
+
+const getFeatures = path(['features']);
+const getPrediction = path(['prediction']);
+
+export const Models = keyMirror({
+	DEFAULT: null,
+});
+
+export const Features = {
+	BEHAVIOUR_LYING_INDEX: 'behavior_lying_index',
+	BEHAVIOUR_SUSPICIOUS: 'behavior_suspicious_behavior',
+};
 
 const createRequest = (url, options) =>
 	fetch(url, {
@@ -24,56 +38,57 @@ const createRequest = (url, options) =>
 			Authorization: `Basic ${process.env.AUTH_DEMO_APP_TOKEN}`,
 		},
 		...options,
-	}).then(response => {
-		if (!response.ok) {
-			return Promise.reject(response.status);
-		}
+	})
+		.then((response) => {
+			if (!response.ok) {
+				return Promise.reject(response.status);
+			}
 
-		return response.json();
-	});
+			return response.json();
+		})
+		.then((data) => {
+			if (data.status === 'error') {
+				return Promise.reject(data.status);
+			}
+			return data;
+		});
 
-export const fetchPredictionsAndFeatures = applicationId =>
+const fetchModels = (applicationId, models) =>
+	Promise.all(
+		map(
+			(modelId) =>
+				createRequest(
+					modelId === Models.DEFAULT
+						? `${process.env.API_URL}/applications/${applicationId}/prediction`
+						: `${process.env.API_URL}/applications/${applicationId}/prediction/${modelId}`
+				).then(o((prediction) => [modelId, prediction], getPrediction)),
+			models
+		)
+	);
+
+export const fetchPredictionsAndFeatures = ({
+	applicationId,
+	models = ['default'],
+	features = null,
+}) =>
 	Promise.all([
-		createRequest(`${process.env.API_URL}/applications/${applicationId}/prediction`),
+		fetchModels(applicationId, models),
 		createRequest(`${process.env.API_URL}/applications/${applicationId}/smart-features`),
-	]).then(mergeAll);
+	]).then(([models, featuresResponse]) => ({
+		models: fromPairs(models),
+		features: compose(features ? pick(features) : identity, getFeatures)(featuresResponse),
+	}));
 
-export const fetchFeatures = applicationId =>
+export const fetchFeatures = (applicationId) =>
 	createRequest(`${process.env.API_URL}/applications/${applicationId}/smart-features`);
 
-const isMobile = o(notEqual('Desktop'), prop('device_category'));
-
-const featuresDescriptor = {
-	device_mobile_type: { filterPredicate: isMobile },
-	device_mobile_price: { filterPredicate: isMobile },
-	device_mobile_release_date: { filterPredicate: isMobile },
-	device_category: null,
-	device_browser: null,
-	device_operating_system: null,
-	device_screen_resolution: null,
-	device_net_name: null,
-	device_vpn: null,
-	location_geoip_city: null,
-	behavior_typing_speed: null,
-	behavior_typing_flight_time_mean: { type: 'float' },
-	behavior_typing_interval_time_mean: { type: 'float' },
-	behavior_typing_latency_time_mean: { type: 'float' },
-	behavior_typing_up_to_up_time_mean: { type: 'float' },
-	behavior_typing_correcting_mistakes_count: { type: 'float' },
-	behavior_typing_paste_count: { type: 'float' },
-	behavior_application_changes_count_bn_2d: null,
-	fingerprint_zoe: null,
-	person_email_credible: null,
-	anomaly_typing: null,
-};
-
-const featuresDescriptorFiltering = map(x =>
+const featuresDescriptorFiltering = map((x) =>
 	x && isFunction(x.filterPredicate) ? x.filterPredicate : T
 )(featuresDescriptor);
 
 // Features -> FormattedFeatures
 const featuresDescriptorFormatting = map(
-	o(
+	compose(
 		cond([
 			[pathEq(['type'], 'float'), () => round],
 			[T, () => identity],
@@ -82,10 +97,20 @@ const featuresDescriptorFormatting = map(
 	)
 )(featuresDescriptor);
 
+const featuresDescriptorDataSelector = map((x) =>
+	x && isFunction(x.getData) ? x.getData : identity
+)(featuresDescriptor);
+
 const formatFeatures = evolve(featuresDescriptorFormatting);
+const selectFeatures = evolve(featuresDescriptorDataSelector);
 
 // Features -> FilteredFeatures
-const filterFeatures = features =>
+const filterFeatures = (features) =>
 	compose(pick(__, features), getTruthyKeys, applySpec(featuresDescriptorFiltering))(features);
 
-export const logFeatures = compose(formatFeatures, filterFeatures, prop('features'));
+export const logFeatures = compose(
+	formatFeatures,
+	selectFeatures,
+	filterFeatures,
+	prop('features')
+);

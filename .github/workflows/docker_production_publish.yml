@@ -1,0 +1,40 @@
+name: Build docker image for develop server and publish to repository
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  IMAGE_NAME: zoe-demo
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build . --file Dockerfile --tag production_image --build-arg API_URL=https://sdp-api.lnd.bz/api/v1 --build-arg SA_DISTRIBUTION_URL=https://sa-sdp.lnd.bz/versions/stable
+
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+
+      - name: Push image
+        run: |
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
+
+          # Change all uppercase to lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+          # Priting calculated VERSION even though we tag image differently (can be used later)
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+
+          docker tag production_image $IMAGE_ID:production
+          docker push $IMAGE_ID:production

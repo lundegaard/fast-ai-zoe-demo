@@ -5,17 +5,17 @@ export default defineMessages({
 		id: 'example.pageHome',
 		defaultMessage: 'Home',
 	},
-	pageTerms: {
-		id: 'example.pageTerms',
-		defaultMessage: 'T&C',
-	},
-	pageTryIt: {
-		id: 'example.pageTryIt',
-		defaultMessage: 'Try it',
+	pageFaq: {
+		id: 'example.pageFaq',
+		defaultMessage: 'FAQ',
 	},
 	personalInfoTitle: {
 		id: 'example.personalInfoTitle',
 		defaultMessage: 'Personal information',
+	},
+	coborrowerTitle: {
+		id: 'example.coborrowerTitle',
+		defaultMessage: 'Coborrower information',
 	},
 	setupLoanTitle: {
 		id: 'example.setupLoanTitle',
@@ -130,7 +130,7 @@ export default defineMessages({
 		defaultMessage: 'Post-secondary, non-tertiary education',
 	},
 	educationNonStandard_UNIVERSITY: {
-		id: 'example.educationNonStandard_ELEMENTARY',
+		id: 'example.educationNonStandard_UNIVERSITY',
 		defaultMessage: 'First of second stage of tertiary education',
 	},
 	coborrowerChoice: {
@@ -164,7 +164,7 @@ export default defineMessages({
 	},
 	terms: {
 		id: 'example.terms',
-		defaultMessage: 'I agreee with <a>terms and conditions</a>',
+		defaultMessage: 'I agree with <a>terms and conditions</a>',
 	},
 	apply: {
 		id: 'example.apply',
@@ -192,7 +192,23 @@ export default defineMessages({
 	},
 	predictionsModalHeading: {
 		id: 'example.predictionsModalHeading',
-		defaultMessage: 'Predictions',
+		defaultMessage: 'Examples of AI predictions',
+	},
+	predictionsModalDescription: {
+		id: 'example.predictionsModalDescription',
+		defaultMessage: 'Particular examples of AI driven interpretations.',
+	},
+	featureTitle__behavior_lying_index: {
+		id: 'example.featureTitle__behavior_lying_index',
+		defaultMessage: 'A lying score',
+	},
+	featureTitle__behavior_suspicious: {
+		id: 'example.featureTitle__behavior_suspicious',
+		defaultMessage: 'A suspicious score',
+	},
+	modelTitle__DEFAULT: {
+		id: 'example.modelTitle__DEFAULT',
+		defaultMessage: 'A loan approval score',
 	},
 	tryAgainLabel: {
 		id: 'example.tryAgainLabel',
@@ -201,5 +217,37 @@ export default defineMessages({
 	loadingPredictions: {
 		id: 'example.loadingPredictions',
 		defaultMessage: 'Loading predictions...',
+	},
+	retry: {
+		id: 'example.retry',
+		defaultMessage: 'Retry',
+	},
+	unexpectedError: {
+		id: 'example.unexpectedError',
+		defaultMessage: 'Unfortunately, there was an unexpeted error.',
+	},
+	errorPageTitle: {
+		id: 'example.errorPageTitle',
+		defaultMessage: 'Page not found',
+	},
+	errorPageContent: {
+		id: 'example.errorPageContent',
+		defaultMessage: "Sorry, we can't find that page! It might be an old link or maybe it moved.",
+	},
+	close: {
+		id: 'example.close',
+		defaultMessage: 'Close',
+	},
+	pageFaqPerex: {
+		id: 'example.pageFaqPerex',
+		defaultMessage: 'This is a sample page.',
+	},
+	termsModalHeading: {
+		id: 'example.termsModalHeading',
+		defaultMessage: 'Terms & Conditions',
+	},
+	termsModalDescription: {
+		id: 'example.termsModalDescription',
+		defaultMessage: 'There are neither terms nor conditions.',
 	},
 });

@@ -1,31 +1,54 @@
-import React, { forwardRef, useCallback, useEffect, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect } from 'react';
 import {
+	Col,
 	CheckboxField as FACheckboxField,
 	RadioGroupField as FARadioGroupField,
 	SelectField as FASelectField,
 	SliderField as FASliderField,
 	TextField as FATextField,
+	Heading,
 	getDisplayName,
 } from '@fast-ai/ui-components';
 import { splitFormProps, useField, useForm as useReactForm } from 'react-form';
-import { isEmpty, map, o, reject, when } from 'ramda';
-import { isObject, noop } from 'ramda-extension';
+import { compose, evolve, isEmpty, map, o, omit, pathEq, reject, when } from 'ramda';
+import { isFunction, isObject, noop } from 'ramda-extension';
+import { useIntl } from 'gatsby-theme-fast-ai';
 
+import { CoborrowerChoice } from '../lookups';
 import { useSA, useSAFieldTracker } from '../sa';
 
 const rejectEmpty = reject(isEmpty);
 
 // NOTE: use `data` explictly due to recursion
-const removeEmptyFields = data => o(rejectEmpty, map(when(isObject, removeEmptyFields)))(data);
+const removeEmptyFields = (data) => o(rejectEmpty, map(when(isObject, removeEmptyFields)))(data);
 
-const wrapWithStateAndSA = Comp => {
+const removeCoborrower = when(
+	pathEq(['webdata', 'coborrowerChoice'], CoborrowerChoice.values.SINGLE),
+	omit(['coborrower'])
+);
+
+const formDataToWebdata = (data) => compose(removeEmptyFields, removeCoborrower)(data);
+
+const wrapWithStateAndSA = (Comp) => {
 	const Field = forwardRef((props, ref) => {
 		const [field, fieldOptions, rest] = splitFormProps(props);
+		const intl = useIntl();
+
+		const fieldOptionsWithTranslatedValidationResult = evolve({
+			validate: (fn) =>
+				isFunction(fn)
+					? (x) => {
+							const result = isFunction(fn) ? fn(x) : null;
+
+							return result ? intl.formatMessage(result.message, result.messageValues) : null;
+					  }
+					: void 0,
+		})(fieldOptions);
 
 		const {
 			meta: { error, isTouched },
 			getInputProps,
-		} = useField(field, fieldOptions);
+		} = useField(field, fieldOptionsWithTranslatedValidationResult);
 
 		const { getInputProps: saGetInputProps } = useSAFieldTracker();
 
@@ -41,7 +64,6 @@ const wrapWithStateAndSA = Comp => {
 
 export const useForm = ({ onSubmit = noop, name, ...rest }) => {
 	const { sa } = useSA();
-	const [applicationId, setApplicationId] = useState();
 
 	useEffect(() => {
 		sa('s-form:set', { name });
@@ -57,24 +79,23 @@ export const useForm = ({ onSubmit = noop, name, ...rest }) => {
 	}, [sa]);
 
 	const register = useCallback(
-		applicationId => {
-			setApplicationId(applicationId);
-
+		(applicationId) => {
 			sa('send', 'register', applicationId);
 		},
-		[sa, setApplicationId]
+		[sa]
 	);
 
 	const send = useCallback(
-		(data, inProgress) => {
-			const model = removeEmptyFields(data);
+		({ applicationId, data, inProgress }) => {
+			const model = formDataToWebdata(data);
+
 			sa('send', 'webdata', {
 				applicationId,
 				status: inProgress ? 'PROCESSING' : 'SUCCESS',
 				...model,
 			});
 		},
-		[applicationId, sa]
+		[sa]
 	);
 
 	const end = useCallback(() => {
@@ -104,6 +125,11 @@ export const useForm = ({ onSubmit = noop, name, ...rest }) => {
 	};
 };
 
+export const FormHeading = (props) => <Heading as="h2" mt={0} mb={4} {...props} />;
+export const FormSubheading = (props) => <Heading as="h3" mt={0} mb={0} {...props} />;
+export const HalfCol = (props) => <Col span={[12, 12, 6]} mb={4} {...props} />;
+export const FullCol = (props) => <Col span={12} mb={4} {...props} />;
+
 export const TextField = wrapWithStateAndSA(FATextField);
 export const SelectField = wrapWithStateAndSA(FASelectField);
 export const CheckboxField = wrapWithStateAndSA(FACheckboxField);
@@ -113,7 +139,7 @@ export const NumberTextField = forwardRef((props, ref) => (
 	<TextField
 		ref={ref}
 		inputProps={{
-			pattern: 'd*',
+			pattern: '[0-9]*',
 		}}
 		{...props}
 	/>
