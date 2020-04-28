@@ -95,7 +95,7 @@ const PersonFormSection = ({ fieldPrefix }) => {
 			<HalfCol>
 				<SelectField
 					label={<FormattedMessage {...m.education} />}
-					field={`${fieldPrefix}.education`}
+					field={`${fieldPrefix}.educationLevel`}
 					items={[
 						emptyOption,
 						...mapLookup((level) => ({

@@ -29,7 +29,7 @@ export const Models = keyMirror({
 
 export const Features = {
 	BEHAVIOUR_LYING_INDEX: 'behavior_lying_index',
-	BEHAVIOUR_SUSPICIOUS: 'behavior_suspicious',
+	BEHAVIOUR_SUSPICIOUS: 'behavior_suspicious_behavior',
 };
 
 const createRequest = (url, options) =>
