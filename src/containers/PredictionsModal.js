@@ -35,7 +35,7 @@ const ResultGauge = ({ value, title, ...rest }) => {
 			<Gauge
 				format={(x) => `${formatGaugeNumber(x * 100)}%`}
 				formatLegend={(x) => formatGaugeNumber(x * 100)}
-				value={value == null ? 0 : value + 10}
+				value={value == null ? 0 : value}
 				mb={-4}
 			/>
 			<Text fontSize={4} m={0} sx={{ whiteSpace: 'nowrap' }}>
