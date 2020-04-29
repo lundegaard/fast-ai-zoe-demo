@@ -202,8 +202,8 @@ export default defineMessages({
 		id: 'example.featureTitle__behavior_lying_index',
 		defaultMessage: 'A lying score',
 	},
-	featureTitle__behavior_suspicious: {
-		id: 'example.featureTitle__behavior_suspicious',
+	featureTitle__behavior_suspicious_behavior: {
+		id: 'example.featureTitle__behavior_suspicious_behavior',
 		defaultMessage: 'A suspicious score',
 	},
 	modelTitle__DEFAULT: {
