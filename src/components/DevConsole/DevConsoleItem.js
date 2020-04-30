@@ -29,12 +29,12 @@ const HighlightChangesText = ({ ...rest }) => (
 );
 
 const format = (x) => {
-	if (isNumeric(x)) {
-		return <FormattedNumber value={x} maximumFractionDigits={1} />;
-	}
-
 	if (isString(x)) {
 		return x;
+	}
+
+	if (isNumeric(x)) {
+		return <FormattedNumber value={x} maximumFractionDigits={1} />;
 	}
 
 	if (isBoolean(x)) {
