@@ -7,7 +7,7 @@ import m from './intl/messages';
 export const AmountFormatter = ({ children }) =>
 	children != null ? (
 		<FormattedNumber value={children} minimumFractionDigits={1} maximumFractionDigits={1}>
-			{value => value.replace(/.$/, '-')}
+			{(value) => value.replace(/.$/, '-')}
 		</FormattedNumber>
 	) : (
 		''
@@ -30,6 +30,7 @@ export const DurationFormatter = ({ children }) => {
 	if (!years) {
 		return monthsMessage;
 	}
+
 	if (!months) {
 		return yearsMessage;
 	}
