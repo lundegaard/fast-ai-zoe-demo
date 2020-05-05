@@ -10,7 +10,19 @@ import {
 	getDisplayName,
 } from '@fast-ai/ui-components';
 import { splitFormProps, useField, useForm as useReactForm } from 'react-form';
-import { compose, evolve, isEmpty, map, o, omit, pathEq, reject, when } from 'ramda';
+import {
+	compose,
+	evolve,
+	head,
+	isEmpty,
+	map,
+	mergeLeft,
+	o,
+	omit,
+	pathEq,
+	reject,
+	when,
+} from 'ramda';
 import { isFunction, isObject, noop } from 'ramda-extension';
 import { useIntl } from 'gatsby-theme-fast-ai';
 
@@ -29,7 +41,7 @@ const removeCoborrower = when(
 
 const formDataToWebdata = (data) => compose(removeEmptyFields, removeCoborrower)(data);
 
-const wrapWithStateAndSA = (Comp) => {
+const wrapWithStateAndSA = ({ makeOnChange, tracker: saTrackerProps, getValue } = {}) => (Comp) => {
 	const Field = forwardRef((props, ref) => {
 		const [field, fieldOptions, rest] = splitFormProps(props);
 		const intl = useIntl();
@@ -47,14 +59,26 @@ const wrapWithStateAndSA = (Comp) => {
 
 		const {
 			meta: { error, isTouched },
-			getInputProps,
+			value,
+			setValue,
+			getInputProps: reactFormGetInputProps,
 		} = useField(field, fieldOptionsWithTranslatedValidationResult);
 
-		const { getInputProps: saGetInputProps } = useSAFieldTracker();
+		const { getInputProps: saGetInputProps } = useSAFieldTracker(saTrackerProps);
 
-		const inputProps = saGetInputProps(getInputProps({ ref, name: field, ...rest }));
+		const customProps = rejectEmpty({
+			...(getValue ? { value: getValue(value) } : {}),
+			...(makeOnChange ? { onChange: makeOnChange({ setValue }) } : {}),
+		});
+
+		const inputProps = compose(
+			saGetInputProps,
+			mergeLeft(customProps),
+			reactFormGetInputProps
+		)({ ref, name: field, ...rest });
 
 		const hasError = !!error && isTouched;
+
 		return <Comp {...inputProps} hasError={hasError} hint={hasError && error} />;
 	});
 	Field.displayName = `Field(${getDisplayName(Comp)})`;
@@ -130,11 +154,29 @@ export const FormSubheading = (props) => <Heading as="h3" mt={0} mb={0} {...prop
 export const HalfCol = (props) => <Col span={[12, 12, 6]} mb={4} {...props} />;
 export const FullCol = (props) => <Col span={12} mb={4} {...props} />;
 
-export const TextField = wrapWithStateAndSA(FATextField);
-export const SelectField = wrapWithStateAndSA(FASelectField);
-export const CheckboxField = wrapWithStateAndSA(FACheckboxField);
-export const RadioGroupField = wrapWithStateAndSA(FARadioGroupField);
-export const SliderField = wrapWithStateAndSA(FASliderField);
+export const TextField = wrapWithStateAndSA()(FATextField);
+export const SelectField = wrapWithStateAndSA()(FASelectField);
+export const CheckboxField = wrapWithStateAndSA()(FACheckboxField);
+export const RadioGroupField = wrapWithStateAndSA()(FARadioGroupField);
+export const SliderField = wrapWithStateAndSA({
+	makeOnChange: ({ setValue }) => (values) => setValue(head(values)),
+	getValue: (value) => [value],
+	tracker: {
+		getMethodArgs: () => () => [
+			{
+				context: { type: 'range' },
+			},
+		],
+		trackedEvents: ['change', 'update'],
+		methodMapper: {
+			's-form': {
+				update: 'change',
+				change: 'blur',
+			},
+		},
+	},
+})(FASliderField);
+
 export const NumberTextField = forwardRef((props, ref) => (
 	<TextField
 		ref={ref}

@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef } from 'react';
+import { map, o, path, toLower } from 'ramda';
+import { valueMirror } from 'ramda-extension';
 
 export const useSA = () => ({ sa: typeof window === 'undefined' ? {} : window.sa });
 
@@ -6,14 +8,27 @@ export const useSA = () => ({ sa: typeof window === 'undefined' ? {} : window.sa
 const getEventCallbackName = (eventName) =>
 	`on${eventName.charAt(0).toUpperCase() + eventName.slice(1)}`;
 
-const defaultGetEvent = (eventName, firstArg) => firstArg && firstArg.nativeEvent;
-const mapper = {
-	sForm: {
+const defaultGetMethodArgs = () => (firstArg) =>
+	firstArg && firstArg.nativeEvent ? [{ event: firstArg.nativeEvent }] : [];
+const getDefaultMethodMapper = o(map(toLower), valueMirror);
+
+export const defaultMethodMapper = {
+	's-form': {
 		copy: 'clipboard',
 		paste: 'clipboard',
 		cut: 'clipboard',
+		...getDefaultMethodMapper(['change', 'focus', 'blur', 'keyDown', 'keyUp']),
 	},
-	sBiometrics: {},
+	's-biometrics': getDefaultMethodMapper([
+		'change',
+		'focus',
+		'blur',
+		'keyDown',
+		'keyUp',
+		'copy',
+		'paste',
+		'cut',
+	]),
 };
 
 export const useSAFieldTracker = ({
@@ -23,24 +38,38 @@ export const useSAFieldTracker = ({
 	 *
 	 * @return {Object} eventObject - Object that is passed to the appropriate SA methods.
 	 */
-	getEvent = defaultGetEvent,
+	getMethodArgs = defaultGetMethodArgs,
 	trackedEvents = ['change', 'focus', 'blur', 'keyDown', 'keyUp', 'copy', 'paste', 'cut'],
+	methodMapper = defaultMethodMapper,
+	callTracker,
 } = {}) => {
 	const { sa } = useSA();
 
 	const getInputProps = useCallback(
 		(props) => {
-			const eventHandlersWithProps = trackedEvents.reduce((currentCallbacks, eventName) => {
-				const eventCallbackName = getEventCallbackName(eventName);
+			const eventHandlersWithProps = trackedEvents.reduce((currentCallbacks, eventNameRaw) => {
+				const eventCallbackName = getEventCallbackName(eventNameRaw);
 
 				return {
 					...currentCallbacks,
 					[eventCallbackName]: (...args) => {
-						const event = getEvent(eventName, ...args);
-						const methodName = eventName.toLowerCase();
+						const eventName = eventNameRaw.toLowerCase();
 
-						sa(`s-form:${mapper.sForm[methodName] || methodName}`, { event });
-						sa(`s-biometrics:${mapper.sBiometrics[methodName] || methodName}`, { event });
+						const callMethod = (plugin) => {
+							const method = path([plugin, eventNameRaw], methodMapper);
+
+							if (method) {
+								const methodArgs = getMethodArgs({ plugin, method, eventName })(...args);
+								if (callTracker) {
+									callTracker({ sa, plugin, method, eventName, methodArgs });
+								} else {
+									sa(`${plugin}:${method}`, ...methodArgs);
+								}
+							}
+						};
+
+						callMethod('s-form');
+						callMethod('s-biometrics');
 
 						if (currentCallbacks[eventCallbackName]) {
 							return currentCallbacks[eventCallbackName](...args);
@@ -51,7 +80,7 @@ export const useSAFieldTracker = ({
 
 			return eventHandlersWithProps;
 		},
-		[getEvent, sa, trackedEvents]
+		[getMethodArgs, methodMapper, sa, trackedEvents]
 	);
 
 	return { getInputProps };

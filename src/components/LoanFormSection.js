@@ -17,11 +17,11 @@ const LoanFormSection = ({ monthlyFee }) => {
 			<FullCol>
 				<SliderField
 					label={<FormattedMessage {...m.loanInfoAmount} />}
-					field="loanInfo.amount"
 					renderValue={AmountFormatter}
+					field="loanInfo.amount"
 					min={20000}
 					max={1000000}
-					step={1000}
+					step={10000}
 				/>
 			</FullCol>
 			<FullCol>
