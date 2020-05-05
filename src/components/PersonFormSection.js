@@ -1,14 +1,13 @@
 import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { hasLengthInInterval, hasOnlyDigits, isEmail, isRequired } from 'validarium';
+import { hasOnlyDigits, isEmail, isRequired } from 'validarium';
 import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
 
 import m from '../intl/messages';
 import { MaritalStatus, getEducationByLanguage, mapLookup } from '../lookups';
+import { isBirthNumber } from '../validations';
 
 import { HalfCol, NumberTextField, SelectField, TextField } from './forms';
-
-const isBirthNumber = hasLengthInInterval(9, 10);
 
 const emptyOption = { value: '' };
 

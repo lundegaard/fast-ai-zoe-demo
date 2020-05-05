@@ -65,5 +65,10 @@
 	"validarium.isRequired": "This field is required",
 	"validarium.isEmail": "Invalid e-mail address",
 	"validarium.hasOnlyDigits": "Must contain only digits",
-	"validarium.hasLengthInInterval": "Invalid number of characters ({min} to {max})"
+	"validarium.hasLengthInInterval": "Invalid number of characters ({min} to {max})",
+	"validations.rc000": "Suffix 000 is invalid",
+	"validations.rcInvalidSuffix": "Suffix is not valid",
+	"validations.rcInvalidDate": "Represents invalid date",
+	"validations.rcInvalidModulo": "Invalid format",
+	"validations.rcEcpAndRcPlus": "RČ+/EČP cannot be set at the same time"
 }
