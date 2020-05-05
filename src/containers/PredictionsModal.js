@@ -1,18 +1,27 @@
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import useSafeState from '@restart/hooks/useSafeState';
 import PropTypes from 'prop-types';
 import { Box, Button, Flex, Gauge, Heading, Modal, Text } from '@fast-ai/ui-components';
 import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
 import { compose, map, prop, toPairs } from 'ramda';
-import { isArray, noop } from 'ramda-extension';
+import { isArray, keyMirror, noop } from 'ramda-extension';
 
 import { Features, Models, fetchPredictionsAndFeatures } from '../predictions';
 import { OptionalFormattedMessage } from '../components';
 import m from '../intl/messages';
 
-export const ClosingReasons = {
-	CLICK_ON_TRY_AGAIN: 'CLICK_ON_TRY_AGAIN',
-	ERROR: 'ERROR',
-};
+export const ClosingReasons = keyMirror({
+	CLICK_ON_TRY_AGAIN: null,
+	ERROR: null,
+});
+
+const Statuses = keyMirror({
+	EMPTY: null,
+	LOADING_INTERMEDIATE_RESULTS: null,
+	INTERMEDIATE_RESULTS_LOADED: null,
+	LOADING_RESULTS: null,
+	RESULTS_LOADED: null,
+});
 
 const selectResults = ({ models, features }) => ({
 	models: compose(
@@ -26,12 +35,17 @@ const selectResults = ({ models, features }) => ({
 	)(features),
 });
 
-const ResultGauge = ({ value, title, ...rest }) => {
+const ResultGauge = ({ value, title, loading, ...rest }) => {
 	const { formatNumber } = useIntl();
 
 	const formatGaugeNumber = (x) => formatNumber(x, { maximumFractionDigits: 1 });
 	return (
-		<Flex flexDirection="column" justifyContent="center" {...rest}>
+		<Flex
+			flexDirection="column"
+			justifyContent="center"
+			sx={{ opacity: loading ? 0.25 : 1 }}
+			{...rest}
+		>
 			<Gauge
 				format={(x) => `${formatGaugeNumber(x * 100)}%`}
 				formatLegend={(x) => formatGaugeNumber(x * 100)}
@@ -46,37 +60,64 @@ const ResultGauge = ({ value, title, ...rest }) => {
 };
 
 ResultGauge.propTypes = {
+	loading: PropTypes.bool,
 	title: PropTypes.node,
 	value: PropTypes.number,
 };
 
+/*
+EMPTY
+-> LOADING_INTERMEDIATE_RESULTS
+	-> LOADED_INTERMEDIATE RESULTS
+	| -> LOADED_INTERMEDIATE_RESULTS
+	| 	-> LOADING_RESULTS
+	| 		->  LOADED_RESULTS
+	|-----|--> ERROR
+*/
+const sleep = (ms) =>
+	new Promise((resolve) => {
+		setTimeout(resolve, ms);
+	});
+
 const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }) => {
-	const [results, setResults] = useState(null);
-	const [error, setError] = useState(null);
-	const [isLoading, setIsLoading] = useState(true);
+	const [status, setStatus] = useSafeState(useState(Statuses.EMPTY));
+	const [results, setResults] = useSafeState(useState(null));
 
 	const { features = [], models = [] } = results || {};
 
 	const refetchData = useCallback(async () => {
 		try {
-			const currentPredictions = await fetchPredictionsAndFeatures({
-				applicationId,
-				models: [Models.DEFAULT],
-				features: [Features.BEHAVIOUR_LYING_INDEX, Features.BEHAVIOUR_SUSPICIOUS],
-			});
+			const makeFetch = () =>
+				fetchPredictionsAndFeatures({
+					applicationId,
+					models: [Models.DEFAULT],
+					features: [Features.BEHAVIOUR_LYING_INDEX, Features.BEHAVIOUR_SUSPICIOUS],
+				});
 
-			setResults(selectResults(currentPredictions));
+			setStatus(Statuses.LOADING_INTERMEDIATE_RESULTS);
+
+			const intermediateResults = await makeFetch();
+
+			setStatus(Statuses.INTERMEDIATE_RESULTS_LOADED);
+			setResults(selectResults(intermediateResults));
+
+			await sleep(4000);
+
+			setStatus(Statuses.LOADING_RESULTS);
+
+			const finalPredictions = await makeFetch();
+
+			setStatus(Statuses.RESULTS_LOADED);
+			setResults(selectResults(finalPredictions));
 		} catch (error) {
+			setStatus(Statuses.ERROR);
 			setResults(null);
-			setError(error);
-		} finally {
-			setIsLoading(false);
 		}
 	}, [applicationId]);
 
-	useEffect(() => {
-		refetchData();
-	}, [refetchData]);
+	useEffect(() => void refetchData(), [refetchData]);
+
+	const inErrorState = status === Statuses.ERROR;
 
 	const description = (
 		<Text fontSize={4}>
@@ -85,11 +126,11 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 	);
 
 	const getContent = () => {
-		if (isLoading) {
+		if (status === Statuses.EMPTY) {
 			return <FormattedMessage {...m.loadingPredictions} />;
 		}
 
-		if (error) {
+		if (inErrorState) {
 			return (
 				<Text fontWeight="bold" fontSize={4}>
 					<FormattedMessage {...m.unexpectedError} />
@@ -102,6 +143,7 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 				{isArray(models) &&
 					models.map(({ modelId, value }) => (
 						<ResultGauge
+							loading={status !== Statuses.RESULTS_LOADED}
 							key={modelId}
 							id={modelId}
 							value={value}
@@ -112,6 +154,7 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 				{isArray(features) &&
 					features.map(({ featureId, value }) => (
 						<ResultGauge
+							loading={status !== Statuses.RESULTS_LOADED}
 							key={featureId}
 							id={featureId}
 							value={value}
@@ -129,11 +172,11 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 				<FormattedMessage {...m.predictionsModalHeading} />
 			</Heading>
 
-			{!error && description}
+			{!inErrorState && description}
 
 			<Box m={4}>{getContent()}</Box>
 
-			{!error ? (
+			{!inErrorState ? (
 				<Button
 					variant="secondary"
 					onClick={() => {
