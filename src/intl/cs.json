@@ -67,5 +67,10 @@
 	"validarium.isRequired": "Povinné pole",
 	"validarium.isEmail": "Nesprávný formát emailu",
 	"validarium.hasOnlyDigits": "Musí obsahovat pouze číslice",
-	"validarium.hasLengthInInterval": "Použijte {min} až {max} znaků"
+	"validarium.hasLengthInInterval": "Použijte {min} až {max} znaků",
+	"validations.rc000": "Přípona 000 není validní",
+	"validations.rcInvalidSuffix": "Přípona není validní",
+	"validations.rcInvalidDate": "Reprezentuje nevalidní datum",
+	"validations.rcInvalidModulo": "Nesprávný formát",
+	"validations.rcEcpAndRcPlus": "RČ+/EČP použity současně"
 }
