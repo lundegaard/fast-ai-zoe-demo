@@ -250,4 +250,24 @@ export default defineMessages({
 		id: 'example.termsModalDescription',
 		defaultMessage: 'There are neither terms nor conditions.',
 	},
+	validationsRc000: {
+		id: 'validations.rc000',
+		defaultMessage: 'Suffix 000 is invalid',
+	},
+	validationsRcInvalidSuffix: {
+		id: 'validations.rcInvalidSuffix',
+		defaultMessage: 'Suffix is not valid',
+	},
+	validationsRcInvalidDate: {
+		id: 'validations.rcInvalidDate',
+		defaultMessage: 'Represents invalid date',
+	},
+	validationsRcEcpAndRcPlus: {
+		id: 'validations.rcEcpAndRcPlus',
+		defaultMessage: 'RČ/EČP cannot be set at the same time',
+	},
+	validationsRcInvalidModulo: {
+		id: 'validations.rcInvalidModulo',
+		defaultMessage: 'Invalid format',
+	},
 });

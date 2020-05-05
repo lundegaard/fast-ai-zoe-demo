@@ -10,6 +10,6 @@ module.exports = {
 	testPathIgnorePatterns: ignorePatterns,
 	coveragePathIgnorePatterns: ignorePatterns,
 	transformIgnorePatterns: [
-		'/node_modules/(?!intl-messageformat|intl-messageformat-parser|gatsby-theme-fast-ai).+\\.js$',
+		'/node_modules/(?!intl-messageformat|intl-messageformat-parser|gatsby-theme-fast-ai|ramda).+\\.js$',
 	],
 };
