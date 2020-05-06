@@ -92,20 +92,21 @@ ResultGauge.propTypes = {
 	variant: PropTypes.string,
 };
 
-/*
-EMPTY
--> LOADING_INTERMEDIATE_RESULTS
-	-> LOADED_INTERMEDIATE RESULTS
-	| -> LOADED_INTERMEDIATE_RESULTS
-	| 	-> LOADING_RESULTS
-	| 		->  LOADED_RESULTS
-	|-----|--> ERROR
-*/
 const sleep = (ms) =>
 	new Promise((resolve) => {
 		setTimeout(resolve, ms);
 	});
 
+/**
+ * States:
+ *
+ * EMPTY
+ * -> LOADING_INTERMEDIATE_RESULTS
+ *	-> LOADED_INTERMEDIATE RESULTS
+ *	| -> LOADING_RESULTS
+ *	| 	->  LOADED_RESULTS
+ *	|---|--> ERROR
+ */
 const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }) => {
 	const [status, setStatus] = useSafeState(useState(Statuses.EMPTY));
 	const [results, setResults] = useSafeState(useState(null));
