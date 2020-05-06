@@ -23,13 +23,31 @@ import { featuresDescriptor } from './featuresDescriptor';
 const getFeatures = path(['features']);
 const getPrediction = path(['prediction']);
 
-export const Models = keyMirror({
-	DEFAULT: null,
+export const StatTypes = keyMirror({
+	POSITIVE: null,
+	NEGATIVE: null,
 });
 
+export const Models = {
+	DEFAULT: {
+		value: 'default',
+		type: StatTypes.POSITIVE,
+		numberStyle: 'percent',
+	},
+};
+
 export const Features = {
-	BEHAVIOUR_LYING_INDEX: 'behavior_lying_index',
-	BEHAVIOUR_SUSPICIOUS: 'behavior_suspicious_behavior',
+	BEHAVIOUR_LYING_INDEX: {
+		value: 'behavior_lying_index',
+		type: StatTypes.NEGATIVE,
+		min: 0,
+		max: 5,
+	},
+	BEHAVIOUR_SUSPICIOUS: {
+		value: 'behavior_suspicious_behavior',
+		type: StatTypes.NEGATIVE,
+		numberStyle: 'percent',
+	},
 };
 
 const createRequest = (url, options) =>
@@ -58,7 +76,7 @@ const fetchModels = (applicationId, models) =>
 		map(
 			(modelId) =>
 				createRequest(
-					modelId === Models.DEFAULT
+					modelId === Models.DEFAULT.value
 						? `${process.env.API_URL}/applications/${applicationId}/prediction`
 						: `${process.env.API_URL}/applications/${applicationId}/prediction/${modelId}`
 				).then(o((prediction) => [modelId, prediction], getPrediction)),
@@ -68,7 +86,7 @@ const fetchModels = (applicationId, models) =>
 
 export const fetchPredictionsAndFeatures = ({
 	applicationId,
-	models = ['default'],
+	models = [Models.DEFAULT.value],
 	features = null,
 }) =>
 	Promise.all([
