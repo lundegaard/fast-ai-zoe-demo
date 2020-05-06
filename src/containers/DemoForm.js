@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Col, Row, useDebounce, useIdleTime, useModal } from '@fast-ai/ui-components';
 import { useInterval } from '@restart/hooks';
@@ -8,6 +8,7 @@ import createRandomString from 'crypto-random-string';
 import Forms from '../constants/Forms';
 import { fetchFeatures, logFeatures } from '../predictions';
 import m from '../intl/messages';
+import { useTimeout } from '../hooks';
 import {
 	BorrowersFormSection,
 	FormHeading,
@@ -56,7 +57,6 @@ const getApplicationId = () =>
 const DemoForm = ({ loggingInterval = 2000 }) => {
 	const { openModal: openPredictionsModal } = useModal({ component: PredictionsModal });
 	const [applicationId, setApplicationId] = useState(getApplicationId());
-	const initTimeoutRef = useRef();
 	const [statsReady, setStatsReady] = useState(false);
 
 	const {
@@ -97,15 +97,20 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 
 		devConsole.replace({ 'Application ID': applicationId, 'Tenant ID': process.env.TENANT_ID });
 
-		clearTimeout(initTimeoutRef.current);
-
-		const newTimeout = setTimeout(() => setStatsReady(true), 4000);
-
-		clearTimeout.current = newTimeout;
-
 		setStatsReady(false);
-		return () => clearTimeout(newTimeout);
 	}, [applicationId]);
+
+	const sendValues = () => isValid && send({ data: values, inProgress: true, applicationId });
+	const handleFormBlur = () => statsReady && sendValues();
+
+	useTimeout(
+		() => {
+			setStatsReady(true);
+			sendValues();
+		},
+		4000,
+		[applicationId]
+	);
 
 	const { isIdle } = useIdleTime();
 
@@ -121,16 +126,6 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 		false, // is paused
 		true // run immediately
 	);
-
-	const handleFormBlur = useCallback(() => {
-		if (isValid && statsReady) {
-			send({ data: values, inProgress: true, applicationId });
-		}
-	}, [applicationId, values, send, isValid, statsReady]);
-
-	useEffect(() => {
-		handleFormBlur();
-	}, [statsReady]);
 
 	const monthlyFee =
 		getFieldValue('loanInfo.amount') / getFieldValue('loanInfo.numberOfInstalments');

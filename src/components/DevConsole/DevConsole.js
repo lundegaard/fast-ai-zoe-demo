@@ -53,6 +53,7 @@ const DevConsole = ({ title, initiallyOpened, ...rest }) => {
 				position: 'fixed',
 				right: '0',
 				bottom: 0,
+				zIndex: 99999,
 				animationName: jumpInFromBottom,
 				animationDuration: '.5s',
 				animationTimingFunction: easing,
