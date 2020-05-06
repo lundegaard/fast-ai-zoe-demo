@@ -3,10 +3,10 @@ import useSafeState from '@restart/hooks/useSafeState';
 import PropTypes from 'prop-types';
 import { Box, Button, Flex, Gauge, Heading, Modal, Text } from '@fast-ai/ui-components';
 import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
-import { compose, map, prop, toPairs } from 'ramda';
+import { applySpec, compose, find, map, o, prop, replace, toPairs, values, whereEq } from 'ramda';
 import { isArray, keyMirror, noop } from 'ramda-extension';
 
-import { Features, Models, fetchPredictionsAndFeatures } from '../predictions';
+import { Features, Models, StatTypes, fetchPredictionsAndFeatures } from '../predictions';
 import { OptionalFormattedMessage } from '../components';
 import m from '../intl/messages';
 
@@ -35,10 +35,30 @@ const selectResults = ({ models, features }) => ({
 	)(features),
 });
 
-const ResultGauge = ({ value, title, loading, ...rest }) => {
+const getGaugeLookupProps = (lookup) => (value) => o(find(whereEq({ value })), values)(lookup);
+
+const makeGaugeProps = applySpec({
+	max: prop('max'),
+	min: prop('min'),
+	numberStyle: prop('numberStyle'),
+	variant: o((x) => (x === StatTypes.NEGATIVE ? 'danger' : ''), prop('type')),
+});
+
+const getModelGaugeProps = compose(makeGaugeProps, getGaugeLookupProps(Models));
+const getFeatureGaugeProps = compose(makeGaugeProps, getGaugeLookupProps(Features));
+
+const ResultGauge = ({ value, numberStyle, title, loading, variant, min, max, ...rest }) => {
 	const { formatNumber } = useIntl();
 
-	const formatGaugeNumber = (x) => formatNumber(x, { maximumFractionDigits: 1 });
+	const formatNumberValue = (x) =>
+		formatNumber(x, {
+			style: numberStyle,
+			maximumFractionDigits: 1,
+		});
+
+	const formatGaugeValue = formatNumberValue;
+	const formatGaugeLegend = compose(replace('%', ''), formatNumberValue);
+
 	return (
 		<Flex
 			flexDirection="column"
@@ -47,9 +67,12 @@ const ResultGauge = ({ value, title, loading, ...rest }) => {
 			{...rest}
 		>
 			<Gauge
-				format={(x) => `${formatGaugeNumber(x * 100)}%`}
-				formatLegend={(x) => formatGaugeNumber(x * 100)}
+				format={formatGaugeValue}
+				formatLegend={formatGaugeLegend}
 				value={value == null ? 0 : value}
+				variant={variant}
+				min={min}
+				max={max}
 				mb={-4}
 			/>
 			<Text fontSize={4} m={0} sx={{ whiteSpace: 'nowrap' }}>
@@ -61,8 +84,12 @@ const ResultGauge = ({ value, title, loading, ...rest }) => {
 
 ResultGauge.propTypes = {
 	loading: PropTypes.bool,
+	max: PropTypes.number,
+	min: PropTypes.number,
+	numberStyle: PropTypes.string,
 	title: PropTypes.node,
 	value: PropTypes.number,
+	variant: PropTypes.string,
 };
 
 /*
@@ -90,8 +117,8 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 			const makeFetch = () =>
 				fetchPredictionsAndFeatures({
 					applicationId,
-					models: [Models.DEFAULT],
-					features: [Features.BEHAVIOUR_LYING_INDEX, Features.BEHAVIOUR_SUSPICIOUS],
+					models: [Models.DEFAULT.value],
+					features: [Features.BEHAVIOUR_LYING_INDEX.value, Features.BEHAVIOUR_SUSPICIOUS.value],
 				});
 
 			setStatus(Statuses.LOADING_INTERMEDIATE_RESULTS);
@@ -149,6 +176,7 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 							value={value}
 							title={<OptionalFormattedMessage messages={m} id={`modelTitle__${modelId}`} />}
 							m={3}
+							{...getModelGaugeProps(modelId)}
 						/>
 					))}
 				{isArray(features) &&
@@ -160,6 +188,7 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 							value={value}
 							title={<OptionalFormattedMessage messages={m} id={`featureTitle__${featureId}`} />}
 							m={3}
+							{...getFeatureGaugeProps(featureId)}
 						/>
 					))}
 			</Flex>
