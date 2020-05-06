@@ -5,6 +5,7 @@ import { Box, Button, Flex, Gauge, Heading, Modal, Text } from '@fast-ai/ui-comp
 import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
 import { applySpec, compose, find, map, o, prop, replace, toPairs, values, whereEq } from 'ramda';
 import { isArray, keyMirror, noop } from 'ramda-extension';
+import { keyframes } from '@emotion/core';
 
 import { Features, Models, StatTypes, fetchPredictionsAndFeatures } from '../predictions';
 import { OptionalFormattedMessage } from '../components';
@@ -22,6 +23,17 @@ const Statuses = keyMirror({
 	LOADING_RESULTS: null,
 	RESULTS_LOADED: null,
 });
+
+const easing = 'cubic-bezier(.455, .030, .515, .955)';
+const loadingDataAnimation = keyframes`
+	0% {
+		opacity: 0.25;
+	}
+	100% {
+		opacity: 0.75;
+	}
+}
+`;
 
 const selectResults = ({ models, features }) => ({
 	models: compose(
@@ -63,7 +75,20 @@ const ResultGauge = ({ value, numberStyle, title, loading, variant, min, max, ..
 		<Flex
 			flexDirection="column"
 			justifyContent="center"
-			sx={{ opacity: loading ? 0.25 : 1 }}
+			sx={
+				loading
+					? {
+							animationName: loadingDataAnimation,
+							animationDuration: '1s',
+							animationTimingFunction: easing,
+							animationFillMode: 'both',
+							animationIterationCount: 'infinite',
+							animationDirection: 'alternate',
+					  }
+					: {
+							opacity: 1,
+					  }
+			}
 			{...rest}
 		>
 			<Gauge
