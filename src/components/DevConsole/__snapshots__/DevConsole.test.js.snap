@@ -42,6 +42,7 @@ exports[`<DevConsole /> matches snapshot when shallowly rendered 1`] = `
         "100%",
         "33%",
       ],
+      "zIndex": 99999,
     }
   }
 >
