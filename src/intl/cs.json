@@ -58,7 +58,7 @@
 	"example.predictionsModalDescription": "Konkrétní příklady interpretací řízených umělou inteligencí.",
 	"example.featureTitle__behavior_lying_index": "Skóre lhaní",
 	"example.featureTitle__behavior_suspicious_behavior": "Skóre podezření",
-	"example.modelTitle__DEFAULT": "Skóre schválení půjčky",
+	"example.modelTitle__default": "Skóre schválení půjčky",
 	"example.retry": "Zkusit znovu",
 	"example.unexpectedError": "Nastala neočekávaná chyba.",
 	"example.close": "Zavřít",

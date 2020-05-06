@@ -206,8 +206,8 @@ export default defineMessages({
 		id: 'example.featureTitle__behavior_suspicious_behavior',
 		defaultMessage: 'A suspicious score',
 	},
-	modelTitle__DEFAULT: {
-		id: 'example.modelTitle__DEFAULT',
+	modelTitle__default: {
+		id: 'example.modelTitle__default',
 		defaultMessage: 'A loan approval score',
 	},
 	tryAgainLabel: {
