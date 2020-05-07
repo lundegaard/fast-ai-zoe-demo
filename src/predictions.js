@@ -31,7 +31,7 @@ export const StatTypes = keyMirror({
 export const Models = {
 	DEFAULT: {
 		value: 'default',
-		type: StatTypes.POSITIVE,
+		type: StatTypes.NEGATIVE,
 		numberStyle: 'percent',
 	},
 };
@@ -41,7 +41,7 @@ export const Features = {
 		value: 'behavior_lying_index',
 		type: StatTypes.NEGATIVE,
 		min: 0,
-		max: 5,
+		max: 3,
 	},
 	BEHAVIOUR_SUSPICIOUS: {
 		value: 'behavior_suspicious_behavior',
