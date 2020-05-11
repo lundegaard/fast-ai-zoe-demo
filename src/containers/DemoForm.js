@@ -25,7 +25,7 @@ import PredictionsModal, {
 const borrower = {
 	givenName: '',
 	familyName: '',
-	education: '',
+	educationLevel: '',
 	maritalStatus: '',
 	birthNumber: '',
 	email: '',
