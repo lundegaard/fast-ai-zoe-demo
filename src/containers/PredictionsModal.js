@@ -3,7 +3,19 @@ import useSafeState from '@restart/hooks/useSafeState';
 import PropTypes from 'prop-types';
 import { Box, Button, Flex, Gauge, Heading, Modal, Text } from '@fast-ai/ui-components';
 import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
-import { applySpec, compose, find, map, o, prop, replace, toPairs, values, whereEq } from 'ramda';
+import {
+	applySpec,
+	clamp,
+	compose,
+	find,
+	map,
+	o,
+	prop,
+	replace,
+	toPairs,
+	values,
+	whereEq,
+} from 'ramda';
 import { isArray, keyMirror, noop } from 'ramda-extension';
 import { keyframes } from '@emotion/core';
 
@@ -59,7 +71,16 @@ const makeGaugeProps = applySpec({
 const getModelGaugeProps = compose(makeGaugeProps, getGaugeLookupProps(Models));
 const getFeatureGaugeProps = compose(makeGaugeProps, getGaugeLookupProps(Features));
 
-const ResultGauge = ({ value, numberStyle, title, loading, variant, min, max, ...rest }) => {
+const ResultGauge = ({
+	value,
+	numberStyle,
+	title,
+	loading,
+	variant,
+	min = 0,
+	max = 1,
+	...rest
+}) => {
 	const { formatNumber } = useIntl();
 
 	const formatNumberValue = (x) =>
@@ -94,7 +115,7 @@ const ResultGauge = ({ value, numberStyle, title, loading, variant, min, max, ..
 			<Gauge
 				format={formatGaugeValue}
 				formatLegend={formatGaugeLegend}
-				value={value == null ? 0 : value}
+				value={value == null ? 0 : clamp(min, max)(value)}
 				variant={variant}
 				min={min}
 				max={max}
