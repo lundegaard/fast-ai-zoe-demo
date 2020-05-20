@@ -81,6 +81,7 @@ const PersonFormSection = ({ fieldPrefix }) => {
 				<SelectField
 					label={<FormattedMessage {...m.maritalStatus} />}
 					field={`${fieldPrefix}.maritalStatus`}
+					name={`${fieldPrefix}_basic_information_marital_status`}
 					items={[
 						emptyOption,
 						...mapLookup((status) => ({
@@ -95,6 +96,7 @@ const PersonFormSection = ({ fieldPrefix }) => {
 				<SelectField
 					label={<FormattedMessage {...m.education} />}
 					field={`${fieldPrefix}.educationLevel`}
+					name={`${fieldPrefix}_basic_information_education_level`}
 					items={[
 						emptyOption,
 						...mapLookup((level) => ({
@@ -109,6 +111,7 @@ const PersonFormSection = ({ fieldPrefix }) => {
 				<NumberTextField
 					label={<FormattedMessage {...m.netIncomeMain} />}
 					field={`${fieldPrefix}.balance.netIncomeMain`}
+					name={`${fieldPrefix}_monthly_income_info_income`}
 					validate={hasOnlyDigits}
 				/>
 			</HalfCol>
@@ -117,6 +120,7 @@ const PersonFormSection = ({ fieldPrefix }) => {
 				<NumberTextField
 					label={<FormattedMessage {...m.expenditureAnotherInstallment} />}
 					field={`${fieldPrefix}.balance.expenditureAnotherInstallment`}
+					name={`${fieldPrefix}_monthly_income_info_another_regular_income`}
 					validate={hasOnlyDigits}
 				/>
 			</HalfCol>

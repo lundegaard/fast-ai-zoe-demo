@@ -16,7 +16,6 @@ const BorrowersFormSection = ({ coborrowerChoice }) => (
 			<RadioGroupField
 				legend={<FormattedMessage {...m.coborrowerChoice} />}
 				field="webdata.coborrowerChoice"
-				onChange={(...rest) => console.log({ rest, v: rest[0].target.value })}
 			>
 				{mapLookup((value) => (
 					<Radio
