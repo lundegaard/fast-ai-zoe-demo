@@ -143,7 +143,7 @@ export default defineMessages({
 	},
 	coborrowerChoice_NON_SINGLE: {
 		id: 'example.coborrowerChoice_NON_SINGLE',
-		defaultMessage: 'With parther',
+		defaultMessage: 'With partner',
 	},
 	netIncomeMain: { id: 'example.netIncomeMain', defaultMessage: 'Monthly net income' },
 	expenditureAnotherInstallment: {
