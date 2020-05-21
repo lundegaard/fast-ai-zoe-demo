@@ -93,11 +93,11 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 			return;
 		}
 
+		setStatsReady(false);
+
 		register(applicationId);
 
 		devConsole.replace({ 'Application ID': applicationId, 'Tenant ID': process.env.TENANT_ID });
-
-		setStatsReady(false);
 	}, [applicationId]);
 
 	const sendValues = () => isValid && send({ data: values, inProgress: true, applicationId });
