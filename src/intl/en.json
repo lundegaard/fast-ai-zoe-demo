@@ -43,7 +43,7 @@
 	"example.educationNonStandard_UNIVERSITY": "First of second stage of tertiary education",
 	"example.coborrowerChoice": "With whom do you apply?",
 	"example.coborrowerChoice_SINGLE": "Only me",
-	"example.coborrowerChoice_NON_SINGLE": "With parther",
+	"example.coborrowerChoice_NON_SINGLE": "With partner",
 	"example.apply": "Apply",
 	"example.durationValueAnd": "{left} and {right}",
 	"example.durationValueMonths": "{months, plural, =0 {0 months} one {1 month} other {# months}}",
