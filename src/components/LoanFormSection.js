@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Flex, Heading, Link, Text, useModal } from '@fast-ai/ui-components';
 import { FormattedMessage } from 'gatsby-theme-fast-ai';
@@ -9,14 +9,40 @@ import TermsModal from '../containers/TermsModal';
 
 import { CheckboxField, FullCol, SliderField } from './forms';
 
+const amountLabel = <FormattedMessage {...m.loanInfoAmount} />;
+const numberOfInstalmentsLabel = <FormattedMessage {...m.numberOfInstalments} />;
+
 const LoanFormSection = ({ monthlyFee }) => {
 	const { openModal: openTermsModal } = useModal({ component: TermsModal });
+	const checkboxLabel = useMemo(
+		() => (
+			<Text fontSize={[1, 1, 1, 2]} p={0} m={0}>
+				<FormattedMessage
+					{...m.terms}
+					values={{
+						// eslint-disable-next-line react/display-name
+						a: (...children) => (
+							<Link
+								href="#"
+								onClick={(event) => {
+									event.preventDefault();
+									openTermsModal();
+								}}
+								children={children}
+							/>
+						),
+					}}
+				/>
+			</Text>
+		),
+		[openTermsModal]
+	);
 
 	return (
 		<Fragment>
 			<FullCol>
 				<SliderField
-					label={<FormattedMessage {...m.loanInfoAmount} />}
+					label={amountLabel}
 					renderValue={AmountFormatter}
 					field="loanInfo.amount"
 					min={20000}
@@ -26,7 +52,7 @@ const LoanFormSection = ({ monthlyFee }) => {
 			</FullCol>
 			<FullCol>
 				<SliderField
-					label={<FormattedMessage {...m.numberOfInstalments} />}
+					label={numberOfInstalmentsLabel}
 					field="loanInfo.numberOfInstalments"
 					renderValue={DurationFormatter}
 					min={6}
@@ -47,29 +73,7 @@ const LoanFormSection = ({ monthlyFee }) => {
 			</FullCol>
 
 			<FullCol>
-				<CheckboxField
-					label={
-						<Text fontSize={[1, 1, 1, 2]} p={0} m={0}>
-							<FormattedMessage
-								{...m.terms}
-								values={{
-									// eslint-disable-next-line react/display-name
-									a: (...children) => (
-										<Link
-											href="#"
-											onClick={(event) => {
-												event.preventDefault();
-												openTermsModal();
-											}}
-											children={children}
-										/>
-									),
-								}}
-							/>
-						</Text>
-					}
-					field="terms"
-				/>
+				<CheckboxField label={checkboxLabel} field="terms" />
 			</FullCol>
 		</Fragment>
 	);
