@@ -77,8 +77,8 @@ export default defineMessages({
 		id: 'example.maritalStatus_DIVORCED',
 		defaultMessage: 'Divorced',
 	},
-	education: {
-		id: 'example.education',
+	educationLevel: {
+		id: 'example.educationLevel',
 		defaultMessage: 'Education',
 	},
 	educationCS_b: {

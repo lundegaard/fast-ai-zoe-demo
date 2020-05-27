@@ -1,4 +1,4 @@
-import React, { forwardRef, useCallback, useEffect } from 'react';
+import React, { forwardRef, memo, useCallback, useEffect, useMemo } from 'react';
 import {
 	Col,
 	CheckboxField as FACheckboxField,
@@ -79,11 +79,15 @@ const wrapWithStateAndSA = ({ makeOnChange, tracker: saTrackerProps, getValue } 
 
 		const hasError = !!error && isTouched;
 
-		return <Comp {...inputProps} hasError={hasError} hint={hasError && error} />;
+		const optimizedComponent = useMemo(
+			() => <Comp {...inputProps} hasError={hasError} hint={hasError && error} />,
+			[inputProps.value, hasError]
+		);
+		return optimizedComponent;
 	});
 	Field.displayName = `Field(${getDisplayName(Comp)})`;
 
-	return Field;
+	return memo(Field);
 };
 
 export const useForm = ({ onSubmit = noop, name, ...rest }) => {
@@ -177,13 +181,13 @@ export const SliderField = wrapWithStateAndSA({
 	},
 })(FASliderField);
 
-export const NumberTextField = forwardRef((props, ref) => (
-	<TextField
-		ref={ref}
-		inputProps={{
+export const NumberTextField = forwardRef((props, ref) => {
+	const inputProps = useMemo(
+		() => ({
 			pattern: '[0-9]*',
-		}}
-		{...props}
-	/>
-));
+		}),
+		[]
+	);
+	return <TextField ref={ref} inputProps={inputProps} {...props} />;
+});
 NumberTextField.displayName = 'NumberTextField';

@@ -29,7 +29,7 @@
 	"example.maritalStatus_MARRIED": "Married or registered",
 	"example.maritalStatus_WIDOWED": "Widowed",
 	"example.maritalStatus_DIVORCED": "Divorced",
-	"example.education": "Education",
+	"example.educationLevel": "Education",
 	"example.educationISCED97_1": "Primary education",
 	"example.educationISCED97_2": "Lower secondary education",
 	"example.educationISCED97_3": "Upper secondary level of education",
