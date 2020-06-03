@@ -198,12 +198,12 @@ export default defineMessages({
 		id: 'example.predictionsModalDescription',
 		defaultMessage: 'Particular examples of AI driven interpretations.',
 	},
-	featureTitle__behavior_lying_index: {
-		id: 'example.featureTitle__behavior_lying_index',
+	featureTitle__lying_behavior_score: {
+		id: 'example.featureTitle__lying_behavior_score',
 		defaultMessage: 'A lying score',
 	},
-	featureTitle__behavior_suspicious_behavior: {
-		id: 'example.featureTitle__behavior_suspicious_behavior',
+	featureTitle__fraud_score: {
+		id: 'example.featureTitle__fraud_score',
 		defaultMessage: 'A suspicious score',
 	},
 	modelTitle__default: {
