@@ -1,22 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Col, Row, useDebounce, useIdleTime, useModal } from '@fast-ai/ui-components';
+import { useDebounce, useIdleTime, useModal } from '@fast-ai/ui-components';
 import { useInterval } from '@restart/hooks';
-import { FormattedMessage } from 'gatsby-theme-fast-ai';
 import createRandomString from 'crypto-random-string';
 
 import Forms from '../constants/Forms';
 import { fetchFeatures, logFeatures } from '../predictions';
-import m from '../intl/messages';
 import { useTimeout } from '../hooks';
-import {
-	BorrowersFormSection,
-	FormHeading,
-	FullCol,
-	LoanFormSection,
-	useDevConsole,
-	useForm,
-} from '../components';
+import { DemoForm as DemoFormUi, useDevConsole, useForm } from '../components';
 
 import PredictionsModal, {
 	ClosingReasons as PredictionsModalClosingReasons,
@@ -93,15 +84,19 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 			return;
 		}
 
+		setStatsReady(false);
+
 		register(applicationId);
 
 		devConsole.replace({ 'Application ID': applicationId, 'Tenant ID': process.env.TENANT_ID });
-
-		setStatsReady(false);
 	}, [applicationId]);
 
-	const sendValues = () => isValid && send({ data: values, inProgress: true, applicationId });
-	const handleFormBlur = () => statsReady && sendValues();
+	const sendValues = useCallback(
+		() => isValid && send({ data: values, inProgress: true, applicationId }),
+		[isValid, applicationId, values, send]
+	);
+
+	const handleFormBlur = useCallback(() => statsReady && sendValues(), [statsReady, sendValues]);
 
 	useTimeout(
 		() => {
@@ -132,44 +127,17 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 
 	const [monthlyFeeDebounced] = useDebounce(monthlyFee, 200);
 	const coborrowerChoice = getFieldValue('webdata.coborrowerChoice');
+
 	return (
-		<Form onBlur={handleFormBlur}>
-			<Row flexWrap="wrap">
-				<Col span={[12, 12, 6]}>
-					<Row flexWrap="wrap">
-						<FullCol>
-							<FormHeading>
-								<FormattedMessage {...m.personalInfoTitle} />
-							</FormHeading>
-						</FullCol>
-
-						<BorrowersFormSection coborrowerChoice={coborrowerChoice} />
-					</Row>
-				</Col>
-				<Col span={[12, 12, 6]}>
-					<Row flexWrap="wrap">
-						<FullCol>
-							<FormHeading>
-								<FormattedMessage {...m.setupLoanTitle} />
-							</FormHeading>
-						</FullCol>
-
-						<LoanFormSection monthlyFee={monthlyFeeDebounced} />
-
-						<FullCol>
-							<Button
-								onClick={handleClickSubmit}
-								variant="secondary"
-								width={1}
-								disabled={!canSubmit || isSubmitting}
-							>
-								<FormattedMessage {...m.apply} />
-							</Button>
-						</FullCol>
-					</Row>
-				</Col>
-			</Row>
-		</Form>
+		<DemoFormUi
+			component={Form}
+			handleClickSubmit={handleClickSubmit}
+			handleFormBlur={handleFormBlur}
+			coborrowerChoice={coborrowerChoice}
+			canSubmit={canSubmit}
+			isSubmitting={isSubmitting}
+			monthlyFee={monthlyFeeDebounced}
+		/>
 	);
 };
 

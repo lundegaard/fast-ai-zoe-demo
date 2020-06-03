@@ -9,22 +9,21 @@ import { CoborrowerChoice, mapLookup } from '../lookups';
 import { FormSubheading, FullCol, RadioGroupField } from './forms';
 import PersonFormSection from './PersonFormSection';
 
+const coborrowerChoiceLegend = <FormattedMessage {...m.coborrowerChoice} />;
+const coborrowerChoices = mapLookup((value) => (
+	<Radio
+		key={value}
+		value={value}
+		label={<FormattedMessage {...m[`${CoborrowerChoice.name}_${value}`]} />}
+	/>
+))(CoborrowerChoice);
+
 const BorrowersFormSection = ({ coborrowerChoice }) => (
 	<Fragment>
 		<PersonFormSection fieldPrefix="borrower" />
 		<FullCol>
-			<RadioGroupField
-				legend={<FormattedMessage {...m.coborrowerChoice} />}
-				field="webdata.coborrowerChoice"
-				onChange={(...rest) => console.log({ rest, v: rest[0].target.value })}
-			>
-				{mapLookup((value) => (
-					<Radio
-						key={value}
-						value={value}
-						label={<FormattedMessage {...m[`${CoborrowerChoice.name}_${value}`]} />}
-					/>
-				))(CoborrowerChoice)}
+			<RadioGroupField legend={coborrowerChoiceLegend} field="webdata.coborrowerChoice">
+				{coborrowerChoices}
 			</RadioGroupField>
 		</FullCol>
 
