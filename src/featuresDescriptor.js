@@ -26,5 +26,5 @@ export const featuresDescriptor = {
 	behavior_timer_detail: { type: 'float', getData: prop(Modals.TERMS) },
 	fingerprint_zoe: null,
 	person_email_credible: null,
-	behavior_anomaly_typing: null,
+	anomaly_typing: null,
 };

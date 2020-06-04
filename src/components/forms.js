@@ -83,7 +83,9 @@ const wrapWithStateAndSA = ({ makeOnChange, tracker: saTrackerProps, getValue } 
 			() => <Comp {...inputProps} hasError={hasError} hint={hasError && error} />,
 			[inputProps.value, hasError]
 		);
+
 		return optimizedComponent;
+		// return <Comp {...inputProps} hasError={hasError} hint={hasError && error} />;
 	});
 	Field.displayName = `Field(${getDisplayName(Comp)})`;
 

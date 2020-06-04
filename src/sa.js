@@ -31,6 +31,17 @@ export const defaultMethodMapper = {
 	]),
 };
 
+const defaultTrackedEvents = [
+	'change',
+	'focus',
+	'blur',
+	'keyDown',
+	'keyUp',
+	'copy',
+	'paste',
+	'cut',
+];
+
 export const useSAFieldTracker = ({
 	/**
 	 * @param {String} eventName - Name of an event - "change", "focus", ...
@@ -39,7 +50,7 @@ export const useSAFieldTracker = ({
 	 * @return {Object} eventObject - Object that is passed to the appropriate SA methods.
 	 */
 	getMethodArgs = defaultGetMethodArgs,
-	trackedEvents = ['change', 'focus', 'blur', 'keyDown', 'keyUp', 'copy', 'paste', 'cut'],
+	trackedEvents = defaultTrackedEvents,
 	methodMapper = defaultMethodMapper,
 	callTracker,
 } = {}) => {
@@ -80,7 +91,7 @@ export const useSAFieldTracker = ({
 
 			return eventHandlersWithProps;
 		},
-		[getMethodArgs, methodMapper, sa, trackedEvents]
+		[getMethodArgs, methodMapper, callTracker, sa, trackedEvents]
 	);
 
 	return { getInputProps };

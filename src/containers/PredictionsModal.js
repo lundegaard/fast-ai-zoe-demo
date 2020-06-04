@@ -165,7 +165,7 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 				fetchPredictionsAndFeatures({
 					applicationId,
 					models: [Models.DEFAULT.value],
-					features: [Features.BEHAVIOUR_LYING_INDEX.value, Features.BEHAVIOUR_SUSPICIOUS.value],
+					features: [Features.LYING_BEHAVIOR_SCORE.value, Features.FRAUD_SCORE.value],
 				});
 
 			setStatus(Statuses.LOADING_INTERMEDIATE_RESULTS);
@@ -184,6 +184,7 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 			setStatus(Statuses.RESULTS_LOADED);
 			setResults(selectResults(finalPredictions));
 		} catch (error) {
+			console.error(error);
 			setStatus(Statuses.ERROR);
 			setResults(null);
 		}
