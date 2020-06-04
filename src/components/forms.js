@@ -66,8 +66,11 @@ const wrapWithStateAndSA = ({ makeOnChange, tracker: saTrackerProps, getValue } 
 
 		const { getInputProps: saGetInputProps } = useSAFieldTracker(saTrackerProps);
 
+		const oValue = useMemo(() => (getValue ? getValue(value) : value), [value]);
+
 		const customProps = rejectEmpty({
-			...(getValue ? { value: getValue(value) } : {}),
+			// ...(getValue ? { value: getValue(value) } : {}),
+			value: oValue,
 			...(makeOnChange ? { onChange: makeOnChange({ setValue }) } : {}),
 		});
 
@@ -85,7 +88,6 @@ const wrapWithStateAndSA = ({ makeOnChange, tracker: saTrackerProps, getValue } 
 		);
 
 		return optimizedComponent;
-		// return <Comp {...inputProps} hasError={hasError} hint={hasError && error} />;
 	});
 	Field.displayName = `Field(${getDisplayName(Comp)})`;
 
@@ -164,6 +166,7 @@ export const TextField = wrapWithStateAndSA()(FATextField);
 export const SelectField = wrapWithStateAndSA()(FASelectField);
 export const CheckboxField = wrapWithStateAndSA()(FACheckboxField);
 export const RadioGroupField = wrapWithStateAndSA()(FARadioGroupField);
+
 export const SliderField = wrapWithStateAndSA({
 	makeOnChange: ({ setValue }) => (values) => setValue(head(values)),
 	getValue: (value) => [value],
