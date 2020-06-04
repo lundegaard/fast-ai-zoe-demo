@@ -12,7 +12,6 @@ import {
 	path,
 	pathEq,
 	pick,
-	prop,
 } from 'ramda';
 import { defaultToEmptyObject, isFunction, keyMirror } from 'ramda-extension';
 import fetch from 'unfetch';
@@ -20,7 +19,7 @@ import fetch from 'unfetch';
 import { getTruthyKeys, round } from './utils';
 import { featuresDescriptor } from './featuresDescriptor';
 
-const getFeatures = path(['features']);
+const getFeatures = ({ features, predictions }) => ({ ...features, ...predictions });
 const getPrediction = path(['prediction']);
 
 export const StatTypes = keyMirror({
@@ -37,14 +36,14 @@ export const Models = {
 };
 
 export const Features = {
-	BEHAVIOUR_LYING_INDEX: {
-		value: 'behavior_lying_index',
+	LYING_BEHAVIOR_SCORE: {
+		value: 'lying_behavior_score',
 		type: StatTypes.NEGATIVE,
 		min: 0,
 		max: 5,
 	},
-	BEHAVIOUR_SUSPICIOUS: {
-		value: 'behavior_suspicious_behavior',
+	FRAUD_SCORE: {
+		value: 'fraud_score',
 		type: StatTypes.NEGATIVE,
 		min: 0,
 		max: 5,
@@ -127,9 +126,4 @@ const selectFeatures = evolve(featuresDescriptorDataSelector);
 const filterFeatures = (features) =>
 	compose(pick(__, features), getTruthyKeys, applySpec(featuresDescriptorFiltering))(features);
 
-export const logFeatures = compose(
-	formatFeatures,
-	selectFeatures,
-	filterFeatures,
-	prop('features')
-);
+export const logFeatures = compose(formatFeatures, selectFeatures, filterFeatures, getFeatures);
