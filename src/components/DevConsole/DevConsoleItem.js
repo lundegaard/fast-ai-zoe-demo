@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Flex from '@fast-ai/ui-components/Flex';
 import Text from '@fast-ai/ui-components/Text';
@@ -60,4 +60,4 @@ DevConsoleItem.propTypes = {
 	value: PropTypes.any,
 };
 
-export default DevConsoleItem;
+export default memo(DevConsoleItem);
