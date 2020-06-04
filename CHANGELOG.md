@@ -1,3 +1,9 @@
+# v0.0.3
+
+## Changes
+
+* [Adapting to new API](https://github.com/lundegaard/fast-ai-zoe-demo/pull/52/commits/6d2e50365a2c848127731dd1fb6212595701a7fa)
+
 # v0.0.2
 
 ## Changes
