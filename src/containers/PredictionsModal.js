@@ -16,7 +16,7 @@ import {
 	values,
 	whereEq,
 } from 'ramda';
-import { isArray, keyMirror, noop } from 'ramda-extension';
+import { flipIncludes, isArray, keyMirror, noop } from 'ramda-extension';
 import { keyframes } from '@emotion/core';
 
 import { Features, Models, StatTypes, fetchPredictionsAndFeatures } from '../predictions';
@@ -35,6 +35,8 @@ const Statuses = keyMirror({
 	LOADING_RESULTS: null,
 	RESULTS_LOADED: null,
 });
+
+const inEmptyState = flipIncludes([Statuses.EMPTY, Statuses.LOADING_INTERMEDIATE_RESULTS]);
 
 const easing = 'cubic-bezier(.455, .030, .515, .955)';
 const loadingDataAnimation = keyframes`
@@ -175,7 +177,7 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 			setStatus(Statuses.INTERMEDIATE_RESULTS_LOADED);
 			setResults(selectResults(intermediateResults));
 
-			await sleep(4000);
+			await sleep(5000);
 
 			setStatus(Statuses.LOADING_RESULTS);
 
@@ -201,15 +203,25 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 	);
 
 	const getContent = () => {
-		if (status === Statuses.EMPTY) {
-			return <FormattedMessage {...m.loadingPredictions} />;
-		}
-
 		if (inErrorState) {
 			return (
 				<Text fontWeight="bold" fontSize={4}>
 					<FormattedMessage {...m.unexpectedError} />
 				</Text>
+			);
+		}
+
+		if (inEmptyState(status)) {
+			return (
+				<Fragment>
+					<FormattedMessage {...m.loadingPredictions} />
+
+					<Flex justifyContent="center" flexWrap="wrap">
+						{[0, 1, 2].map((i) => (
+							<ResultGauge key={i} loading id={`loading-${i}`} value={0} title="..." m={3} />
+						))}
+					</Flex>
+				</Fragment>
 			);
 		}
 

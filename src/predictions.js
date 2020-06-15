@@ -45,8 +45,7 @@ export const Features = {
 	FRAUD_SCORE: {
 		value: 'fraud_score',
 		type: StatTypes.NEGATIVE,
-		min: 0,
-		max: 5,
+		numberStyle: 'percent',
 	},
 };
 

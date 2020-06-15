@@ -204,7 +204,7 @@ export default defineMessages({
 	},
 	featureTitle__fraud_score: {
 		id: 'example.featureTitle__fraud_score',
-		defaultMessage: 'A suspicious score',
+		defaultMessage: 'A fraud score',
 	},
 	modelTitle__default: {
 		id: 'example.modelTitle__default',

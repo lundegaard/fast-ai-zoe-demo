@@ -55,7 +55,7 @@
 	"example.predictionsModalHeading": "Examples of AI predictions",
 	"example.predictionsModalDescription": "Particular examples of AI driven interpretations.",
 	"example.featureTitle__lying_behavior_score": "A lying score",
-	"example.featureTitle__fraud_score": "A suspicious score",
+	"example.featureTitle__fraud_score": "A fraud score",
 	"example.modelTitle__default": "A loan approval score",
 	"example.retry": "Retry",
 	"example.unexpectedError": "Unfortunately, there was an unexpeted error.",
