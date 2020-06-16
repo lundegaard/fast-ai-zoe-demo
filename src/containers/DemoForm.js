@@ -129,18 +129,19 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 	const coborrowerChoice = getFieldValue('webdata.coborrowerChoice');
 
 	return (
-		<DemoFormUi
-			component={Form}
-			handleClickSubmit={handleClickSubmit}
-			handleFormBlur={handleFormBlur}
-			coborrowerChoice={coborrowerChoice}
-			canSubmit={canSubmit}
-			isSubmitting={isSubmitting}
-			monthlyFee={monthlyFeeDebounced}
-		/>
+		<Form onBlur={handleFormBlur}>
+			<DemoFormUi
+				handleClickSubmit={handleClickSubmit}
+				coborrowerChoice={coborrowerChoice}
+				canSubmit={canSubmit}
+				isSubmitting={isSubmitting}
+				monthlyFee={monthlyFeeDebounced}
+			/>
+		</Form>
 	);
 };
 
+// handleFormBlur={handleFormBlur}
 DemoForm.propTypes = { loggingInterval: PropTypes.number };
 
 export default DemoForm;

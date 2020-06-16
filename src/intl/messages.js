@@ -200,15 +200,15 @@ export default defineMessages({
 	},
 	featureTitle__lying_behavior_score: {
 		id: 'example.featureTitle__lying_behavior_score',
-		defaultMessage: 'A lying score',
+		defaultMessage: 'Lying score',
 	},
 	featureTitle__fraud_score: {
 		id: 'example.featureTitle__fraud_score',
-		defaultMessage: 'A suspicious score',
+		defaultMessage: 'Fraud score',
 	},
 	modelTitle__default: {
 		id: 'example.modelTitle__default',
-		defaultMessage: 'A loan approval score',
+		defaultMessage: 'Loan approval score',
 	},
 	tryAgainLabel: {
 		id: 'example.tryAgainLabel',

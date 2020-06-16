@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { keyframes } from '@emotion/core';
 import { Box, Flex, Text } from '@fast-ai/ui-components';
@@ -26,7 +26,7 @@ const jumpInFromBottom = keyframes`
 const easing = 'cubic-bezier(.455, .030, .515, .955)';
 
 /* eslint-disable max-len */
-const DropdownArrow = (props) => (
+const DropdownArrow = memo((props) => (
 	<Box
 		as="svg"
 		width="13px"
@@ -40,7 +40,9 @@ const DropdownArrow = (props) => (
 			points="10 1.03916875e-13 11.4061556 1.42222591 5.70307778 7.06086213 0 1.42222591 1.40615556 1.03916875e-13 5.70307778 4.24811295"
 		/>
 	</Box>
-);
+));
+DropdownArrow.displayName = 'DropdownArrow';
+
 /* eslint-enable max-len */
 
 const DevConsole = ({ title, initiallyOpened, ...rest }) => {

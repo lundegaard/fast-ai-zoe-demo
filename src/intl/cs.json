@@ -57,7 +57,7 @@
 	"example.predictionsModalHeading": "Příklady AI predikce",
 	"example.predictionsModalDescription": "Konkrétní příklady interpretací řízených umělou inteligencí.",
 	"example.featureTitle__lying_behavior_score": "Skóre lhaní",
-	"example.featureTitle__fraud_score": "Skóre podezření",
+	"example.featureTitle__fraud_score": "Skóre podezření podvodu",
 	"example.modelTitle__default": "Skóre schválení půjčky",
 	"example.retry": "Zkusit znovu",
 	"example.unexpectedError": "Nastala neočekávaná chyba.",
