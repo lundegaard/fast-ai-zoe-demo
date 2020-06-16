@@ -171,9 +171,9 @@ export const SliderField = wrapWithStateAndSA({
 	makeOnChange: ({ setValue }) => (values) => setValue(head(values)),
 	getValue: (value) => [value],
 	tracker: {
-		getMethodArgs: () => () => [
+		getMethodArgs: ({ props }) => () => [
 			{
-				context: { type: 'range' },
+				context: { type: 'range', name: props.name },
 			},
 		],
 		trackedEvents: ['change', 'slideEnd', 'slideStart'],
