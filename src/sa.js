@@ -70,7 +70,7 @@ export const useSAFieldTracker = ({
 							const method = path([plugin, eventNameRaw], methodMapper);
 
 							if (method) {
-								const methodArgs = getMethodArgs({ plugin, method, eventName })(...args);
+								const methodArgs = getMethodArgs({ props, plugin, method, eventName })(...args);
 								if (callTracker) {
 									callTracker({ sa, plugin, method, eventName, methodArgs });
 								} else {
