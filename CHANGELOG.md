@@ -1,3 +1,13 @@
+# v0.0.4
+
+## Changes
+* [Skeleton for prediction gauges](https://github.com/lundegaard/fast-ai-zoe-demo/commit/58b3cd0f798d3abd38d35cd5c9047fd13b33a59c)
+* [Prediction textation change](https://github.com/lundegaard/fast-ai-zoe-demo/commit/0ce67dad0fd2e6369c81572de2d43f95018ead55)
+
+## Fixes
+* [Performance](https://github.com/lundegaard/fast-ai-zoe-demo/pull/54)
+* [Slider tracking](https://github.com/lundegaard/fast-ai-zoe-demo/commit/6f0fce731c048e464729dac861cc52b6fa659ef4)
+
 # v0.0.3
 
 ## Changes
