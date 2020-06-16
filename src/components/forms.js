@@ -176,11 +176,12 @@ export const SliderField = wrapWithStateAndSA({
 				context: { type: 'range' },
 			},
 		],
-		trackedEvents: ['change', 'update'],
+		trackedEvents: ['change', 'slideEnd', 'slideStart'],
 		methodMapper: {
 			's-form': {
-				update: 'change',
-				change: 'blur',
+				slideEnd: 'blur',
+				slideStart: 'focus',
+				change: 'change',
 			},
 		},
 	},
