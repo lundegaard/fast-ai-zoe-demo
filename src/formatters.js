@@ -6,7 +6,11 @@ import m from './intl/messages';
 
 export const AmountFormatter = ({ children }) =>
 	children != null ? (
-		<FormattedNumber value={children} minimumFractionDigits={1} maximumFractionDigits={1}>
+		<FormattedNumber
+			value={children}
+			minimumFractionDigits={1}
+			maximumFractionDigits={1}
+		>
 			{(value) => value.replace(/.$/, '-')}
 		</FormattedNumber>
 	) : (
@@ -24,8 +28,12 @@ export const DurationFormatter = ({ children }) => {
 	const years = Math.floor(totalMonths / 12);
 	const months = totalMonths - years * 12;
 
-	const monthsMessage = <FormattedMessage {...m.durationValueMonths} values={{ months }} />;
-	const yearsMessage = <FormattedMessage {...m.durationValueYears} values={{ years }} />;
+	const monthsMessage = (
+		<FormattedMessage {...m.durationValueMonths} values={{ months }} />
+	);
+	const yearsMessage = (
+		<FormattedMessage {...m.durationValueYears} values={{ years }} />
+	);
 
 	if (!years) {
 		return monthsMessage;
@@ -44,5 +52,6 @@ export const DurationFormatter = ({ children }) => {
 };
 DurationFormatter.propTypes = { children: PropTypes.node };
 
-export const AgeFormatter = ({ children }) => (children ? `${children} years` : '');
+export const AgeFormatter = ({ children }) =>
+	children ? `${children} years` : '';
 AgeFormatter.propTypes = { children: PropTypes.node };

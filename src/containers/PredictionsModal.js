@@ -1,7 +1,15 @@
 import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import useSafeState from '@restart/hooks/useSafeState';
 import PropTypes from 'prop-types';
-import { Box, Button, Flex, Gauge, Heading, Modal, Text } from '@fast-ai/ui-components';
+import {
+	Box,
+	Button,
+	Flex,
+	Gauge,
+	Heading,
+	Modal,
+	Text,
+} from '@fast-ai/ui-components';
 import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
 import {
 	applySpec,
@@ -19,7 +27,12 @@ import {
 import { flipIncludes, isArray, keyMirror, noop } from 'ramda-extension';
 import { keyframes } from '@emotion/core';
 
-import { Features, Models, StatTypes, fetchPredictionsAndFeatures } from '../predictions';
+import {
+	Features,
+	Models,
+	StatTypes,
+	fetchPredictionsAndFeatures,
+} from '../predictions';
 import { OptionalFormattedMessage } from '../components';
 import m from '../intl/messages';
 
@@ -36,7 +49,10 @@ const Statuses = keyMirror({
 	RESULTS_LOADED: null,
 });
 
-const inEmptyState = flipIncludes([Statuses.EMPTY, Statuses.LOADING_INTERMEDIATE_RESULTS]);
+const inEmptyState = flipIncludes([
+	Statuses.EMPTY,
+	Statuses.LOADING_INTERMEDIATE_RESULTS,
+]);
 
 const easing = 'cubic-bezier(.455, .030, .515, .955)';
 const loadingDataAnimation = keyframes`
@@ -61,7 +77,8 @@ const selectResults = ({ models, features }) => ({
 	)(features),
 });
 
-const getGaugeLookupProps = (lookup) => (value) => o(find(whereEq({ value })), values)(lookup);
+const getGaugeLookupProps = (lookup) => (value) =>
+	o(find(whereEq({ value })), values)(lookup);
 
 const makeGaugeProps = applySpec({
 	max: prop('max'),
@@ -71,7 +88,10 @@ const makeGaugeProps = applySpec({
 });
 
 const getModelGaugeProps = compose(makeGaugeProps, getGaugeLookupProps(Models));
-const getFeatureGaugeProps = compose(makeGaugeProps, getGaugeLookupProps(Features));
+const getFeatureGaugeProps = compose(
+	makeGaugeProps,
+	getGaugeLookupProps(Features)
+);
 
 const ResultGauge = ({
 	value,
@@ -155,7 +175,12 @@ const sleep = (ms) =>
  *	| 	->  LOADED_RESULTS
  *	|---|--> ERROR
  */
-const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }) => {
+const PredictionsModal = ({
+	applicationId,
+	onClose = noop,
+	closeModal,
+	...rest
+}) => {
 	const [status, setStatus] = useSafeState(useState(Statuses.EMPTY));
 	const [results, setResults] = useSafeState(useState(null));
 
@@ -167,7 +192,10 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 				fetchPredictionsAndFeatures({
 					applicationId,
 					models: [Models.DEFAULT.value],
-					features: [Features.LYING_BEHAVIOR_SCORE.value, Features.FRAUD_SCORE.value],
+					features: [
+						Features.LYING_BEHAVIOR_SCORE.value,
+						Features.FRAUD_SCORE.value,
+					],
 				});
 
 			setStatus(Statuses.LOADING_INTERMEDIATE_RESULTS);
@@ -218,7 +246,14 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 
 					<Flex justifyContent="center" flexWrap="wrap">
 						{[0, 1, 2].map((i) => (
-							<ResultGauge key={i} loading id={`loading-${i}`} value={0} title="..." m={3} />
+							<ResultGauge
+								key={i}
+								loading
+								id={`loading-${i}`}
+								value={0}
+								title="..."
+								m={3}
+							/>
 						))}
 					</Flex>
 				</Fragment>
@@ -234,7 +269,12 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 							key={modelId}
 							id={modelId}
 							value={value}
-							title={<OptionalFormattedMessage messages={m} id={`modelTitle__${modelId}`} />}
+							title={
+								<OptionalFormattedMessage
+									messages={m}
+									id={`modelTitle__${modelId}`}
+								/>
+							}
 							m={3}
 							{...getModelGaugeProps(modelId)}
 						/>
@@ -246,7 +286,12 @@ const PredictionsModal = ({ applicationId, onClose = noop, closeModal, ...rest }
 							key={featureId}
 							id={featureId}
 							value={value}
-							title={<OptionalFormattedMessage messages={m} id={`featureTitle__${featureId}`} />}
+							title={
+								<OptionalFormattedMessage
+									messages={m}
+									id={`featureTitle__${featureId}`}
+								/>
+							}
 							m={3}
 							{...getFeatureGaugeProps(featureId)}
 						/>

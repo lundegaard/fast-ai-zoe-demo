@@ -10,7 +10,9 @@ import TermsModal from '../containers/TermsModal';
 import { CheckboxField, FullCol, SliderField } from './forms';
 
 const amountLabel = <FormattedMessage {...m.loanInfoAmount} />;
-const numberOfInstalmentsLabel = <FormattedMessage {...m.numberOfInstalments} />;
+const numberOfInstalmentsLabel = (
+	<FormattedMessage {...m.numberOfInstalments} />
+);
 
 const LoanFormSection = ({ monthlyFee }) => {
 	const { openModal: openTermsModal } = useModal({ component: TermsModal });

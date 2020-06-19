@@ -18,7 +18,12 @@ import {
 	when,
 	whereEq,
 } from 'ramda';
-import { createValidation, hasLengthInInterval, hasOnlyDigits, validate } from 'validarium';
+import {
+	createValidation,
+	hasLengthInInterval,
+	hasOnlyDigits,
+	validate,
+} from 'validarium';
 
 import m from './intl/messages';
 
@@ -56,7 +61,11 @@ export const parseRC = compose(
 const isDateValid = (d) => isNaN(d.getTime());
 
 const isRC000 = createValidation(
-	compose(not, both(o(test(/000$/), prop('suffix')), o(equals(9), prop('len'))), parseRC),
+	compose(
+		not,
+		both(o(test(/000$/), prop('suffix')), o(equals(9), prop('len'))),
+		parseRC
+	),
 	m.validationsRc000
 );
 const isEcpAndRCPlus = createValidation(
@@ -77,7 +86,8 @@ const rcHasValidSuffix = createValidation(
 		not,
 		both(
 			({ len, suffix }) =>
-				(len === 9 && Number(suffix) < 600) || (len === 10 && Number(suffix) < 6000),
+				(len === 9 && Number(suffix) < 600) ||
+				(len === 10 && Number(suffix) < 6000),
 			whereEq({ ecp: true })
 		),
 		parseRC

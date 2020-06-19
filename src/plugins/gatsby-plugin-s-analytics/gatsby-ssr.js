@@ -2,9 +2,13 @@ import React from 'react';
 
 export const onRenderBody = (
 	{ setHeadComponents },
-	{ saUrl = 'https://sa-sdp.lnd.bz/versions/stable', tenantId, usePlugins: plugins }
+	{
+		saUrl = 'https://sa-sdp.lnd.bz/versions/stable',
+		tenantId,
+		usePlugins: plugins,
+	}
 ) => {
-	const getScriptUrl = isPlugin => scriptName =>
+	const getScriptUrl = (isPlugin) => (scriptName) =>
 		`${saUrl}/${scriptName}${isPlugin ? '.plugin' : ''}.js`;
 
 	const script = `
@@ -20,7 +24,7 @@ export const onRenderBody = (
 
 sa('create', '${tenantId}');
 
-${plugins.map(pluginName => `sa('include', '${pluginName}');`).join('\n')}
+${plugins.map((pluginName) => `sa('include', '${pluginName}');`).join('\n')}
 
 (function(d, f, g, e, a, c, b) {
 	if ((c = d.getElementById(g))) {
@@ -28,7 +32,7 @@ ${plugins.map(pluginName => `sa('include', '${pluginName}');`).join('\n')}
 	(a = d.createElement(f)), (a.async = 1), (a.src = e[b]),
 	c.parentNode.insertBefore(a, c.nextSibling);}}
 })(document, 'script', 'SAnalyticsScript', [${plugins
-		.map(pluginName => `'${getScriptUrl(true)(pluginName)}'`)
+		.map((pluginName) => `'${getScriptUrl(true)(pluginName)}'`)
 		.join(', ')}]);`;
 
 	/* eslint-disable react/no-danger */

@@ -2,7 +2,9 @@ import { useCallback, useEffect, useRef } from 'react';
 import { map, o, path, toLower } from 'ramda';
 import { valueMirror } from 'ramda-extension';
 
-export const useSA = () => ({ sa: typeof window === 'undefined' ? {} : window.sa });
+export const useSA = () => ({
+	sa: typeof window === 'undefined' ? {} : window.sa,
+});
 
 // just for a virtual components - only a changeEvent
 const getEventCallbackName = (eventName) =>
@@ -45,9 +47,11 @@ const defaultTrackedEvents = [
 export const useSAFieldTracker = ({
 	/**
 	 * @param {String} eventName - Name of an event - "change", "focus", ...
-	 * @param {...any} eventArguments Arguments passed to the handler from which the Event object should be derived.
+	 * @param {...any} eventArguments Arguments passed to the handler from which
+	 * the Event object should be derived.
 	 *
-	 * @return {Object} eventObject - Object that is passed to the appropriate SA methods.
+	 * @return {Object} eventObject - Object that is passed to the appropriate
+	 * SA methods.
 	 */
 	getMethodArgs = defaultGetMethodArgs,
 	trackedEvents = defaultTrackedEvents,
@@ -58,36 +62,44 @@ export const useSAFieldTracker = ({
 
 	const getInputProps = useCallback(
 		(props) => {
-			const eventHandlersWithProps = trackedEvents.reduce((currentCallbacks, eventNameRaw) => {
-				const eventCallbackName = getEventCallbackName(eventNameRaw);
+			const eventHandlersWithProps = trackedEvents.reduce(
+				(currentCallbacks, eventNameRaw) => {
+					const eventCallbackName = getEventCallbackName(eventNameRaw);
 
-				return {
-					...currentCallbacks,
-					[eventCallbackName]: (...args) => {
-						const eventName = eventNameRaw.toLowerCase();
+					return {
+						...currentCallbacks,
+						[eventCallbackName]: (...args) => {
+							const eventName = eventNameRaw.toLowerCase();
 
-						const callMethod = (plugin) => {
-							const method = path([plugin, eventNameRaw], methodMapper);
+							const callMethod = (plugin) => {
+								const method = path([plugin, eventNameRaw], methodMapper);
 
-							if (method) {
-								const methodArgs = getMethodArgs({ props, plugin, method, eventName })(...args);
-								if (callTracker) {
-									callTracker({ sa, plugin, method, eventName, methodArgs });
-								} else {
-									sa(`${plugin}:${method}`, ...methodArgs);
+								if (method) {
+									const methodArgs = getMethodArgs({
+										props,
+										plugin,
+										method,
+										eventName,
+									})(...args);
+									if (callTracker) {
+										callTracker({ sa, plugin, method, eventName, methodArgs });
+									} else {
+										sa(`${plugin}:${method}`, ...methodArgs);
+									}
 								}
+							};
+
+							callMethod('s-form');
+							callMethod('s-biometrics');
+
+							if (currentCallbacks[eventCallbackName]) {
+								return currentCallbacks[eventCallbackName](...args);
 							}
-						};
-
-						callMethod('s-form');
-						callMethod('s-biometrics');
-
-						if (currentCallbacks[eventCallbackName]) {
-							return currentCallbacks[eventCallbackName](...args);
-						}
-					},
-				};
-			}, props);
+						},
+					};
+				},
+				props
+			);
 
 			return eventHandlersWithProps;
 		},
@@ -97,7 +109,10 @@ export const useSAFieldTracker = ({
 	return { getInputProps };
 };
 
-export const useSAComponentTimer = ({ name, dimensions: dimensionsProp = [] }) => {
+export const useSAComponentTimer = ({
+	name,
+	dimensions: dimensionsProp = [],
+}) => {
 	const { sa } = useSA();
 
 	const dimensionsRef = useRef(dimensionsProp);

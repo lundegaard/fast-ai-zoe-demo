@@ -11,7 +11,10 @@ const productionPlugins = [
 	],
 ];
 
-const plugins = [...productionPlugins, ['@babel/plugin-transform-runtime', { useESModules: true }]];
+const plugins = [
+	...productionPlugins,
+	['@babel/plugin-transform-runtime', { useESModules: true }],
+];
 
 const config = { plugins };
 
@@ -19,7 +22,12 @@ module.exports = {
 	presets: [
 		[
 			'babel-preset-react-union',
-			{ test: process.env.NODE_ENV === 'test', loose: true, library: false, universal: false },
+			{
+				test: process.env.NODE_ENV === 'test',
+				loose: true,
+				library: false,
+				universal: false,
+			},
 		],
 	],
 	ignore: [/@babel[\\|/]runtime/], // Fix a Windows issue.

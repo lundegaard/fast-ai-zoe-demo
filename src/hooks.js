@@ -9,7 +9,10 @@ export const useTimeout = (fn, timeout, deps = []) => {
 
 	useEffect(
 		() => {
-			const timeoutId = setTimeout(() => fnRef.current && fnRef.current(), timeout);
+			const timeoutId = setTimeout(
+				() => fnRef.current && fnRef.current(),
+				timeout
+			);
 
 			timeoutRef.current = timeoutId;
 

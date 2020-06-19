@@ -7,7 +7,13 @@ import m from '../intl/messages';
 
 import { BorrowersFormSection, FormHeading, FullCol, LoanFormSection } from '.';
 
-const DemoForm = ({ handleClickSubmit, monthlyFee, coborrowerChoice, canSubmit, isSubmitting }) => (
+const DemoForm = ({
+	handleClickSubmit,
+	monthlyFee,
+	coborrowerChoice,
+	canSubmit,
+	isSubmitting,
+}) => (
 	<Row flexWrap="wrap">
 		<Col span={[12, 12, 6]}>
 			<Row flexWrap="wrap">

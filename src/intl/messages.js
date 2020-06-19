@@ -145,7 +145,10 @@ export default defineMessages({
 		id: 'example.coborrowerChoice_NON_SINGLE',
 		defaultMessage: 'With partner',
 	},
-	netIncomeMain: { id: 'example.netIncomeMain', defaultMessage: 'Monthly net income' },
+	netIncomeMain: {
+		id: 'example.netIncomeMain',
+		defaultMessage: 'Monthly net income',
+	},
 	expenditureAnotherInstallment: {
 		id: 'example.expenditureAnotherInstallment',
 		defaultMessage: 'Monthly expenditure',
@@ -232,7 +235,8 @@ export default defineMessages({
 	},
 	errorPageContent: {
 		id: 'example.errorPageContent',
-		defaultMessage: "Sorry, we can't find that page! It might be an old link or maybe it moved.",
+		defaultMessage:
+			"Sorry, we can't find that page! It might be an old link or maybe it moved.",
 	},
 	close: {
 		id: 'example.close',
