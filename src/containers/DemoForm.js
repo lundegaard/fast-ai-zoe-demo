@@ -46,7 +46,9 @@ const getApplicationId = () =>
 	`demo-${createRandomString({ length: 10, type: 'distinguishable' })}`;
 
 const DemoForm = ({ loggingInterval = 2000 }) => {
-	const { openModal: openPredictionsModal } = useModal({ component: PredictionsModal });
+	const { openModal: openPredictionsModal } = useModal({
+		component: PredictionsModal,
+	});
 	const [applicationId, setApplicationId] = useState(getApplicationId());
 	const [statsReady, setStatsReady] = useState(false);
 
@@ -88,7 +90,10 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 
 		register(applicationId);
 
-		devConsole.replace({ 'Application ID': applicationId, 'Tenant ID': process.env.TENANT_ID });
+		devConsole.replace({
+			'Application ID': applicationId,
+			'Tenant ID': process.env.TENANT_ID,
+		});
 	}, [applicationId]);
 
 	const sendValues = useCallback(
@@ -96,7 +101,10 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 		[isValid, applicationId, values, send]
 	);
 
-	const handleFormBlur = useCallback(() => statsReady && sendValues(), [statsReady, sendValues]);
+	const handleFormBlur = useCallback(() => statsReady && sendValues(), [
+		statsReady,
+		sendValues,
+	]);
 
 	useTimeout(
 		() => {
@@ -115,7 +123,9 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 				return;
 			}
 
-			fetchFeatures(applicationId).then((features) => void devConsole.log(logFeatures(features)));
+			fetchFeatures(applicationId).then(
+				(features) => void devConsole.log(logFeatures(features))
+			);
 		},
 		loggingInterval,
 		false, // is paused
@@ -123,7 +133,8 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 	);
 
 	const monthlyFee =
-		getFieldValue('loanInfo.amount') / getFieldValue('loanInfo.numberOfInstalments');
+		getFieldValue('loanInfo.amount') /
+		getFieldValue('loanInfo.numberOfInstalments');
 
 	const [monthlyFeeDebounced] = useDebounce(monthlyFee, 200);
 	const coborrowerChoice = getFieldValue('webdata.coborrowerChoice');

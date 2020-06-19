@@ -17,7 +17,9 @@ const DevConsoleProvider = ({ children }) => {
 
 	return (
 		<DevConsoleApiContext.Provider value={api}>
-			<DevConsoleLogContext.Provider value={log}>{children}</DevConsoleLogContext.Provider>
+			<DevConsoleLogContext.Provider value={log}>
+				{children}
+			</DevConsoleLogContext.Provider>
 		</DevConsoleApiContext.Provider>
 	);
 };

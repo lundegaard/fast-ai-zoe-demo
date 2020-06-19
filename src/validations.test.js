@@ -46,7 +46,10 @@ describe('isBirthNumber', () => {
 
 	it('controls length', () => {
 		expectMessage('validarium.hasLengthInInterval', isBirthNumber('20050500'));
-		expectMessage('validarium.hasLengthInInterval', isBirthNumber('20050500144'));
+		expectMessage(
+			'validarium.hasLengthInInterval',
+			isBirthNumber('20050500144')
+		);
 	});
 
 	it('controls when Length===9 and suffix===000', () => {

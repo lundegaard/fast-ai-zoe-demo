@@ -32,14 +32,18 @@ const labels = o(
 
 const PersonFormSection = ({ fieldPrefix }) => {
 	const intl = useIntl();
-	const Education = useMemo(() => getEducationByLanguage(intl.locale), [intl.locale]);
+	const Education = useMemo(() => getEducationByLanguage(intl.locale), [
+		intl.locale,
+	]);
 
 	const maritalStatusItems = useMemo(
 		() => [
 			emptyOption,
 			...mapLookup((status) => ({
 				value: status,
-				label: status ? intl.formatMessage(m[`maritalStatus_${status}`]) : status,
+				label: status
+					? intl.formatMessage(m[`maritalStatus_${status}`])
+					: status,
 			}))(MaritalStatus),
 		],
 		[intl]
@@ -50,7 +54,9 @@ const PersonFormSection = ({ fieldPrefix }) => {
 			emptyOption,
 			...mapLookup((level) => ({
 				value: level,
-				label: level ? intl.formatMessage(m[`${Education.name}_${level}`]) : level,
+				label: level
+					? intl.formatMessage(m[`${Education.name}_${level}`])
+					: level,
 			}))(Education),
 		],
 		[Education, intl]
@@ -83,23 +89,39 @@ const PersonFormSection = ({ fieldPrefix }) => {
 			</HalfCol>
 
 			<HalfCol>
-				<TextField label={labels.streetAddress} field={`${fieldPrefix}.address.streetAddress`} />
+				<TextField
+					label={labels.streetAddress}
+					field={`${fieldPrefix}.address.streetAddress`}
+				/>
 			</HalfCol>
 
 			<HalfCol>
-				<TextField label={labels.streetLocality} field={`${fieldPrefix}.address.streetLocality`} />
+				<TextField
+					label={labels.streetLocality}
+					field={`${fieldPrefix}.address.streetLocality`}
+				/>
 			</HalfCol>
 
 			<HalfCol>
-				<TextField label={labels.postalCode} field={`${fieldPrefix}.address.postalCode`} />
+				<TextField
+					label={labels.postalCode}
+					field={`${fieldPrefix}.address.postalCode`}
+				/>
 			</HalfCol>
 
 			<HalfCol>
-				<TextField label={labels.phoneNumber} field={`${fieldPrefix}.phoneNumber`} />
+				<TextField
+					label={labels.phoneNumber}
+					field={`${fieldPrefix}.phoneNumber`}
+				/>
 			</HalfCol>
 
 			<HalfCol>
-				<TextField validate={isEmail} label={labels.email} field={`${fieldPrefix}.email`} />
+				<TextField
+					validate={isEmail}
+					label={labels.email}
+					field={`${fieldPrefix}.email`}
+				/>
 			</HalfCol>
 
 			<HalfCol>

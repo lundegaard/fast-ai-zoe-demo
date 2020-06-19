@@ -19,7 +19,10 @@ import fetch from 'unfetch';
 import { getTruthyKeys, round } from './utils';
 import { featuresDescriptor } from './featuresDescriptor';
 
-const getFeatures = ({ features, predictions }) => ({ ...features, ...predictions });
+const getFeatures = ({ features, predictions }) => ({
+	...features,
+	...predictions,
+});
 const getPrediction = path(['prediction']);
 
 export const StatTypes = keyMirror({
@@ -90,14 +93,21 @@ export const fetchPredictionsAndFeatures = ({
 }) =>
 	Promise.all([
 		fetchModels(applicationId, models),
-		createRequest(`${process.env.API_URL}/applications/${applicationId}/smart-features`),
+		createRequest(
+			`${process.env.API_URL}/applications/${applicationId}/smart-features`
+		),
 	]).then(([models, featuresResponse]) => ({
 		models: fromPairs(models),
-		features: compose(features ? pick(features) : identity, getFeatures)(featuresResponse),
+		features: compose(
+			features ? pick(features) : identity,
+			getFeatures
+		)(featuresResponse),
 	}));
 
 export const fetchFeatures = (applicationId) =>
-	createRequest(`${process.env.API_URL}/applications/${applicationId}/smart-features`);
+	createRequest(
+		`${process.env.API_URL}/applications/${applicationId}/smart-features`
+	);
 
 const featuresDescriptorFiltering = map((x) =>
 	x && isFunction(x.filterPredicate) ? x.filterPredicate : T
@@ -123,6 +133,15 @@ const selectFeatures = evolve(featuresDescriptorDataSelector);
 
 // Features -> FilteredFeatures
 const filterFeatures = (features) =>
-	compose(pick(__, features), getTruthyKeys, applySpec(featuresDescriptorFiltering))(features);
+	compose(
+		pick(__, features),
+		getTruthyKeys,
+		applySpec(featuresDescriptorFiltering)
+	)(features);
 
-export const logFeatures = compose(formatFeatures, selectFeatures, filterFeatures, getFeatures);
+export const logFeatures = compose(
+	formatFeatures,
+	selectFeatures,
+	filterFeatures,
+	getFeatures
+);
