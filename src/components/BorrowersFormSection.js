@@ -22,7 +22,10 @@ const BorrowersFormSection = ({ coborrowerChoice }) => (
 	<Fragment>
 		<PersonFormSection fieldPrefix="borrower" />
 		<FullCol>
-			<RadioGroupField legend={coborrowerChoiceLegend} field="webdata.coborrowerChoice">
+			<RadioGroupField
+				legend={coborrowerChoiceLegend}
+				field="webdata.coborrowerChoice"
+			>
 				{coborrowerChoices}
 			</RadioGroupField>
 		</FullCol>

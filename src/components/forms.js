@@ -1,4 +1,10 @@
-import React, { forwardRef, memo, useCallback, useEffect, useMemo } from 'react';
+import React, {
+	forwardRef,
+	memo,
+	useCallback,
+	useEffect,
+	useMemo,
+} from 'react';
 import {
 	Col,
 	CheckboxField as FACheckboxField,
@@ -32,16 +38,22 @@ import { useSA, useSAFieldTracker } from '../sa';
 const rejectEmpty = reject(isEmpty);
 
 // NOTE: use `data` explictly due to recursion
-const removeEmptyFields = (data) => o(rejectEmpty, map(when(isObject, removeEmptyFields)))(data);
+const removeEmptyFields = (data) =>
+	o(rejectEmpty, map(when(isObject, removeEmptyFields)))(data);
 
 const removeCoborrower = when(
 	pathEq(['webdata', 'coborrowerChoice'], CoborrowerChoice.values.SINGLE),
 	omit(['coborrower'])
 );
 
-const formDataToWebdata = (data) => compose(removeEmptyFields, removeCoborrower)(data);
+const formDataToWebdata = (data) =>
+	compose(removeEmptyFields, removeCoborrower)(data);
 
-const wrapWithStateAndSA = ({ makeOnChange, tracker: saTrackerProps, getValue } = {}) => (Comp) => {
+const wrapWithStateAndSA = ({
+	makeOnChange,
+	tracker: saTrackerProps,
+	getValue,
+} = {}) => (Comp) => {
 	const Field = forwardRef((props, ref) => {
 		const [field, fieldOptions, rest] = splitFormProps(props);
 		const intl = useIntl();
@@ -52,7 +64,9 @@ const wrapWithStateAndSA = ({ makeOnChange, tracker: saTrackerProps, getValue } 
 					? (x) => {
 							const result = isFunction(fn) ? fn(x) : null;
 
-							return result ? intl.formatMessage(result.message, result.messageValues) : null;
+							return result
+								? intl.formatMessage(result.message, result.messageValues)
+								: null;
 					  }
 					: void 0,
 		})(fieldOptions);
@@ -64,7 +78,9 @@ const wrapWithStateAndSA = ({ makeOnChange, tracker: saTrackerProps, getValue } 
 			getInputProps: reactFormGetInputProps,
 		} = useField(field, fieldOptionsWithTranslatedValidationResult);
 
-		const { getInputProps: saGetInputProps } = useSAFieldTracker(saTrackerProps);
+		const { getInputProps: saGetInputProps } = useSAFieldTracker(
+			saTrackerProps
+		);
 
 		const oValue = useMemo(() => (getValue ? getValue(value) : value), [value]);
 
@@ -83,7 +99,9 @@ const wrapWithStateAndSA = ({ makeOnChange, tracker: saTrackerProps, getValue } 
 		const hasError = !!error && isTouched;
 
 		const optimizedComponent = useMemo(
-			() => <Comp {...inputProps} hasError={hasError} hint={hasError && error} />,
+			() => (
+				<Comp {...inputProps} hasError={hasError} hint={hasError && error} />
+			),
 			[inputProps.value, hasError]
 		);
 
@@ -157,8 +175,12 @@ export const useForm = ({ onSubmit = noop, name, ...rest }) => {
 	};
 };
 
-export const FormHeading = (props) => <Heading as="h2" mt={0} mb={4} {...props} />;
-export const FormSubheading = (props) => <Heading as="h3" mt={0} mb={0} {...props} />;
+export const FormHeading = (props) => (
+	<Heading as="h2" mt={0} mb={4} {...props} />
+);
+export const FormSubheading = (props) => (
+	<Heading as="h3" mt={0} mb={0} {...props} />
+);
 export const HalfCol = (props) => <Col span={[12, 12, 6]} mb={4} {...props} />;
 export const FullCol = (props) => <Col span={12} mb={4} {...props} />;
 

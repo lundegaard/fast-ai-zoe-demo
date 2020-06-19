@@ -73,7 +73,13 @@ const DevConsole = ({ title, initiallyOpened, ...rest }) => {
 				sx={{ py: 2, px: 3, alignItems: 'center', cursor: 'pointer' }}
 				onClick={() => setIsOpened(!isOpened)}
 			>
-				<Text as="span" fontFamily="mono" fontSize={1} my={0} sx={{ pointerEvents: 'none' }}>
+				<Text
+					as="span"
+					fontFamily="mono"
+					fontSize={1}
+					my={0}
+					sx={{ pointerEvents: 'none' }}
+				>
 					{title}
 				</Text>
 				<DropdownArrow
@@ -97,7 +103,9 @@ const DevConsole = ({ title, initiallyOpened, ...rest }) => {
 				>
 					{log &&
 						o(
-							map(([label, value]) => <DevConsoleItem key={label} label={label} value={value} />),
+							map(([label, value]) => (
+								<DevConsoleItem key={label} label={label} value={value} />
+							)),
 							toPairs
 						)(log)}
 				</Box>

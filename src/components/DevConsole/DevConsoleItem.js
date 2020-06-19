@@ -49,7 +49,14 @@ const DevConsoleItem = ({ value, label, ...rest }) => (
 		<Text as="span" fontSize={1} mb={0}>
 			{label}
 		</Text>
-		<HighlightChangesText title={format(value)} key={value} as="span" ml="auto" mb={0} fontSize={1}>
+		<HighlightChangesText
+			title={format(value)}
+			key={value}
+			as="span"
+			ml="auto"
+			mb={0}
+			fontSize={1}
+		>
 			<Dotdotdot clamp={1}>{format(value)}</Dotdotdot>
 		</HighlightChangesText>
 	</Flex>
