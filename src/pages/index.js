@@ -11,7 +11,6 @@ const Index = () => (
 			<Page>
 				<Seo title="Demo" />
 				<DemoForm />
-
 				<DevConsole title="zoe@lundegaard.ai:~ smartfeatures$" />
 				<ModalRoot />
 			</Page>
