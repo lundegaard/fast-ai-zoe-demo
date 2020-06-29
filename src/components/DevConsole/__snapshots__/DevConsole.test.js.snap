@@ -57,10 +57,9 @@ exports[`<DevConsole /> matches snapshot when shallowly rendered 1`] = `
       }
     }
   >
-    <Text
+    <Box
       as="span"
       fontFamily="mono"
-      fontSize={1}
       my={0}
       sx={
         Object {

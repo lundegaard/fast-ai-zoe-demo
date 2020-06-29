@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import Flex from '@fast-ai/ui-components/Flex';
-import Text from '@fast-ai/ui-components/Text';
+import Box from '@fast-ai/ui-components/Box';
 import { FormattedNumber } from 'gatsby-theme-fast-ai';
 import { keyframes } from '@emotion/core';
 import { isBoolean, isNumeric, isString } from 'ramda-extension';
@@ -17,7 +17,7 @@ const backgroundFadeout = keyframes`
 `;
 
 const HighlightChangesText = ({ ...rest }) => (
-	<Text
+	<Box
 		{...rest}
 		sx={{
 			animationName: backgroundFadeout,
@@ -46,9 +46,9 @@ const format = (x) => {
 
 const DevConsoleItem = ({ value, label, ...rest }) => (
 	<Flex sx={{ py: 2, px: 3, alignItems: 'center' }} {...rest}>
-		<Text as="span" fontSize={1} mb={0}>
+		<Box as="span" fontSize={1} mb={0}>
 			{label}
-		</Text>
+		</Box>
 		<HighlightChangesText
 			title={format(value)}
 			key={value}

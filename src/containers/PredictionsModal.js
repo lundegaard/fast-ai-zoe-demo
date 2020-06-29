@@ -84,7 +84,7 @@ const makeGaugeProps = applySpec({
 	max: prop('max'),
 	min: prop('min'),
 	numberStyle: prop('numberStyle'),
-	variant: o((x) => (x === StatTypes.NEGATIVE ? 'danger' : ''), prop('type')),
+	variant: ({ type }) => (type === StatTypes.NEGATIVE ? 'danger' : ''),
 });
 
 const getModelGaugeProps = compose(makeGaugeProps, getGaugeLookupProps(Models));

@@ -176,10 +176,10 @@ export const useForm = ({ onSubmit = noop, name, ...rest }) => {
 };
 
 export const FormHeading = (props) => (
-	<Heading as="h2" mt={0} mb={4} {...props} />
+	<Heading as="h2" variant="subHeading1" mt={0} mb={4} {...props} />
 );
 export const FormSubheading = (props) => (
-	<Heading as="h3" mt={0} mb={0} {...props} />
+	<Heading as="h3" variant="subHeading2" mt={0} mb={0} {...props} />
 );
 export const HalfCol = (props) => <Col span={[12, 12, 6]} mb={4} {...props} />;
 export const FullCol = (props) => <Col span={12} mb={4} {...props} />;
