@@ -65,10 +65,11 @@ const LoanFormSection = ({ monthlyFee }) => {
 
 			<FullCol>
 				<Flex justifyContent="space-between" alignItems="center">
-					<Heading as="div" mb={0} mt={0}>
+					<Heading variant="subHeading2" as="div" mb={0} mt={0}>
 						<FormattedMessage {...m.totalAmountPerMonth} />
 					</Heading>
-					<Heading as="h2" mb={0} mt={0}>
+
+					<Heading variant="subHeading2" as="h2" mb={0} mt={0}>
 						<AmountFormatter>{monthlyFee}</AmountFormatter>
 					</Heading>
 				</Flex>

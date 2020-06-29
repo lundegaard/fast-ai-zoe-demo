@@ -1,7 +1,7 @@
 import React, { memo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { keyframes } from '@emotion/core';
-import { Box, Flex, Text } from '@fast-ai/ui-components';
+import { Box, Flex } from '@fast-ai/ui-components';
 import { map, o, toPairs } from 'ramda';
 
 import DevConsoleItem from './DevConsoleItem';
@@ -73,15 +73,9 @@ const DevConsole = ({ title, initiallyOpened, ...rest }) => {
 				sx={{ py: 2, px: 3, alignItems: 'center', cursor: 'pointer' }}
 				onClick={() => setIsOpened(!isOpened)}
 			>
-				<Text
-					as="span"
-					fontFamily="mono"
-					fontSize={1}
-					my={0}
-					sx={{ pointerEvents: 'none' }}
-				>
+				<Box as="span" fontFamily="mono" my={0} sx={{ pointerEvents: 'none' }}>
 					{title}
-				</Text>
+				</Box>
 				<DropdownArrow
 					sx={{
 						marginLeft: 'auto',
