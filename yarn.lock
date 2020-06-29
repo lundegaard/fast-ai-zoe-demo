@@ -1455,10 +1455,10 @@
     stylelint "^13.3.0"
     webpack "^4.42.1"
 
-"@fast-ai/ui-components@^0.22.6":
-  version "0.22.6"
-  resolved "https://registry.yarnpkg.com/@fast-ai/ui-components/-/ui-components-0.22.6.tgz#46a1ed0f4da816ed3b8bb158ae139034c8f829f8"
-  integrity sha512-4pmKLA03lMMQ6qbTqUYrsCcZiakkgTHF4PYRdw2OWH35R5etoY3j3WJ9oTp8jEAqzPuYS4mBRKrB8UhLjoiJAQ==
+"@fast-ai/ui-components@^0.22.7":
+  version "0.22.7"
+  resolved "https://registry.yarnpkg.com/@fast-ai/ui-components/-/ui-components-0.22.7.tgz#80836eddaab4370a921e1699419d0e44578455d9"
+  integrity sha512-WjcelppY9gslwl+DUo6ypyiNvSvlQhDco1bQS+lh0PKMCZEv202zEOXQdQPgN5LH7KZZQdFDvsjXrF8cdVgkKQ==
   dependencies:
     "@rebass/forms" "^4.0.6"
     "@rebass/preset" "^4.0.5"
@@ -8431,14 +8431,14 @@ gatsby-telemetry@^1.3.14:
     stack-utils "1.0.2"
     uuid "3.4.0"
 
-gatsby-theme-fast-ai@^0.22.6:
-  version "0.22.6"
-  resolved "https://registry.yarnpkg.com/gatsby-theme-fast-ai/-/gatsby-theme-fast-ai-0.22.6.tgz#7c52759495364f3d5b35f0812b0724a8cacefb47"
-  integrity sha512-0O9GbQk5TIGpNX7+WbtJp7XDW8FpOGnD0CzHCJJWxJBk5YB4yhI5VY1WuDSZ+RTUmbbl76jL2IC2l9dh7RrjHA==
+gatsby-theme-fast-ai@^0.22.7:
+  version "0.22.7"
+  resolved "https://registry.yarnpkg.com/gatsby-theme-fast-ai/-/gatsby-theme-fast-ai-0.22.7.tgz#758a9fe8e6e8e8fe6355e147308b0b9993012a69"
+  integrity sha512-r4U5CtiG09BnmtRAfa0H+I1YeTuIvUGX1n29Ik41jSpqqwXL0Ep7W7rT8FOSsVZLLwvWJOQzhmNgiSsxQxgelg==
   dependencies:
     "@emotion/core" "^10.0.0"
     "@fast-ai/gatsby-plugin-setup" "^0.22.3"
-    "@fast-ai/ui-components" "^0.22.6"
+    "@fast-ai/ui-components" "^0.22.7"
     "@mdx-js/mdx" "^1.6.5"
     "@mdx-js/react" "^1.6.5"
     fontfaceobserver "^2.1.0"
