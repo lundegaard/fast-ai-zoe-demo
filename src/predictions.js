@@ -7,6 +7,8 @@ import {
 	evolve,
 	fromPairs,
 	identity,
+	join,
+	keys,
 	map,
 	o,
 	path,
@@ -104,9 +106,15 @@ export const fetchPredictionsAndFeatures = ({
 		)(featuresResponse),
 	}));
 
+const filterFeaturesQuery = compose(
+	join('&'),
+	map((x) => `features=${x}`),
+	keys
+)(featuresDescriptor);
+
 export const fetchFeatures = (applicationId) =>
 	createRequest(
-		`${process.env.API_URL}/applications/${applicationId}/smart-features`
+		`${process.env.API_URL}/applications/${applicationId}/smart-features?${filterFeaturesQuery}`
 	);
 
 const featuresDescriptorFiltering = map((x) =>
