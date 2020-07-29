@@ -5,51 +5,44 @@ import {
 	compose,
 	cond,
 	evolve,
-	fromPairs,
 	identity,
 	join,
 	keys,
 	map,
-	o,
-	path,
 	pathEq,
 	pick,
 } from 'ramda';
-import { defaultToEmptyObject, isFunction, keyMirror } from 'ramda-extension';
+import {
+	defaultToEmptyObject,
+	isFunction,
+	isNilOrEmpty,
+	keyMirror,
+} from 'ramda-extension';
 import fetch from 'unfetch';
 
 import { getTruthyKeys, round } from './utils';
 import { featuresDescriptor } from './featuresDescriptor';
-
-const getFeatures = ({ features, predictions }) => ({
-	...features,
-	...predictions,
-});
-const getPrediction = path(['prediction']);
 
 export const StatTypes = keyMirror({
 	POSITIVE: null,
 	NEGATIVE: null,
 });
 
-export const Models = {
-	DEFAULT: {
-		value: 'default',
-		type: StatTypes.POSITIVE,
-		numberStyle: 'percent',
-	},
-};
-
 export const Features = {
 	LYING_BEHAVIOR_SCORE: {
-		value: 'lying_behavior_score',
 		type: StatTypes.NEGATIVE,
+		value: 'lying_behavior_score',
 		min: 0,
 		max: 5,
 	},
 	FRAUD_SCORE: {
 		value: 'fraud_score',
 		type: StatTypes.NEGATIVE,
+		numberStyle: 'percent',
+	},
+	LOAN_APPROVAL: {
+		value: 'loan_approval',
+		type: StatTypes.POSITIVE,
 		numberStyle: 'percent',
 	},
 };
@@ -75,53 +68,33 @@ const createRequest = (url, options) =>
 			return data;
 		});
 
-const fetchModels = (applicationId, models) =>
-	Promise.all(
-		map(
-			(modelId) =>
-				createRequest(
-					modelId === Models.DEFAULT.value
-						? `${process.env.API_URL}/applications/${applicationId}/prediction`
-						: `${process.env.API_URL}/applications/${applicationId}/prediction/${modelId}`
-				).then(o((prediction) => [modelId, prediction], getPrediction)),
-			models
-		)
-	);
-
-export const fetchPredictionsAndFeatures = ({
-	applicationId,
-	models = [Models.DEFAULT.value],
-	features = null,
-}) =>
-	Promise.all([
-		fetchModels(applicationId, models),
-		createRequest(
-			`${process.env.API_URL}/applications/${applicationId}/smart-features`
-		),
-	]).then(([models, featuresResponse]) => ({
-		models: fromPairs(models),
-		features: compose(
-			features ? pick(features) : identity,
-			getFeatures
-		)(featuresResponse),
-	}));
-
-const filterFeaturesQuery = compose(
+const getFeaturesQuery = compose(
 	join('&'),
-	map((x) => `features=${x}`),
-	keys
-)(featuresDescriptor);
+	map((x) => `features=${x}`)
+);
 
-export const fetchFeatures = (applicationId) =>
-	createRequest(
-		`${process.env.API_URL}/applications/${applicationId}/smart-features?${filterFeaturesQuery}`
-	);
+const allFeaturesQuery = getFeaturesQuery(keys(featuresDescriptor));
+
+/** Group features and predictions as features */
+const mergeFeaturesAndPredictions = ({ features, predictions }) => ({
+	...features,
+	...predictions,
+});
+
+export const fetchFeatures = ({ applicationId, features }) => {
+	const query = isNilOrEmpty(features)
+		? allFeaturesQuery
+		: getFeaturesQuery(features);
+
+	return createRequest(
+		`${process.env.API_URL}/applications/${applicationId}/smart-features?${query}`
+	).then(mergeFeaturesAndPredictions);
+};
 
 const featuresDescriptorFiltering = map((x) =>
 	x && isFunction(x.filterPredicate) ? x.filterPredicate : T
 )(featuresDescriptor);
 
-// Features -> FormattedFeatures
 const featuresDescriptorFormatting = map(
 	compose(
 		cond([
@@ -137,7 +110,7 @@ const featuresDescriptorDataSelector = map((x) =>
 )(featuresDescriptor);
 
 const formatFeatures = evolve(featuresDescriptorFormatting);
-const selectFeatures = evolve(featuresDescriptorDataSelector);
+const selectValuesFromFeatures = evolve(featuresDescriptorDataSelector);
 
 // Features -> FilteredFeatures
 const filterFeatures = (features) =>
@@ -149,7 +122,6 @@ const filterFeatures = (features) =>
 
 export const logFeatures = compose(
 	formatFeatures,
-	selectFeatures,
-	filterFeatures,
-	getFeatures
+	selectValuesFromFeatures,
+	filterFeatures
 );

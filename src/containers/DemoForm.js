@@ -123,7 +123,7 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 				return;
 			}
 
-			fetchFeatures(applicationId).then(
+			fetchFeatures({ applicationId }).then(
 				(features) => void devConsole.log(logFeatures(features))
 			);
 		},
