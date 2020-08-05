@@ -25,7 +25,9 @@ const ZoeConsoleConsumer = ({
 	const devConsole = useConsole();
 	const saRef = useRef();
 
-	saRef.current = (saRefProp && saRefProp.current) || window.sa;
+	if (typeof window !== 'undefined') {
+		saRef.current = (saRefProp && saRefProp.current) || window.sa;
+	}
 
 	useEffect(() => {
 		if (!saRef.current || !applicationId) {
