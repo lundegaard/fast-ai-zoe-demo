@@ -1437,10 +1437,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@fast-ai/gatsby-plugin-setup@^0.22.3":
-  version "0.22.3"
-  resolved "https://registry.yarnpkg.com/@fast-ai/gatsby-plugin-setup/-/gatsby-plugin-setup-0.22.3.tgz#36727f0fbd85193c6f62554dbfdcbf57219db882"
-  integrity sha512-3dKs087iZxLiPibHKgZxIeBbbku4lmffqM4yZLCiQmaE/PclhAwUC5BsS4sOVEz0DzEywma553+dzUVcp4HAhA==
+"@fast-ai/gatsby-plugin-setup@^0.24.0":
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/@fast-ai/gatsby-plugin-setup/-/gatsby-plugin-setup-0.24.0.tgz#6b2d94c0717cbaa6abf6875e65487f39de5d8db9"
+  integrity sha512-/zhni9Cq0UpFqIJgnuEfIfgMCgwtpVfHr5MsL0/WZR1P934M72HvMVRT4ycm4xNzAmIaBzY7VURuCLPSKFj7bw==
   dependencies:
     "@babel/cli" "^7.10.1"
     "@babel/core" "^7.10.2"
@@ -1455,10 +1455,10 @@
     stylelint "^13.3.0"
     webpack "^4.42.1"
 
-"@fast-ai/ui-components@^0.22.7":
-  version "0.22.7"
-  resolved "https://registry.yarnpkg.com/@fast-ai/ui-components/-/ui-components-0.22.7.tgz#80836eddaab4370a921e1699419d0e44578455d9"
-  integrity sha512-WjcelppY9gslwl+DUo6ypyiNvSvlQhDco1bQS+lh0PKMCZEv202zEOXQdQPgN5LH7KZZQdFDvsjXrF8cdVgkKQ==
+"@fast-ai/ui-components@^0.24.0":
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/@fast-ai/ui-components/-/ui-components-0.24.0.tgz#1d166c5aa2280d5e7fcfa3f7f71a1312caf95d11"
+  integrity sha512-9TZ0vtVq6f0FWPjQvuilPm+s0LPDCZPZX88/kC8uyVzz7Gm36QEEqQJcQr89NbGVRLoJau48cou9CITvX+uEiQ==
   dependencies:
     "@rebass/forms" "^4.0.6"
     "@rebass/preset" "^4.0.5"
@@ -1468,6 +1468,7 @@
     ramda "^0.27.0"
     ramda-extension "^0.10.3"
     react-compound-slider "^2.5.0"
+    react-dotdotdot "^1.3.0"
     react-modal-hook "^3.0.0"
     react-text-mask "^5.4.3"
     react-transition-group "^4.4.1"
@@ -8431,14 +8432,14 @@ gatsby-telemetry@^1.3.14:
     stack-utils "1.0.2"
     uuid "3.4.0"
 
-gatsby-theme-fast-ai@^0.22.7:
-  version "0.22.7"
-  resolved "https://registry.yarnpkg.com/gatsby-theme-fast-ai/-/gatsby-theme-fast-ai-0.22.7.tgz#758a9fe8e6e8e8fe6355e147308b0b9993012a69"
-  integrity sha512-r4U5CtiG09BnmtRAfa0H+I1YeTuIvUGX1n29Ik41jSpqqwXL0Ep7W7rT8FOSsVZLLwvWJOQzhmNgiSsxQxgelg==
+gatsby-theme-fast-ai@^0.24.0:
+  version "0.24.0"
+  resolved "https://registry.yarnpkg.com/gatsby-theme-fast-ai/-/gatsby-theme-fast-ai-0.24.0.tgz#a786f32ab9479eca3e0b2a52792bccd25ca4c018"
+  integrity sha512-K2a7MN6J21gE42OFwg0Zfd7T+f/+G7GetywIV5kSCv7L239SXGgvg8pPOP4SDnVu8KouF8187C2XupTP0vgZjg==
   dependencies:
     "@emotion/core" "^10.0.0"
-    "@fast-ai/gatsby-plugin-setup" "^0.22.3"
-    "@fast-ai/ui-components" "^0.22.7"
+    "@fast-ai/gatsby-plugin-setup" "^0.24.0"
+    "@fast-ai/ui-components" "^0.24.0"
     "@mdx-js/mdx" "^1.6.5"
     "@mdx-js/react" "^1.6.5"
     fontfaceobserver "^2.1.0"
@@ -14644,7 +14645,7 @@ react-dom@^16.12.0:
     prop-types "^15.6.2"
     scheduler "^0.19.1"
 
-react-dotdotdot@^1.3.1:
+react-dotdotdot@^1.3.0, react-dotdotdot@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-dotdotdot/-/react-dotdotdot-1.3.1.tgz#b94324bf66cdb70e4acffe5460e4480a91135e50"
   integrity sha512-ImqoKTD4ZdyfF/h7jdPCZur01QlZxx3A9/gZSf9mbvseNZwVTvd+dPwi/hg1UTtP+30luy2d5j0KG+XEfdBPLQ==
