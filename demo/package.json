@@ -40,6 +40,7 @@
 		"validarium": "^0.9.0"
 	},
 	"devDependencies": {
-		"dotenv": "^8.2.0"
+		"dotenv": "^8.2.0",
+		"gatsby-cli": "^2.12.72"
 	}
 }
