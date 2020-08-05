@@ -1,0 +1,9 @@
+node_modules/**
+**/node_modules/**
+demo/node_modules/**
+demo/public/**
+.git/**
+.github/**
+.env
+video.gif
+.eslintcache
