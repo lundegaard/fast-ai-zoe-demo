@@ -1,6 +1,4 @@
 FROM node:10-jessie as builder
-COPY yarn.lock /sources/yarn.lock
-COPY package.json /sources/package.json
 
 COPY . /sources
 WORKDIR /sources
