@@ -56,6 +56,7 @@ module.exports = {
 					'**/gatsby-config.js',
 					'**/gatsby-ssr.js',
 					'testsSetup.js',
+					'jestPreprocess.js',
 					'*.config.js',
 				],
 			},
