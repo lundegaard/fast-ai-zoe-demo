@@ -20,8 +20,9 @@ import {
 	noop,
 } from 'ramda-extension';
 import { keyframes } from '@emotion/core';
+import { fetchFeatures } from '@fast-ai/zoe-client';
 
-import { Features, StatTypes, fetchFeatures } from '../predictions';
+import { Features, StatTypes } from '../predictions';
 import { OptionalFormattedMessage } from '../components';
 import m from '../intl/messages';
 

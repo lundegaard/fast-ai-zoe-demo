@@ -53,8 +53,8 @@ module.exports = {
 				devDependencies: [
 					'tools/**/*.js',
 					'**/*.test.js',
-					'gatsby-config.js',
-					'gatsby-ssr.js',
+					'**/gatsby-config.js',
+					'**/gatsby-ssr.js',
 					'testsSetup.js',
 					'*.config.js',
 				],
