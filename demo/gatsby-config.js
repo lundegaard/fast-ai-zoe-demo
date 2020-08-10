@@ -2,9 +2,12 @@ const path = require('path');
 
 const { author } = require('./package.json');
 
-require('dotenv').config({
-	path: path.join(__dirname, '..', `.env.${process.env.NODE_ENV}`),
-});
+console.log('Configuration');
+console.log(
+	require('dotenv').config({
+		path: path.join(__dirname, '..', `.env.${process.env.NODE_ENV}`),
+	})
+);
 
 const siteMetadata = {
 	author,
