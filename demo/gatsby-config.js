@@ -35,5 +35,16 @@ module.exports = {
 				saUrl: process.env.SA_DISTRIBUTION_URL,
 			},
 		},
+		{
+			resolve: 'gatsby-plugin-env-variables',
+			options: {
+				whitelist: [
+					'TENANT_ID',
+					'AUTH_DEMO_APP_TOKEN',
+					'API_URL',
+					'SA_DISTRIBUTION_URL',
+				],
+			},
+		},
 	],
 };
