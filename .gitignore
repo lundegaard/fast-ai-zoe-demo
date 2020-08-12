@@ -1,23 +1,13 @@
 public
 build
 lib
+es
 .env
-
-apps/**/lib
-apps/**/build
-apps/**/public
-apps/**/.cache
 packages/**/lib
+packages/**/es
 packages/**/build
 packages/**/dist
-packages/gatsby-plugin-setup/*.js
-
 .stylelintcache
-
-.env
-apps/**/.env
-
-!/apps/storybook/.storybook-ui
 
 # Apple cache file
 .DS_Store

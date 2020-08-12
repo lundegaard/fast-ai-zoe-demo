@@ -12,15 +12,16 @@
 	],
 	"license": "MIT",
 	"scripts": {
-		"start": "yarn demo start",
-		"serve": "yarn demo serve",
-		"build": "yarn demo build",
+		"start": "concurrently -k -n \"NODE,APP\" \"yarn zoe-client start\" \"yarn zoe-demo start\"",
+		"serve": "yarn zoe-demo serve",
+		"build": "yarn zoe-client build && yarn zoe-demo build",
 		"lint": "yarn lint:pkg && yarn lint:js",
 		"lint:pkg": "npmPkgJsonLint .",
 		"lint:js": "eslint --cache --ignore-path .gitignore --ext .js ./",
 		"test": "jest",
 		"format": "prettier --ignore-path .gitignore --write '**/*.{js,json}' && yarn lint:js --fix",
-		"demo": "yarn workspace @fast-ai/zoe-demo"
+		"zoe-demo": "yarn workspace @fast-ai/zoe-demo",
+		"zoe-client": "yarn workspace @fast-ai/zoe-client"
 	},
 	"husky": {
 		"hooks": {
@@ -37,7 +38,10 @@
 		"@rollup/plugin-replace": "^2.3.3",
 		"babel-eslint": "^10.1.0",
 		"babel-jest": "^26.1.0",
+		"babel-plugin-transform-inline-environment-variables": "^0.4.3",
 		"babel-preset-gatsby": "^0.5.4",
+		"babel-preset-react-union": "^0.19.0",
+		"concurrently": "^5.3.0",
 		"dotenv": "^8.2.0",
 		"enzyme": "^3.11.0",
 		"enzyme-adapter-react-16": "^1.15.2",
