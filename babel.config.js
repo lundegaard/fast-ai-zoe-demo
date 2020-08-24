@@ -1,46 +1,36 @@
-const productionPlugins = [
-	[
-		'@babel/plugin-transform-react-constant-elements',
-		{ allowMutablePropsOnTags: ['FormattedMessage'] },
-	],
-	[
-		'babel-plugin-transform-react-remove-prop-types',
-		{
-			mode: 'unsafe-wrap',
-		},
-	],
-];
+const path = require('path');
 
-const plugins = [
-	...productionPlugins,
-	['@babel/plugin-transform-runtime', { useESModules: true }],
-];
+module.exports = (api) => {
+	api.cache.never();
 
-const config = { plugins };
+	require('dotenv').config({
+		path: path.join(__dirname, `.env.${process.env.NODE_ENV}`),
+	});
 
-module.exports = {
-	presets: [
-		[
-			'babel-preset-react-union',
-			{
-				test: process.env.NODE_ENV === 'test',
-				loose: true,
-				library: false,
-				universal: false,
-			},
+	return {
+		presets: [
+			[
+				'babel-preset-react-union',
+				{
+					test: process.env.NODE_ENV === 'test',
+					loose: true,
+					library: false,
+					universal: false,
+				},
+			],
 		],
-	],
-	ignore: [/@babel[\\|/]runtime/], // Fix a Windows issue.
-	env: {
-		cjs: {
-			plugins: productionPlugins,
-		},
-		test: {
-			plugins: productionPlugins,
-		},
-		esm: config,
-		es: config,
-		production: config,
-		'production-umd': config,
-	},
+		plugins: [
+			[
+				'transform-inline-environment-variables',
+				{
+					include: [
+						'TENANT_ID',
+						'AUTH_DEMO_APP_TOKEN',
+						'API_URL',
+						'SA_DISTRIBUTION_URL',
+					],
+				},
+			],
+		],
+	};
 };

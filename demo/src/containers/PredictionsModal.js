@@ -11,28 +11,18 @@ import {
 	Text,
 } from '@fast-ai/ui-components';
 import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
+import { applySpec, clamp, compose, map, prop, replace, toPairs } from 'ramda';
 import {
-	applySpec,
-	clamp,
-	compose,
-	find,
-	map,
-	o,
-	prop,
-	replace,
-	toPairs,
-	values,
-	whereEq,
-} from 'ramda';
-import { flipIncludes, isArray, keyMirror, noop } from 'ramda-extension';
+	flipIncludes,
+	isArray,
+	keyMirror,
+	mapKeysAndValues,
+	noop,
+} from 'ramda-extension';
 import { keyframes } from '@emotion/core';
+import { fetchFeatures } from '@fast-ai/zoe-client';
 
-import {
-	Features,
-	Models,
-	StatTypes,
-	fetchPredictionsAndFeatures,
-} from '../predictions';
+import { Features, StatTypes } from '../predictions';
 import { OptionalFormattedMessage } from '../components';
 import m from '../intl/messages';
 
@@ -65,20 +55,18 @@ const loadingDataAnimation = keyframes`
 }
 `;
 
-const selectResults = ({ models, features }) => ({
-	models: compose(
-		map(([modelId, value]) => ({ modelId, value })),
-		toPairs,
-		map(prop('predictionProbability'))
-	)(models),
+const selectResults = (features) => ({
 	features: compose(
-		map(([featureId, value]) => ({ featureId, value })),
+		map(([id, value]) => ({ id, value })),
 		toPairs
 	)(features),
 });
 
-const getGaugeLookupProps = (lookup) => (value) =>
-	o(find(whereEq({ value })), values)(lookup);
+const getGaugeLookupProps = (lookup) => {
+	const byValue = mapKeysAndValues(([, x]) => [x.value, x], lookup);
+
+	return (value) => byValue[value];
+};
 
 const makeGaugeProps = applySpec({
 	max: prop('max'),
@@ -87,7 +75,6 @@ const makeGaugeProps = applySpec({
 	variant: ({ type }) => (type === StatTypes.NEGATIVE ? 'danger' : ''),
 });
 
-const getModelGaugeProps = compose(makeGaugeProps, getGaugeLookupProps(Models));
 const getFeatureGaugeProps = compose(
 	makeGaugeProps,
 	getGaugeLookupProps(Features)
@@ -184,17 +171,17 @@ const PredictionsModal = ({
 	const [status, setStatus] = useSafeState(useState(Statuses.EMPTY));
 	const [results, setResults] = useSafeState(useState(null));
 
-	const { features = [], models = [] } = results || {};
+	const { features = [] } = results || {};
 
 	const refetchData = useCallback(async () => {
 		try {
 			const makeFetch = () =>
-				fetchPredictionsAndFeatures({
+				fetchFeatures({
 					applicationId,
-					models: [Models.DEFAULT.value],
 					features: [
 						Features.LYING_BEHAVIOR_SCORE.value,
 						Features.FRAUD_SCORE.value,
+						Features.LOAN_APPROVAL.value,
 					],
 				});
 
@@ -205,6 +192,7 @@ const PredictionsModal = ({
 			setStatus(Statuses.INTERMEDIATE_RESULTS_LOADED);
 			setResults(selectResults(intermediateResults));
 
+			// Waiting for the BE to process results
 			await sleep(5000);
 
 			setStatus(Statuses.LOADING_RESULTS);
@@ -262,38 +250,21 @@ const PredictionsModal = ({
 
 		return (
 			<Flex justifyContent="center" flexWrap="wrap">
-				{isArray(models) &&
-					models.map(({ modelId, value }) => (
-						<ResultGauge
-							loading={status !== Statuses.RESULTS_LOADED}
-							key={modelId}
-							id={modelId}
-							value={value}
-							title={
-								<OptionalFormattedMessage
-									messages={m}
-									id={`modelTitle__${modelId}`}
-								/>
-							}
-							m={3}
-							{...getModelGaugeProps(modelId)}
-						/>
-					))}
 				{isArray(features) &&
-					features.map(({ featureId, value }) => (
+					features.map(({ id, value }) => (
 						<ResultGauge
 							loading={status !== Statuses.RESULTS_LOADED}
-							key={featureId}
-							id={featureId}
+							key={id}
+							id={id}
 							value={value}
 							title={
 								<OptionalFormattedMessage
 									messages={m}
-									id={`featureTitle__${featureId}`}
+									id={`featureTitle__${id}`}
 								/>
 							}
 							m={3}
-							{...getFeatureGaugeProps(featureId)}
+							{...getFeatureGaugeProps(id)}
 						/>
 					))}
 			</Flex>

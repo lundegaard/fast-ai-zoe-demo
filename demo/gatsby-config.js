@@ -3,7 +3,7 @@ const path = require('path');
 const { author } = require('./package.json');
 
 require('dotenv').config({
-	path: path.join(__dirname, `.env.${process.env.NODE_ENV}`),
+	path: path.join(__dirname, '..', `.env.${process.env.NODE_ENV}`),
 });
 
 const siteMetadata = {
@@ -33,6 +33,17 @@ module.exports = {
 				tenantId: process.env.TENANT_ID,
 				usePlugins: ['s-apm', 's-form', 's-biometrics'],
 				saUrl: process.env.SA_DISTRIBUTION_URL,
+			},
+		},
+		{
+			resolve: 'gatsby-plugin-env-variables',
+			options: {
+				whitelist: [
+					'TENANT_ID',
+					'AUTH_DEMO_APP_TOKEN',
+					'API_URL',
+					'SA_DISTRIBUTION_URL',
+				],
 			},
 		},
 	],

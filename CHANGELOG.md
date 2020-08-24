@@ -1,3 +1,11 @@
+# v0.0.6
+
+* Decoupling the ZoeConsole to its own package 
+  - [Decoupling zoe-console](https://github.com/lundegaard/fast-ai-zoe-demo/commit/ee406a7901774df3b2c6f700f03b442c8e028f98)
+* [Removing 'models' thanks to new API design](https://github.com/lundegaard/fast-ai-zoe-demo/commit/7fdf4eeb4cb7180aaf846ae825d3e2c11faf9196)
+* [Filter features with new API](https://github.com/lundegaard/fast-ai-zoe-demo/commit/d270e031e19ae6ee632c71c01dff9a4c2a58d7bf)
+  - 
+
 # v0.0.4
 
 ## Changes

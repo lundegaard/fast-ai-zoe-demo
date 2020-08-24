@@ -1,13 +1,13 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { Fragment, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDebounce, useIdleTime, useModal } from '@fast-ai/ui-components';
-import { useInterval } from '@restart/hooks';
 import createRandomString from 'crypto-random-string';
+import { useDebounce, useModal } from '@fast-ai/ui-components';
+import { ZoeConsole } from '@fast-ai/zoe-console';
 
 import Forms from '../constants/Forms';
-import { fetchFeatures, logFeatures } from '../predictions';
 import { useTimeout } from '../hooks';
-import { DemoForm as DemoFormUi, useDevConsole, useForm } from '../components';
+import { DemoForm as DemoFormUi, useForm } from '../components';
+import { featuresDescriptor } from '../featuresDescriptor';
 
 import PredictionsModal, {
 	ClosingReasons as PredictionsModalClosingReasons,
@@ -45,7 +45,7 @@ const defaultValues = {
 const getApplicationId = () =>
 	`demo-${createRandomString({ length: 10, type: 'distinguishable' })}`;
 
-const DemoForm = ({ loggingInterval = 2000 }) => {
+const DemoForm = () => {
 	const { openModal: openPredictionsModal } = useModal({
 		component: PredictionsModal,
 	});
@@ -79,8 +79,6 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 		},
 	});
 
-	const devConsole = useDevConsole();
-
 	useEffect(() => {
 		if (!applicationId) {
 			return;
@@ -89,11 +87,6 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 		setStatsReady(false);
 
 		register(applicationId);
-
-		devConsole.replace({
-			'Application ID': applicationId,
-			'Tenant ID': process.env.TENANT_ID,
-		});
 	}, [applicationId]);
 
 	const sendValues = useCallback(
@@ -115,23 +108,6 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 		[applicationId]
 	);
 
-	const { isIdle } = useIdleTime();
-
-	useInterval(
-		() => {
-			if (document.hidden || isIdle || !statsReady) {
-				return;
-			}
-
-			fetchFeatures(applicationId).then(
-				(features) => void devConsole.log(logFeatures(features))
-			);
-		},
-		loggingInterval,
-		false, // is paused
-		true // run immediately
-	);
-
 	const monthlyFee =
 		getFieldValue('loanInfo.amount') /
 		getFieldValue('loanInfo.numberOfInstalments');
@@ -140,19 +116,25 @@ const DemoForm = ({ loggingInterval = 2000 }) => {
 	const coborrowerChoice = getFieldValue('webdata.coborrowerChoice');
 
 	return (
-		<Form onBlur={handleFormBlur}>
-			<DemoFormUi
-				handleClickSubmit={handleClickSubmit}
-				coborrowerChoice={coborrowerChoice}
-				canSubmit={canSubmit}
-				isSubmitting={isSubmitting}
-				monthlyFee={monthlyFeeDebounced}
+		<Fragment>
+			<Form onBlur={handleFormBlur}>
+				<DemoFormUi
+					handleClickSubmit={handleClickSubmit}
+					coborrowerChoice={coborrowerChoice}
+					canSubmit={canSubmit}
+					isSubmitting={isSubmitting}
+					monthlyFee={monthlyFeeDebounced}
+				/>
+			</Form>
+
+			<ZoeConsole
+				applicationId={statsReady ? applicationId : null}
+				descriptor={featuresDescriptor}
 			/>
-		</Form>
+		</Fragment>
 	);
 };
 
-// handleFormBlur={handleFormBlur}
 DemoForm.propTypes = { loggingInterval: PropTypes.number };
 
 export default DemoForm;
