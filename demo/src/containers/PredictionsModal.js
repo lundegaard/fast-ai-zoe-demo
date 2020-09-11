@@ -20,7 +20,7 @@ import {
 	noop,
 } from 'ramda-extension';
 import { keyframes } from '@emotion/core';
-import { fetchFeatures } from '@fast-ai/zoe-client';
+import { zoeClient } from '@fast-ai/zoe-console';
 
 import { Features, StatTypes } from '../predictions';
 import { OptionalFormattedMessage } from '../components';
@@ -176,7 +176,7 @@ const PredictionsModal = ({
 	const refetchData = useCallback(async () => {
 		try {
 			const makeFetch = () =>
-				fetchFeatures({
+				zoeClient.fetchFeatures({
 					applicationId,
 					features: [
 						Features.LYING_BEHAVIOR_SCORE.value,
