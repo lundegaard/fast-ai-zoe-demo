@@ -31,7 +31,8 @@ module.exports = {
 			resolve: require.resolve('./src/plugins/gatsby-plugin-s-analytics'),
 			options: {
 				tenantId: process.env.TENANT_ID,
-				usePlugins: ['s-apm', 's-form', 's-biometrics'],
+				usePlugins: ['s-apm', 's-form', 's-biometrics', 's-api'],
+				debug: true,
 				saUrl: process.env.SA_DISTRIBUTION_URL,
 			},
 		},
