@@ -109,20 +109,20 @@ export const useSAFieldTracker = ({
 	return { getInputProps };
 };
 
-export const useSAComponentTimer = ({
-	name,
-	dimensions: dimensionsProp = [],
-}) => {
+export const useSAComponentTimer = (props) => {
 	const { sa } = useSA();
 
-	const dimensionsRef = useRef(dimensionsProp);
+	const propsRef = useRef(props);
+	useEffect(() => {
+		propsRef.current = props;
+	}, [props]);
 
 	useEffect(() => {
-		const dimensions = dimensionsRef.current;
-		sa('setTimer', { label: name, dimensions });
+		const props = propsRef.current;
+		sa('send', 'timer', { ...props, timerAction: 'set' });
 
 		return () => {
-			sa('endTimer', { label: name, dimensions });
+			sa('send', 'timer', { ...props, timerAction: 'end' });
 		};
 	}, []);
 };
