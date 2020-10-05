@@ -10,7 +10,8 @@ import m from '../intl/messages';
 
 const TermsModal = ({ closeModal, ...rest }) => {
 	useSAComponentTimer({
-		dimensions: [Forms.ZOE_DEMO, Modals.TERMS],
+		timerCategory: Forms.ZOE_DEMO,
+		timerLabel: Modals.TERMS,
 	});
 
 	return (
