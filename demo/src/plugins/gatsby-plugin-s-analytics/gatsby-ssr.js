@@ -5,11 +5,14 @@ export const onRenderBody = (
 	{
 		saUrl = 'https://sa-sdp.lnd.bz/versions/stable',
 		tenantId,
+		debug,
 		usePlugins: plugins,
 	}
 ) => {
 	const getScriptUrl = (isPlugin) => (scriptName) =>
-		`${saUrl}/${scriptName}${isPlugin ? '.plugin' : ''}.js`;
+		`${saUrl}/${scriptName}${isPlugin ? '.plugin' : ''}${
+			debug ? '.debug' : ''
+		}.js`;
 
 	const script = `
 (function(i, s, o, g, r, a, m) {

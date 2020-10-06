@@ -1,3 +1,10 @@
+# v0.0.7
+
+- [Using s-api instead of custom implementation](https://github.com/lundegaard/fast-ai-zoe-demo/pull/67)
+
+## Fixes
+- [Tracking timing on  modals](https://github.com/lundegaard/fast-ai-zoe-demo/pull/68)
+
 # v0.0.6
 
 * Decoupling the ZoeConsole to its own package 

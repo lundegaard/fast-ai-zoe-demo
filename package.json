@@ -1,7 +1,7 @@
 {
 	"name": "@fast-ai/zoe-workspace",
 	"private": true,
-	"version": "0.0.6",
+	"version": "0.0.7",
 	"contributors": [
 		"Tomas Konrady <tomaskonrady@gmail.com>"
 	],
@@ -12,16 +12,15 @@
 	],
 	"license": "MIT",
 	"scripts": {
-		"start": "concurrently -k -n \"NODE,APP\" \"yarn zoe-client start\" \"yarn zoe-demo start\"",
+		"start": "yarn zoe-demo start",
 		"serve": "yarn zoe-demo serve",
-		"build": "yarn zoe-client build && yarn zoe-demo build",
+		"build": "yarn zoe-demo build",
 		"lint": "yarn lint:pkg && yarn lint:js",
 		"lint:pkg": "npmPkgJsonLint .",
 		"lint:js": "eslint --cache --ignore-path .gitignore --ext .js ./",
 		"test": "jest",
 		"format": "prettier --ignore-path .gitignore --write '**/*.{js,json}' && yarn lint:js --fix",
-		"zoe-demo": "yarn workspace @fast-ai/zoe-demo",
-		"zoe-client": "yarn workspace @fast-ai/zoe-client"
+		"zoe-demo": "yarn workspace @fast-ai/zoe-demo"
 	},
 	"husky": {
 		"hooks": {

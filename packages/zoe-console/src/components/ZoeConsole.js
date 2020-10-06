@@ -8,13 +8,12 @@ import {
 	useIdleTime,
 } from '@fast-ai/ui-components';
 import { useInterval } from '@restart/hooks';
-import { fetchFeatures } from '@fast-ai/zoe-client';
 
+import { fetchFeatures } from '../zoeClient';
 import { createFeatureLog } from '../createFeatureLog';
 import { defaultDescriptor } from '../defaultDescriptor';
 
 const ZoeConsoleConsumer = ({
-	saRef: saRefProp,
 	applicationId,
 	loggingInterval = 2000,
 	descriptor = defaultDescriptor,
@@ -24,9 +23,11 @@ const ZoeConsoleConsumer = ({
 	const { isIdle } = useIdleTime();
 	const devConsole = useConsole();
 	const saRef = useRef();
+	const saiRef = useRef();
 
 	if (typeof window !== 'undefined') {
-		saRef.current = (saRefProp && saRefProp.current) || window.sa;
+		saRef.current = window.sa;
+		saiRef.current = window.SAI;
 	}
 
 	useEffect(() => {
@@ -45,7 +46,7 @@ const ZoeConsoleConsumer = ({
 
 	useInterval(
 		() => {
-			if (document.hidden || isIdle || !applicationId) {
+			if (!saiRef.current || document.hidden || isIdle || !applicationId) {
 				return;
 			}
 
@@ -66,7 +67,6 @@ ZoeConsoleConsumer.propTypes = {
 	descriptor: PropTypes.object,
 	formatValue: PropTypes.func,
 	loggingInterval: PropTypes.number,
-	saRef: PropTypes.shape({ current: PropTypes.object }),
 	title: PropTypes.node,
 };
 
