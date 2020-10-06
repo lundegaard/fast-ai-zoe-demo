@@ -1,3 +1,8 @@
+# v0.0.8
+
+## Fixes
+- [Do not use forTime](https://github.com/lundegaard/fast-ai-zoe-demo/pull/72)
+
 # v0.0.7
 
 - [Using s-api instead of custom implementation](https://github.com/lundegaard/fast-ai-zoe-demo/pull/67)
