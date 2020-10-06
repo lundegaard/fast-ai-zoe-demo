@@ -15,7 +15,7 @@ import { defaultDescriptor } from '../defaultDescriptor';
 
 const ZoeConsoleConsumer = ({
 	applicationId,
-	loggingInterval = 2000,
+	loggingInterval = 3000,
 	descriptor = defaultDescriptor,
 	formatValue = defaultConsoleFormattingFunction,
 	title = 'zoe@lundegaard.ai:~ smartfeatures$',
@@ -50,7 +50,7 @@ const ZoeConsoleConsumer = ({
 				return;
 			}
 
-			fetchFeatures({ applicationId }).then(
+			fetchFeatures({ applicationId, timeout: loggingInterval }).then(
 				(features) => void devConsole.log(logFeatures(features))
 			);
 		},
