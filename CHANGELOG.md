@@ -1,3 +1,7 @@
+# v0.0.9
+
+- [Simpifing with `forTime`](https://github.com/lundegaard/fast-ai-zoe-demo/pull/77)
+
 # v0.0.8
 
 ## Fixes
