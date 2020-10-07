@@ -5,7 +5,6 @@ import { useDebounce, useModal } from '@fast-ai/ui-components';
 import { ZoeConsole } from '@fast-ai/zoe-console';
 
 import Forms from '../constants/Forms';
-import { useTimeout } from '../hooks';
 import { DemoForm as DemoFormUi, useForm } from '../components';
 import { featuresDescriptor } from '../featuresDescriptor';
 
@@ -50,8 +49,7 @@ const DemoForm = () => {
 		component: PredictionsModal,
 	});
 	const [applicationId, setApplicationId] = useState(getApplicationId());
-	const [statsReady, setStatsReady] = useState(false);
-
+	const [disableConsoleRefresh, setDisableConsoleRefresh] = useState(false);
 	const {
 		Form,
 		meta: { isSubmitting, canSubmit, isValid },
@@ -65,6 +63,7 @@ const DemoForm = () => {
 		defaultValues,
 		name: Forms.ZOE_DEMO,
 		onSubmit: async (values) => {
+			setDisableConsoleRefresh(true);
 			send({ data: values, applicationId });
 
 			openPredictionsModal({
@@ -73,6 +72,7 @@ const DemoForm = () => {
 					if (reason === PredictionsModalClosingReasons.CLICK_ON_TRY_AGAIN) {
 						reset();
 						setApplicationId(getApplicationId());
+						setDisableConsoleRefresh(false);
 					}
 				},
 			});
@@ -84,9 +84,8 @@ const DemoForm = () => {
 			return;
 		}
 
-		setStatsReady(false);
-
 		register(applicationId);
+		sendValues();
 	}, [applicationId]);
 
 	const sendValues = useCallback(
@@ -94,19 +93,7 @@ const DemoForm = () => {
 		[isValid, applicationId, values, send]
 	);
 
-	const handleFormBlur = useCallback(() => statsReady && sendValues(), [
-		statsReady,
-		sendValues,
-	]);
-
-	useTimeout(
-		() => {
-			setStatsReady(true);
-			sendValues();
-		},
-		4000,
-		[applicationId]
-	);
+	const handleFormBlur = useCallback(() => sendValues(), [sendValues]);
 
 	const monthlyFee =
 		getFieldValue('loanInfo.amount') /
@@ -128,8 +115,9 @@ const DemoForm = () => {
 			</Form>
 
 			<ZoeConsole
-				applicationId={statsReady ? applicationId : null}
+				applicationId={applicationId}
 				descriptor={featuresDescriptor}
+				disableRefresh={disableConsoleRefresh}
 			/>
 		</Fragment>
 	);

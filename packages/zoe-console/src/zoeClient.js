@@ -5,13 +5,21 @@ const mergeFeaturesAndPredictions = ({ features, predictions }) => ({
 	...predictions,
 });
 
-export const fetchFeatures = async ({ applicationId, timeout, features }) =>
+const resolveParam = (name, value) =>
+	value !== undefined ? { [name]: value } : {};
+
+export const fetchFeatures = async ({
+	applicationId,
+	timeout,
+	forTime,
+	features,
+}) =>
 	new Promise((resolve, reject) => {
 		SAI.Request.fetch('smart-features', {
 			params: {
-				...(applicationId ? { applicationId } : {}),
-				...(features ? { features } : {}),
-				forTime: null,
+				...resolveParam('applicationId', applicationId),
+				...resolveParam('features', features),
+				...resolveParam('forTime', forTime),
 			},
 			timeout,
 			onResponse: (response) => {
