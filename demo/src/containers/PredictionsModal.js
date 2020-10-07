@@ -1,4 +1,10 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import React, {
+	Fragment,
+	useCallback,
+	useEffect,
+	useRef,
+	useState,
+} from 'react';
 import useSafeState from '@restart/hooks/useSafeState';
 import PropTypes from 'prop-types';
 import {
@@ -11,7 +17,17 @@ import {
 	Text,
 } from '@fast-ai/ui-components';
 import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
-import { applySpec, clamp, compose, map, prop, replace, toPairs } from 'ramda';
+import {
+	applySpec,
+	clamp,
+	compose,
+	head,
+	map,
+	prop,
+	replace,
+	sortBy,
+	toPairs,
+} from 'ramda';
 import {
 	flipIncludes,
 	isArray,
@@ -35,7 +51,6 @@ const Statuses = keyMirror({
 	EMPTY: null,
 	LOADING_INTERMEDIATE_RESULTS: null,
 	INTERMEDIATE_RESULTS_LOADED: null,
-	LOADING_RESULTS: null,
 	RESULTS_LOADED: null,
 });
 
@@ -58,6 +73,7 @@ const loadingDataAnimation = keyframes`
 const selectResults = (features) => ({
 	features: compose(
 		map(([id, value]) => ({ id, value })),
+		sortBy(head),
 		toPairs
 	)(features),
 });
@@ -79,7 +95,6 @@ const getFeatureGaugeProps = compose(
 	makeGaugeProps,
 	getGaugeLookupProps(Features)
 );
-
 const ResultGauge = ({
 	value,
 	numberStyle,
@@ -147,20 +162,20 @@ ResultGauge.propTypes = {
 	variant: PropTypes.string,
 };
 
-const sleep = (ms) =>
-	new Promise((resolve) => {
-		setTimeout(resolve, ms);
-	});
-
 /**
- * States:
+ * State chart:
  *
+ * ```
  * EMPTY
- * -> LOADING_INTERMEDIATE_RESULTS
- *	-> LOADED_INTERMEDIATE RESULTS
- *	| -> LOADING_RESULTS
- *	| 	->  LOADED_RESULTS
- *	|---|--> ERROR
+ * |-> LOADING_INTERMEDIATE_RESULTS
+ * | |-> LOADED_INTERMEDIATE RESULTS
+ * |   |-> ERROR
+ * |
+ * |->  LOADED_RESULTS
+ * | |-> ERROR
+ * |
+ * |-> ERROR
+ * ```
  */
 const PredictionsModal = ({
 	applicationId,
@@ -170,12 +185,15 @@ const PredictionsModal = ({
 }) => {
 	const [status, setStatus] = useSafeState(useState(Statuses.EMPTY));
 	const [results, setResults] = useSafeState(useState(null));
+	const statusRef = useRef(status);
+
+	statusRef.current = status;
 
 	const { features = [] } = results || {};
 
 	const refetchData = useCallback(async () => {
 		try {
-			const makeFetch = () =>
+			const makeFetch = (props) =>
 				zoeClient.fetchFeatures({
 					applicationId,
 					features: [
@@ -183,24 +201,27 @@ const PredictionsModal = ({
 						Features.FRAUD_SCORE.value,
 						Features.LOAN_APPROVAL.value,
 					],
+					...props,
 				});
 
 			setStatus(Statuses.LOADING_INTERMEDIATE_RESULTS);
 
-			const intermediateResults = await makeFetch();
+			const loadIntermediate = makeFetch({ forTime: null }).then(
+				(intermediateResults) => {
+					if (statusRef.current !== Statuses.RESULTS_LOADED) {
+						setStatus(Statuses.INTERMEDIATE_RESULTS_LOADED);
+						setResults(selectResults(intermediateResults));
+					}
+				}
+			);
+			const loadFinal = await makeFetch({ timeout: 5000 }).then(
+				(finalPredictions) => {
+					setStatus(Statuses.RESULTS_LOADED);
+					setResults(selectResults(finalPredictions));
+				}
+			);
 
-			setStatus(Statuses.INTERMEDIATE_RESULTS_LOADED);
-			setResults(selectResults(intermediateResults));
-
-			// Waiting for the BE to process results
-			await sleep(5000);
-
-			setStatus(Statuses.LOADING_RESULTS);
-
-			const finalPredictions = await makeFetch();
-
-			setStatus(Statuses.RESULTS_LOADED);
-			setResults(selectResults(finalPredictions));
+			await Promise.all([loadIntermediate, loadFinal]);
 		} catch (error) {
 			console.error(error);
 			setStatus(Statuses.ERROR);
