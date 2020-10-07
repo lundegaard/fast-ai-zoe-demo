@@ -15,6 +15,7 @@ import { defaultDescriptor } from '../defaultDescriptor';
 
 const ZoeConsoleConsumer = ({
 	applicationId,
+	disableRefresh,
 	loggingInterval = 3000,
 	descriptor = defaultDescriptor,
 	formatValue = defaultConsoleFormattingFunction,
@@ -55,7 +56,7 @@ const ZoeConsoleConsumer = ({
 			);
 		},
 		loggingInterval,
-		false, // is paused
+		!!disableRefresh, // is paused
 		true // run immediately
 	);
 
@@ -65,6 +66,7 @@ const ZoeConsoleConsumer = ({
 ZoeConsoleConsumer.propTypes = {
 	applicationId: PropTypes.string,
 	descriptor: PropTypes.object,
+	disableRefresh: PropTypes.bool,
 	formatValue: PropTypes.func,
 	loggingInterval: PropTypes.number,
 	title: PropTypes.node,
