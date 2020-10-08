@@ -23,12 +23,7 @@ module.exports = (api) => {
 			[
 				'transform-inline-environment-variables',
 				{
-					include: [
-						'TENANT_ID',
-						'AUTH_DEMO_APP_TOKEN',
-						'API_URL',
-						'SA_DISTRIBUTION_URL',
-					],
+					include: ['TENANT_ID', 'API_URL', 'SA_DISTRIBUTION_URL'],
 				},
 			],
 		],
