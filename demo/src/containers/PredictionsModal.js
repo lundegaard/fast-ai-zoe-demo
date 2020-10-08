@@ -195,7 +195,6 @@ const PredictionsModal = ({
 		try {
 			const makeFetch = (props) =>
 				zoeClient.fetchFeatures({
-					applicationId,
 					features: [
 						Features.LYING_BEHAVIOR_SCORE.value,
 						Features.FRAUD_SCORE.value,

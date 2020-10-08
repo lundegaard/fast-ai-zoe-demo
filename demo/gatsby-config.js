@@ -39,12 +39,7 @@ module.exports = {
 		{
 			resolve: 'gatsby-plugin-env-variables',
 			options: {
-				whitelist: [
-					'TENANT_ID',
-					'AUTH_DEMO_APP_TOKEN',
-					'API_URL',
-					'SA_DISTRIBUTION_URL',
-				],
+				whitelist: ['TENANT_ID', 'API_URL', 'SA_DISTRIBUTION_URL'],
 			},
 		},
 	],
