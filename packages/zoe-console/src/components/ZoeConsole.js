@@ -35,11 +35,16 @@ const ZoeConsoleConsumer = ({
 		if (!saRef.current || !applicationId) {
 			return;
 		}
-		const { tid } = saRef.current('get', 'userInfo');
+		const userInfo = saRef.current('get', 'userInfo');
+
+		if (!userInfo) {
+			return;
+		}
+		const { tid } = userInfo;
 
 		devConsole.replace({
-			'Application ID': applicationId,
-			'Tenant ID': tid,
+			'Application ID': applicationId ? applicationId : '-',
+			'Tenant ID': tid ? tid : '-',
 		});
 	}, [applicationId, devConsole, saRef]);
 
@@ -51,7 +56,7 @@ const ZoeConsoleConsumer = ({
 				return;
 			}
 
-			fetchFeatures({ applicationId, timeout: loggingInterval }).then(
+			fetchFeatures({ timeout: loggingInterval }).then(
 				(features) => void devConsole.log(logFeatures(features))
 			);
 		},
