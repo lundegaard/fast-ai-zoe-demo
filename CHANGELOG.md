@@ -1,3 +1,9 @@
+# v0.1.O
+
+- New Minor version - complete migration to new smart-features endpoint.
+
+- [Removing authorization header from smart-features](https://github.com/lundegaard/fast-ai-zoe-demo/pull/79)
+
 # v0.0.9
 
 - [Simpifing with `forTime`](https://github.com/lundegaard/fast-ai-zoe-demo/pull/77)
