@@ -1,0 +1,14 @@
+{
+	"packages": ["packages/*", "demo"],
+	"version": "0.1.0",
+	"command": {
+		"init": {
+			"exact": true
+		},
+		"publish": {
+			"ignoreChanges": ["*.md", "test/**"]
+		}
+	},
+	"npmClient": "yarn",
+	"useWorkspaces": true
+}
