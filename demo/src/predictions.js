@@ -9,8 +9,7 @@ export const Features = {
 	LYING_BEHAVIOR_SCORE: {
 		type: StatTypes.NEGATIVE,
 		value: 'lying_behavior_score',
-		min: 0,
-		max: 5,
+		numberStyle: 'percent',
 	},
 	FRAUD_SCORE: {
 		value: 'fraud_score',
