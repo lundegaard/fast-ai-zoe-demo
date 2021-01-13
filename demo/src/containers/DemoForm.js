@@ -26,7 +26,7 @@ const borrower = {
 	},
 	address: {
 		streetAddress: '',
-		streetLocality: '',
+		addressLocality: '',
 		postalCode: '',
 	},
 };

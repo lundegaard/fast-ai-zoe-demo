@@ -37,8 +37,8 @@ export default defineMessages({
 		id: 'example.streetAddress',
 		defaultMessage: 'Street',
 	},
-	streetLocality: {
-		id: 'example.streetLocality',
+	addressLocality: {
+		id: 'example.addressLocality',
 		defaultMessage: 'City',
 	},
 	postalCode: {
