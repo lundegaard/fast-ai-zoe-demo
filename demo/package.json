@@ -1,7 +1,7 @@
 {
 	"name": "@fast-ai/zoe-demo",
 	"private": true,
-	"version": "0.2.0",
+	"version": "0.2.1",
 	"main": "index.js",
 	"contributors": [
 		"Tomas Konrady <tomaskonrady@gmail.com>"
@@ -23,7 +23,7 @@
 		"@emotion/core": "^10.0.0",
 		"@emotion/styled": "^10.0.0",
 		"@fast-ai/ui-components": "^0.24.0",
-		"@fast-ai/zoe-console": "^0.2.0",
+		"@fast-ai/zoe-console": "^0.2.1",
 		"@restart/hooks": "^0.3.19",
 		"core-js": "^2.0.0",
 		"crypto-random-string": "^3.2.0",

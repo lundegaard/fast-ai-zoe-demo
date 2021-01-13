@@ -14,7 +14,7 @@
 	"example.familyName": "Příjmení",
 	"example.birthNumber": "Rodné číslo",
 	"example.streetAddress": "Ulice a číslo popisné",
-	"example.streetLocality": "Město",
+	"example.addressLocality": "Město",
 	"example.postalCode": "PSČ",
 	"example.phoneNumber": "Mobilní telefon",
 	"example.email": "Email",

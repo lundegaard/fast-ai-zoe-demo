@@ -13,7 +13,7 @@
 	"example.familyName": "Surname",
 	"example.birthNumber": "Birth number",
 	"example.streetAddress": "Street",
-	"example.streetLocality": "City",
+	"example.addressLocality": "City",
 	"example.postalCode": "Postal code",
 	"example.phoneNumber": "Phone number",
 	"example.email": "Email",
