@@ -20,7 +20,7 @@ const labels = o(
 	'familyName',
 	'birthNumber',
 	'streetAddress',
-	'streetLocality',
+	'addressLocality',
 	'postalCode',
 	'phoneNumber',
 	'email',
@@ -97,8 +97,8 @@ const PersonFormSection = ({ fieldPrefix }) => {
 
 			<HalfCol>
 				<TextField
-					label={labels.streetLocality}
-					field={`${fieldPrefix}.address.streetLocality`}
+					label={labels.addressLocality}
+					field={`${fieldPrefix}.address.addressLocality`}
 				/>
 			</HalfCol>
 
