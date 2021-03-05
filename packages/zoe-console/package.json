@@ -1,7 +1,7 @@
 {
 	"name": "@fast-ai/zoe-console",
 	"private": true,
-	"version": "0.2.1",
+	"version": "1.0.0",
 	"main": "src/index.js",
 	"contributors": [
 		"Tomas Konrady <tomaskonrady@gmail.com>"
