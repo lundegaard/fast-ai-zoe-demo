@@ -9,12 +9,7 @@ import TermsModal from '../containers/TermsModal';
 
 import { CheckboxField, FullCol, SliderField } from './forms';
 
-const amountLabel = <FormattedMessage {...m.loanInfoAmount} />;
-const numberOfInstalmentsLabel = (
-	<FormattedMessage {...m.numberOfInstalments} />
-);
-
-const LoanFormSection = ({ monthlyFee }) => {
+const SummarySection = ({ labels, monthlyFee, formName }) => {
 	const { openModal: openTermsModal } = useModal({ component: TermsModal });
 	const checkboxLabel = useMemo(
 		() => (
@@ -28,7 +23,7 @@ const LoanFormSection = ({ monthlyFee }) => {
 								href="#"
 								onClick={(event) => {
 									event.preventDefault();
-									openTermsModal();
+									openTermsModal({ formName });
 								}}
 								children={children}
 							/>
@@ -37,14 +32,14 @@ const LoanFormSection = ({ monthlyFee }) => {
 				/>
 			</Text>
 		),
-		[openTermsModal]
+		[openTermsModal, formName]
 	);
 
 	return (
 		<Fragment>
 			<FullCol>
 				<SliderField
-					label={amountLabel}
+					label={labels.amount}
 					renderValue={AmountFormatter}
 					field="loanInfo.amount"
 					min={20000}
@@ -54,7 +49,7 @@ const LoanFormSection = ({ monthlyFee }) => {
 			</FullCol>
 			<FullCol>
 				<SliderField
-					label={numberOfInstalmentsLabel}
+					label={labels.numberOfInstalments}
 					field="loanInfo.numberOfInstalments"
 					renderValue={DurationFormatter}
 					min={6}
@@ -66,7 +61,7 @@ const LoanFormSection = ({ monthlyFee }) => {
 			<FullCol>
 				<Flex justifyContent="space-between" alignItems="center">
 					<Heading variant="subHeading2" as="div" mb={0} mt={0}>
-						<FormattedMessage {...m.totalAmountPerMonth} />
+						{labels.total}
 					</Heading>
 
 					<Heading variant="subHeading2" as="h2" mb={0} mt={0}>
@@ -82,8 +77,14 @@ const LoanFormSection = ({ monthlyFee }) => {
 	);
 };
 
-LoanFormSection.propTypes = {
+SummarySection.propTypes = {
 	coborrowerChoice: PropTypes.string,
+	formName: PropTypes.string,
+	labels: PropTypes.shape({
+		amount: PropTypes.node,
+		numberOfInstalments: PropTypes.node,
+		total: PropTypes.node,
+	}),
 	monthlyFee: PropTypes.node,
 };
-export default LoanFormSection;
+export default SummarySection;
