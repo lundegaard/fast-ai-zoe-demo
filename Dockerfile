@@ -1,4 +1,4 @@
-FROM node:12-jessie as builder
+FROM node:15.11 as builder
 
 COPY . /sources
 WORKDIR /sources
