@@ -4,8 +4,13 @@
 	"siteMetadata.description": "Online predikce schválení půjčky v reálném čase na základě dostupných online dat",
 	"example.title": "Zoe.ai",
 	"example.pageHome": "Domů",
+	"example.pageHomeTitle": "Vítejte na Zoe.ai demonstrační aplikaci",
+	"example.pageHomeDescription": "Zoe.ai napomáhá posoudit rizikovost klienta při žádosti o půjčku on-line. A umí toho mnohem více.",
+	"example.pageHomeActionLabel": "Vyzkoušet demo",
+	"example.pageInsurance": "Pojištění",
+	"example.pageLoans": "Půjčky",
 	"example.pageFaq": "FAQ",
-	"example.pageFaqPerex": "This is a sample page.",
+	"example.pageFaqPerex": "Příklad stránky.",
 	"example.personalInfoTitle": "Osobní údaje",
 	"example.coborrowerTitle": "Údaje o partnerce/partnerovi",
 	"example.setupLoanTitle": "Nastavte si Vaši půjčku",
@@ -72,5 +77,11 @@
 	"validations.rcInvalidSuffix": "Přípona není validní",
 	"validations.rcInvalidDate": "Reprezentuje nevalidní datum",
 	"validations.rcInvalidModulo": "Nesprávný formát",
-	"validations.rcEcpAndRcPlus": "RČ+/EČP použity současně"
+	"validations.rcEcpAndRcPlus": "RČ+/EČP použity současně",
+	"insurance.maxClaimAmount": "Maximální odhadovaná půjčka",
+	"insurance.minClaimAmount": "Minimální odhadovaná půjčka",
+	"insurance.setupInsuranceTitle": "Nastavení produktu",
+	"insurance.infoAmount": "Pojištěno na částku",
+	"insurance.numberOfInstalments": "Vyber dobu pojištění",
+	"insurance.totalAmountPerMonth": "Měsíční splátka"
 }

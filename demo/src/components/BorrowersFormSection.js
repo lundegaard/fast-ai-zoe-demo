@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, memo } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'gatsby-theme-fast-ai';
 import { Radio } from '@fast-ai/ui-components';
@@ -7,7 +7,7 @@ import m from '../intl/messages';
 import { CoborrowerChoice, mapLookup } from '../lookups';
 
 import { FormSubheading, FullCol, RadioGroupField } from './forms';
-import PersonFormSection from './PersonFormSection';
+import PersonFormSection, { PersonLabelsType } from './PersonFormSection';
 
 const coborrowerChoiceLegend = <FormattedMessage {...m.coborrowerChoice} />;
 const coborrowerChoices = mapLookup((value) => (
@@ -18,9 +18,10 @@ const coborrowerChoices = mapLookup((value) => (
 	/>
 ))(CoborrowerChoice);
 
-const BorrowersFormSection = ({ coborrowerChoice }) => (
+const BorrowersFormSection = ({ coborrowerChoice, personLabels }) => (
 	<Fragment>
-		<PersonFormSection fieldPrefix="borrower" />
+		<PersonFormSection fieldPrefix="borrower" labels={personLabels} />
+
 		<FullCol>
 			<RadioGroupField
 				legend={coborrowerChoiceLegend}
@@ -38,12 +39,15 @@ const BorrowersFormSection = ({ coborrowerChoice }) => (
 					</FormSubheading>
 				</FullCol>
 
-				<PersonFormSection fieldPrefix="coborrower" />
+				<PersonFormSection fieldPrefix="coborrower" labels={personLabels} />
 			</Fragment>
 		)}
 	</Fragment>
 );
 
-BorrowersFormSection.propTypes = { coborrowerChoice: PropTypes.string };
+BorrowersFormSection.propTypes = {
+	coborrowerChoice: PropTypes.string,
+	personLabels: PersonLabelsType.isRequired,
+};
 
-export default BorrowersFormSection;
+export default memo(BorrowersFormSection);

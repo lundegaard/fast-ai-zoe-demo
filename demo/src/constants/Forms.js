@@ -1,3 +1,4 @@
 export default {
-	ZOE_DEMO: 'zoeDemo',
+	LOANS: 'loans',
+	INSURANCE: 'insurance',
 };

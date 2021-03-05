@@ -7,7 +7,7 @@ import {
 	useConsole,
 	useIdleTime,
 } from '@fast-ai/ui-components';
-import { useInterval } from '@restart/hooks';
+import { useInterval, useMounted } from '@restart/hooks';
 
 import { fetchFeatures } from '../zoeClient';
 import { createFeatureLog } from '../createFeatureLog';
@@ -30,6 +30,7 @@ const ZoeConsoleConsumer = ({
 		saRef.current = window.sa;
 		saiRef.current = window.SAI;
 	}
+	const isMounted = useMounted();
 
 	useEffect(() => {
 		if (!saRef.current || !applicationId) {
@@ -57,7 +58,8 @@ const ZoeConsoleConsumer = ({
 			}
 
 			fetchFeatures({ timeout: loggingInterval }).then(
-				(features) => void devConsole.log(logFeatures(features))
+				(features) =>
+					void (isMounted() && devConsole.log(logFeatures(features)))
 			);
 		},
 		loggingInterval,
