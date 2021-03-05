@@ -1,7 +1,7 @@
 import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Flex, Heading, Link, Text, useModal } from '@fast-ai/ui-components';
-import { FormattedMessage } from 'gatsby-theme-fast-ai';
+import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
 
 import m from '../intl/messages';
 import { AmountFormatter, DurationFormatter } from '../formatters';
@@ -10,6 +10,15 @@ import TermsModal from '../containers/TermsModal';
 import { CheckboxField, FullCol, SliderField } from './forms';
 
 const SummarySection = ({ labels, monthlyFee, formName }) => {
+	const { locale } = useIntl();
+
+	const AmountFormatterIntl = useMemo(
+		() => ({ children }) => (
+			<AmountFormatter children={(locale === 'cs' ? 1 : 0.045) * children} />
+		),
+		[locale]
+	);
+
 	const { openModal: openTermsModal } = useModal({ component: TermsModal });
 	const checkboxLabel = useMemo(
 		() => (
@@ -40,7 +49,7 @@ const SummarySection = ({ labels, monthlyFee, formName }) => {
 			<FullCol>
 				<SliderField
 					label={labels.amount}
-					renderValue={AmountFormatter}
+					renderValue={AmountFormatterIntl}
 					field="loanInfo.amount"
 					min={20000}
 					max={1000000}
