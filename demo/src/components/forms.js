@@ -85,7 +85,6 @@ const wrapWithStateAndSA = ({
 		const oValue = useMemo(() => (getValue ? getValue(value) : value), [value]);
 
 		const customProps = rejectEmpty({
-			// ...(getValue ? { value: getValue(value) } : {}),
 			value: oValue,
 			...(makeOnChange ? { onChange: makeOnChange({ setValue }) } : {}),
 		});
@@ -98,14 +97,12 @@ const wrapWithStateAndSA = ({
 
 		const hasError = !!error && isTouched;
 
-		const optimizedComponent = useMemo(
+		return useMemo(
 			() => (
 				<Comp {...inputProps} hasError={hasError} hint={hasError && error} />
 			),
 			[inputProps.value, hasError]
 		);
-
-		return optimizedComponent;
 	});
 	Field.displayName = `Field(${getDisplayName(Comp)})`;
 
