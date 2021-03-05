@@ -5,6 +5,27 @@ export default defineMessages({
 		id: 'example.pageHome',
 		defaultMessage: 'Home',
 	},
+	pageHomeTitle: {
+		id: 'example.pageHomeTitle',
+		defaultMessage: 'Welcome to Zoe.ai Demonstration Site',
+	},
+	pageHomeDescription: {
+		id: 'example.pageHomeDescription',
+		defaultMessage:
+			'Zoe.ai is a cloud based service gathering data about visitors and their behavior in online digital channels.',
+	},
+	pageHomeActionLabel: {
+		id: 'example.pageHomeActionLabel',
+		defaultMessage: 'Try demo',
+	},
+	pageInsurance: {
+		id: 'example.pageInsurance',
+		defaultMessage: 'Insurance',
+	},
+	pageLoans: {
+		id: 'example.pageLoans',
+		defaultMessage: 'Loans',
+	},
 	pageFaq: {
 		id: 'example.pageFaq',
 		defaultMessage: 'FAQ',
@@ -273,5 +294,29 @@ export default defineMessages({
 	validationsRcInvalidModulo: {
 		id: 'validations.rcInvalidModulo',
 		defaultMessage: 'Invalid format',
+	},
+	insuranceMaxClaimAmount: {
+		id: 'insurance.maxClaimAmount',
+		defaultMessage: 'Maximum estimated claim amount',
+	},
+	insuranceMinClaimAmount: {
+		id: 'insurance.minClaimAmount',
+		defaultMessage: 'Minimum estimated claim amount',
+	},
+	insuranceSetupInsuranceTitle: {
+		id: 'insurance.setupInsuranceTitle',
+		defaultMessage: 'Setup your product',
+	},
+	insuranceInfoAmount: {
+		id: 'insurance.infoAmount',
+		defaultMessage: 'Sum insured',
+	},
+	insuranceNumberOfInstalments: {
+		id: 'insurance.numberOfInstalments',
+		defaultMessage: 'Choose period of insurance',
+	},
+	insuranceTotalAmountPerMonth: {
+		id: 'insurance.totalAmountPerMonth',
+		defaultMessage: 'Monthly payment',
 	},
 });

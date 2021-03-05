@@ -1,50 +1,21 @@
-import React, { Fragment, useCallback, useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import createRandomString from 'crypto-random-string';
-import { useDebounce, useModal } from '@fast-ai/ui-components';
+import { useModal } from '@fast-ai/ui-components';
 import { ZoeConsole } from '@fast-ai/zoe-console';
+import { useEventCallback } from '@restart/hooks';
 
-import Forms from '../constants/Forms';
-import { DemoForm as DemoFormUi, useForm } from '../components';
+import { useForm } from '../components';
 import { featuresDescriptor } from '../featuresDescriptor';
 
 import PredictionsModal, {
 	ClosingReasons as PredictionsModalClosingReasons,
 } from './PredictionsModal';
 
-const borrower = {
-	givenName: '',
-	familyName: '',
-	educationLevel: '',
-	maritalStatus: '',
-	birthNumber: '',
-	email: '',
-	phoneNumber: '',
-	balance: {
-		netIncomeMain: '',
-		expenditureAnotherInstallment: '',
-	},
-	address: {
-		streetAddress: '',
-		addressLocality: '',
-		postalCode: '',
-	},
-};
-
-const defaultValues = {
-	webdata: { coborrowerChoice: 'SINGLE' },
-	loanInfo: {
-		numberOfInstalments: 12,
-		amount: 100000,
-	},
-	borrower,
-	coborrower: borrower,
-};
-
 const getApplicationId = () =>
 	`demo-${createRandomString({ length: 10, type: 'distinguishable' })}`;
 
-const DemoForm = () => {
+const DemoForm = ({ renderForm: FormComponent, defaultValues, name }) => {
 	const { openModal: openPredictionsModal } = useModal({
 		component: PredictionsModal,
 	});
@@ -53,15 +24,15 @@ const DemoForm = () => {
 	const {
 		Form,
 		meta: { isSubmitting, canSubmit, isValid },
-		getFieldValue,
 		attemptSubmit: handleClickSubmit,
 		send,
 		register,
+		getFieldValue,
 		reset,
 		values,
 	} = useForm({
 		defaultValues,
-		name: Forms.ZOE_DEMO,
+		name,
 		onSubmit: async (values) => {
 			setDisableConsoleRefresh(true);
 			send({ data: values, applicationId });
@@ -79,38 +50,25 @@ const DemoForm = () => {
 		},
 	});
 
-	useEffect(() => {
-		if (!applicationId) {
-			return;
-		}
-
-		register(applicationId);
-		sendValues();
-	}, [applicationId]);
-
-	const sendValues = useCallback(
-		() => isValid && send({ data: values, inProgress: true, applicationId }),
-		[isValid, applicationId, values, send]
+	const sendValues = useEventCallback(
+		() => isValid && send({ data: values, inProgress: true, applicationId })
 	);
 
-	const handleFormBlur = useCallback(() => sendValues(), [sendValues]);
-
-	const monthlyFee =
-		getFieldValue('loanInfo.amount') /
-		getFieldValue('loanInfo.numberOfInstalments');
-
-	const [monthlyFeeDebounced] = useDebounce(monthlyFee, 200);
-	const coborrowerChoice = getFieldValue('webdata.coborrowerChoice');
+	useEffect(() => {
+		if (applicationId) {
+			register(applicationId);
+			sendValues();
+		}
+	}, [applicationId, register, sendValues]);
 
 	return (
 		<Fragment>
-			<Form onBlur={handleFormBlur}>
-				<DemoFormUi
+			<Form onBlur={sendValues}>
+				<FormComponent
 					handleClickSubmit={handleClickSubmit}
-					coborrowerChoice={coborrowerChoice}
 					canSubmit={canSubmit}
+					getFieldValue={getFieldValue}
 					isSubmitting={isSubmitting}
-					monthlyFee={monthlyFeeDebounced}
 				/>
 			</Form>
 
@@ -123,6 +81,10 @@ const DemoForm = () => {
 	);
 };
 
-DemoForm.propTypes = { loggingInterval: PropTypes.number };
+DemoForm.propTypes = {
+	defaultValues: PropTypes.object,
+	name: PropTypes.string.isRequired,
+	renderForm: PropTypes.elementType.isRequired,
+};
 
 export default DemoForm;

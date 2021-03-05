@@ -4,13 +4,12 @@ import { Button, Heading, Modal, Text } from '@fast-ai/ui-components';
 import { FormattedMessage } from 'gatsby-theme-fast-ai';
 
 import { useSAComponentTimer } from '../sa';
-import Forms from '../constants/Forms';
 import Modals from '../constants/Modals';
 import m from '../intl/messages';
 
-const TermsModal = ({ closeModal, ...rest }) => {
+const TermsModal = ({ formName, closeModal, ...rest }) => {
 	useSAComponentTimer({
-		timerCategory: Forms.ZOE_DEMO,
+		timerCategory: formName,
 		timerLabel: Modals.TERMS,
 	});
 
@@ -34,6 +33,7 @@ const TermsModal = ({ closeModal, ...rest }) => {
 TermsModal.propTypes = {
 	applicationId: PropTypes.string,
 	closeModal: PropTypes.func,
+	formName: PropTypes.string,
 	onClose: PropTypes.func,
 };
 

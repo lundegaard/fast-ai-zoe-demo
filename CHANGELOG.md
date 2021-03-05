@@ -1,3 +1,6 @@
+# v1.0.0
+- [Insurance page](https://github.com/lundegaard/fast-ai-zoe-demo/pull/89) 
+
 # v0.2.1
 - [fix: streetLocality to addressLocality](https://github.com/lundegaard/fast-ai-zoe-demo/pull/86)
 

@@ -1,8 +1,7 @@
 import React, { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { hasOnlyDigits, isEmail, isRequired } from 'validarium';
-import { FormattedMessage, useIntl } from 'gatsby-theme-fast-ai';
-import { fromPairs, map, o } from 'ramda';
+import { useIntl } from 'gatsby-theme-fast-ai';
 
 import m from '../intl/messages';
 import { MaritalStatus, getEducationByLanguage, mapLookup } from '../lookups';
@@ -12,25 +11,7 @@ import { HalfCol, NumberTextField, SelectField, TextField } from './forms';
 
 const emptyOption = { value: '' };
 
-const labels = o(
-	fromPairs,
-	map((messageId) => [messageId, <FormattedMessage {...m[`${messageId}`]} />])
-)([
-	'givenName',
-	'familyName',
-	'birthNumber',
-	'streetAddress',
-	'addressLocality',
-	'postalCode',
-	'phoneNumber',
-	'email',
-	'maritalStatus',
-	'educationLevel',
-	'netIncomeMain',
-	'expenditureAnotherInstallment',
-]);
-
-const PersonFormSection = ({ fieldPrefix }) => {
+const PersonFormSection = ({ fieldPrefix, labels }) => {
 	const intl = useIntl();
 	const Education = useMemo(() => getEducationByLanguage(intl.locale), [
 		intl.locale,
@@ -163,6 +144,24 @@ const PersonFormSection = ({ fieldPrefix }) => {
 	);
 };
 
-PersonFormSection.propTypes = { fieldPrefix: PropTypes.string };
+export const PersonLabelsType = PropTypes.shape({
+	addressLocality: PropTypes.node,
+	birthNumber: PropTypes.node,
+	educationLevel: PropTypes.node,
+	email: PropTypes.node,
+	expenditureAnotherInstallment: PropTypes.node,
+	familyName: PropTypes.node,
+	givenName: PropTypes.node,
+	maritalStatus: PropTypes.node,
+	netIncomeMain: PropTypes.node,
+	phoneNumber: PropTypes.node,
+	postalCode: PropTypes.node,
+	streetAddress: PropTypes.node,
+});
+
+PersonFormSection.propTypes = {
+	fieldPrefix: PropTypes.string,
+	labels: PersonLabelsType.isRequired,
+};
 
 export default PersonFormSection;

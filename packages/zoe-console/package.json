@@ -1,7 +1,7 @@
 {
 	"name": "@fast-ai/zoe-console",
 	"private": true,
-	"version": "0.2.1",
+	"version": "1.0.0",
 	"main": "src/index.js",
 	"contributors": [
 		"Tomas Konrady <tomaskonrady@gmail.com>"
@@ -22,7 +22,7 @@
 	"dependencies": {
 		"@emotion/core": "^10.0.0",
 		"@emotion/styled": "^10.0.0",
-		"@fast-ai/ui-components": "^0.24.0",
+		"@fast-ai/ui-components": "^1.0.1",
 		"@restart/hooks": "^0.3.19",
 		"ramda": "^0.27.0",
 		"ramda-extension": "^0.10.1",
