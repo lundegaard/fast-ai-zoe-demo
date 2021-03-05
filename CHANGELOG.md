@@ -1,3 +1,6 @@
+# v1.0.1
+- [Amounts converted to USD for EN](https://github.com/lundegaard/fast-ai-zoe-demo/pull/92)
+
 # v1.0.0
 - [Insurance page](https://github.com/lundegaard/fast-ai-zoe-demo/pull/89) 
 
