@@ -1,3 +1,6 @@
+# v1.0.3
+- [fix: typo](https://github.com/lundegaard/fast-ai-zoe-demo/pull/98)
+
 # v1.0.2
 - [fix: github actions build](https://github.com/lundegaard/fast-ai-zoe-demo/commit/24cfa69508c473bc3f5d30fc06319d736f5cf8da)
 
