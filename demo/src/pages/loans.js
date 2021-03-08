@@ -37,7 +37,7 @@ const defaultValues = {
 const Loans = () => (
 	<ModalProvider>
 		<Page>
-			<Seo title="Zoe.ai for Claims" />
+			<Seo title="Zoe.ai for Loans" />
 			<DemoForm
 				name={Forms.LOANS}
 				renderForm={LoansForm}

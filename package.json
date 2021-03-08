@@ -1,7 +1,7 @@
 {
 	"name": "@fast-ai/zoe-workspace",
 	"private": true,
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"contributors": [
 		"Tomas Konrady <tomaskonrady@gmail.com>"
 	],
