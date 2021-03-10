@@ -29,7 +29,7 @@
 		"@restart/hooks": "^0.3.19",
 		"crypto-random-string": "^3.2.0",
 		"gatsby": "2.24.84",
-		"gatsby-theme-fast-ai": "^1.0.2",
+		"gatsby-theme-fast-ai": "^1.1.0",
 		"prop-types": "^15.6.2",
 		"ramda": "^0.27.0",
 		"ramda-extension": "^0.10.1",

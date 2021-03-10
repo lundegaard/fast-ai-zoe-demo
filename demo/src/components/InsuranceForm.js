@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Col, Row, useDebounce } from '@fast-ai/ui-components';
 import { fromPairs, map, o } from 'ramda';
@@ -49,6 +49,7 @@ const InsuranceForm = ({
 		getFieldValue('loanInfo.numberOfInstalments');
 
 	const [monthlyFeeDebounced] = useDebounce(monthlyFee, 200);
+
 	return (
 		<Row flexWrap="wrap">
 			<Col span={[12, 12, 6]}>
@@ -104,4 +105,4 @@ InsuranceForm.propTypes = {
 
 InsuranceForm.displayName = 'InsuranceForm';
 
-export default memo(InsuranceForm);
+export default InsuranceForm;
