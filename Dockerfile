@@ -11,7 +11,6 @@ COPY docker/docker_env /sources/.env.production
 ARG API_URL
 ARG SA_DISTRIBUTION_URL
 RUN set -ex \
-    && ls -la /sources \
     && echo "SA_DISTRIBUTION_URL=${SA_DISTRIBUTION_URL}" >> /sources/.env.production \
     && echo "API_URL=${API_URL}" >> /sources/.env.production \
     && yarn build
