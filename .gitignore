@@ -14,6 +14,7 @@ packages/**/dist
 
 *:p
 :w
+.idea/**
 
 # Created by https://www.gitignore.io/api/node,vim,sublimetext,intellij,webstorm,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=node,vim,sublimetext,intellij,webstorm,visualstudiocode
