@@ -1,13 +1,16 @@
 {
 	"name": "@fast-ai/zoe-demo",
 	"private": true,
-	"version": "1.0.3",
+	"version": "1.1.0",
 	"main": "index.js",
 	"contributors": [
 		"Tomas Konrady <tomaskonrady@gmail.com>"
 	],
 	"author": "Lundegaard a.s.",
 	"license": "MIT",
+	"engines": {
+		"node": ">=12.13.0"
+	},
 	"scripts": {
 		"start": "gatsby develop",
 		"clean": "gatsby clean",
@@ -25,7 +28,7 @@
 		"@emotion/core": "^10.0.0",
 		"@emotion/styled": "^10.0.0",
 		"@fast-ai/ui-components": "^1.0.1",
-		"@fast-ai/zoe-console": "^1.0.3",
+		"@fast-ai/zoe-console": "^1.1.0",
 		"@restart/hooks": "^0.3.19",
 		"crypto-random-string": "^3.2.0",
 		"gatsby": "2.24.84",
