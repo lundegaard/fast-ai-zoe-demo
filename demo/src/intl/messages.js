@@ -182,8 +182,8 @@ export default defineMessages({
 		id: 'example.totalAmountPerMonth',
 		defaultMessage: 'Total monthly fee',
 	},
-	numberOfInstalments: {
-		id: 'example.numberOfInstalments',
+	numberOfInstallments: {
+		id: 'example.numberOfInstallments',
 		defaultMessage: 'Choose repayment period',
 	},
 	terms: {
@@ -312,7 +312,7 @@ export default defineMessages({
 		defaultMessage: 'Sum insured',
 	},
 	insuranceNumberOfInstalments: {
-		id: 'insurance.numberOfInstalments',
+		id: 'insurance.numberOfInstallments',
 		defaultMessage: 'Choose period of insurance',
 	},
 	insuranceTotalAmountPerMonth: {

@@ -26,7 +26,7 @@
 	"example.expenditureAnotherInstallment": "Měsíční výdaje",
 	"example.loanInfoAmount": "Zadejte výši úvěru",
 	"example.totalAmountPerMonth": "Vaše měsíční splátka",
-	"example.numberOfInstalments": "Zvolte dobu splácení",
+	"example.numberOfInstallments": "Zvolte dobu splácení",
 	"example.terms": "Souhlasím s <a>obchodními podmínkami</a>",
 	"example.maritalStatus": "Rodinný stav",
 	"example.maritalStatus_SINGLE": "Svobodný / svobodná",
@@ -82,6 +82,6 @@
 	"insurance.minClaimAmount": "Minimální odhadovaná půjčka",
 	"insurance.setupInsuranceTitle": "Nastavení produktu",
 	"insurance.infoAmount": "Pojištěno na částku",
-	"insurance.numberOfInstalments": "Vyber dobu pojištění",
+	"insurance.numberOfInstallments": "Vyber dobu pojištění",
 	"insurance.totalAmountPerMonth": "Měsíční splátka"
 }

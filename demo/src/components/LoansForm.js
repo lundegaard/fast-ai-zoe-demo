@@ -10,7 +10,7 @@ import { BorrowersFormSection, FormHeading, FullCol, SummarySection } from '.';
 
 const summaryLabels = {
 	amount: <FormattedMessage {...m.loanInfoAmount} />,
-	numberOfInstalments: <FormattedMessage {...m.numberOfInstalments} />,
+	numberOfInstallments: <FormattedMessage {...m.numberOfInstallments} />,
 	total: <FormattedMessage {...m.totalAmountPerMonth} />,
 };
 
@@ -43,7 +43,7 @@ const LoansForm = ({
 
 	const monthlyFee =
 		getFieldValue('loanInfo.amount') /
-		getFieldValue('loanInfo.numberOfInstalments');
+		getFieldValue('loanInfo.numberOfInstallments');
 
 	const [monthlyFeeDebounced] = useDebounce(monthlyFee, 200);
 

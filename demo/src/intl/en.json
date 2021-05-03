@@ -26,7 +26,7 @@
 	"example.expenditureAnotherInstallment": "Monthly expenditure",
 	"example.loanInfoAmount": "Select loan amount",
 	"example.totalAmountPerMonth": "Total monthly fee",
-	"example.numberOfInstalments": "Choose repayment period",
+	"example.numberOfInstallments": "Choose repayment period",
 	"example.terms": "I agree with <a>terms and conditions</a>",
 	"example.maritalStatus": "Marital status",
 	"example.maritalStatus_SINGLE": "Single",
@@ -80,6 +80,6 @@
 	"insurance.minClaimAmount": "Minimum estimated claim amount",
 	"insurance.setupInsuranceTitle": "Setup your product",
 	"insurance.infoAmount": "Sum insured",
-	"insurance.numberOfInstalments": "Choose period of insurance",
+	"insurance.numberOfInstallments": "Choose period of insurance",
 	"insurance.totalAmountPerMonth": "Monthly payment"
 }
