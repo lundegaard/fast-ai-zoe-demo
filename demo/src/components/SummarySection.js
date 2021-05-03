@@ -58,8 +58,8 @@ const SummarySection = ({ labels, monthlyFee, formName }) => {
 			</FullCol>
 			<FullCol>
 				<SliderField
-					label={labels.numberOfInstalments}
-					field="loanInfo.numberOfInstalments"
+					label={labels.numberOfInstallments}
+					field="loanInfo.numberOfInstallments"
 					renderValue={DurationFormatter}
 					min={6}
 					max={120}
@@ -91,7 +91,7 @@ SummarySection.propTypes = {
 	formName: PropTypes.string,
 	labels: PropTypes.shape({
 		amount: PropTypes.node,
-		numberOfInstalments: PropTypes.node,
+		numberOfInstallments: PropTypes.node,
 		total: PropTypes.node,
 	}),
 	monthlyFee: PropTypes.node,

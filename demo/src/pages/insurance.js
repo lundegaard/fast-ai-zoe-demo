@@ -28,7 +28,7 @@ const borrower = {
 const defaultValues = {
 	webdata: { coborrowerChoice: 'SINGLE' },
 	loanInfo: {
-		numberOfInstalments: 12,
+		numberOfInstallments: 12,
 		amount: 100000,
 	},
 	borrower,
