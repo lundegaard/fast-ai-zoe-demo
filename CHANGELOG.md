@@ -1,3 +1,20 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# [1.2.0](https://github.com/lundegaard/fast-ai-zoe-demo/compare/v1.1.0...v1.2.0) (2021-09-01)
+
+
+### Features
+
+* commitlint ([2ba1386](https://github.com/lundegaard/fast-ai-zoe-demo/commit/2ba1386c9095fcdae44373f3a70cb2f57f7243b7))
+* renaming smart predictions to smart signals ([78d4508](https://github.com/lundegaard/fast-ai-zoe-demo/commit/78d45085750cea28aeb32740f4bd38668bb60f98))
+
+
+
+
+
 # v1.0.3
 - [fix: typo](https://github.com/lundegaard/fast-ai-zoe-demo/pull/98)
 
