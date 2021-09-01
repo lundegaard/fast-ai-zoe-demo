@@ -12,7 +12,9 @@ import { FormHeading, FullCol, SummarySection } from '.';
 
 const summaryLabels = {
 	amount: <FormattedMessage {...m.insuranceInfoAmount} />,
-	numberOfInstallments: <FormattedMessage {...m.insuranceNumberOfInstalments} />,
+	numberOfInstallments: (
+		<FormattedMessage {...m.insuranceNumberOfInstalments} />
+	),
 	total: <FormattedMessage {...m.insuranceTotalAmountPerMonth} />,
 };
 
