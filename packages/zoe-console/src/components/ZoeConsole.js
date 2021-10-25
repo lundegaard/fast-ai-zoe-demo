@@ -41,11 +41,10 @@ const ZoeConsoleConsumer = ({
 		if (!userInfo) {
 			return;
 		}
-		const { tid } = userInfo;
 
 		devConsole.replace({
 			'Application ID': applicationId ? applicationId : '-',
-			'Tenant ID': tid ? tid : '-',
+			// 'Tenant ID': tid ? tid : '-',
 		});
 	}, [applicationId, devConsole, saRef]);
 
@@ -59,7 +58,11 @@ const ZoeConsoleConsumer = ({
 
 			fetchFeatures({ timeout: loggingInterval }).then(
 				(features) =>
-					void (isMounted() && devConsole.log(logFeatures(features)))
+					isMounted() &&
+					devConsole.replace({
+						...logFeatures(features),
+						'Application ID': applicationId ? applicationId : '-',
+					})
 			);
 		},
 		loggingInterval,
