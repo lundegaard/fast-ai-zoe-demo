@@ -17,7 +17,7 @@ export const featuresDescriptor = {
 	device_vpn: null,
 	location_geoip_city: null,
 	behavior_typing_speed: null,
-	behavior_application_count_all_max: { type: 'float' },
+	behavior_applications_count_all_max: { type: 'float' },
 	behavior_emails_count_sa_max: { type: 'float' },
 	behavior_typing_correcting_mistakes_count: { type: 'float' },
 	behavior_typing_paste_count: { type: 'float' },
